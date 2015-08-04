@@ -79,3 +79,4 @@ Just type: `composer install "byjg/mailwrapper=~1.0"`
 cd tests
 phpunit --bootstrap bootstrap.php .
 ```
+

@@ -122,23 +122,21 @@ class Envelope
         return strip_tags($body);
     }
 
-	public function getIsHtml()
+	public function isHtml($value = null)
 	{
-		return $this->_isHtml;
+        if (!is_null($value) && is_bool($value)) {
+    		$this->_isHtml = $value;
+        } else {
+    		return $this->_isHtml;
+        }
 	}
-	public function setIsHtml($value)
+	public function isEmbbed($value = null)
 	{
-		$this->_isHtml = $value;
-	}
-
-	public function getIsEmbbed()
-	{
-		return $this->_isEmbbed;
-	}
-
-	public function setIsEmbbed($value)
-	{
-		$this->_isEmbbed = $value;
+        if (!is_null($value) && is_bool($value)) {
+    		$this->_isEmbbed = $value;
+        } else {
+    		return $this->_isEmbbed;
+        }
 	}
 
 	public function getAttachments()

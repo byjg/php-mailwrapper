@@ -26,7 +26,7 @@ class PHPMailerWrapper implements MailWrapperInterface
 		$mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
 		$mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
 		$mail->CharSet = "utf-8";
-		if ($envelope->getIsHtml())
+		if ($envelope->isHtml())
 		{
 			$mail->MsgHTML($envelope->getBody());
 		}

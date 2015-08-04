@@ -34,7 +34,7 @@ class AmazonSesWrapper implements MailWrapperInterface
         $mailMime->headers( ['Content-Type'  => 'text/html; charset=UTF-8'] );
         $mailMime->setFrom($envelope->getFrom());
         $mailMime->setSubject($envelope->getSubject());
-        if ($envelope->getIsHtml())
+        if ($envelope->isHtml())
         {
             $mailMime->setHTMLBody($envelope->getBody());
         }

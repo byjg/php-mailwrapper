@@ -27,7 +27,7 @@ class MailConnection
             $smtpString = "smtp://localhost";
         }
 
-        $pat = "/^(?P<protocol>smtp|ssl|tls|ses|mandrill):\/\/(?:(?P<user>\S+):(?P<pass>\S+)@)?(?:(?P<server>[\w\d\-]+(?:\.[\w\d\-]+)*))(?::(?P<port>[\d]+))?$/";
+        $pat = "/^(?P<protocol>\w+):\/\/(?:(?P<user>\S+):(?P<pass>\S+)@)?(?:(?P<server>[\w\d\-]+(?:\.[\w\d\-]+)*))(?::(?P<port>[\d]+))?$/";
         $match = preg_match ( $pat, $smtpString, $this->connParts );
 
         if (!$match || !isset($this->connParts["server"]))

@@ -107,13 +107,4 @@ class MailConnectionTest extends \PHPUnit_Framework_TestCase
     {
         new MailConnection("smtp://user@host.com.br:45");
     }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testInvalid2()
-    {
-        new MailConnection("invalid://user:pass@host.com.br:45");
-    }
-
 }

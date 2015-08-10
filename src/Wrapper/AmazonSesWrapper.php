@@ -6,20 +6,9 @@ use Aws\Common\Credentials\Credentials;
 use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\MailConnection;
-use Mail_mime;
 
-class AmazonSesWrapper implements MailWrapperInterface
+class AmazonSesWrapper extends PHPMailerWrapper
 {
-    /**
-     * @var MailConnection
-     */
-    protected $connection = null;
-
-    public function __construct(MailConnection $connection)
-    {
-        $this->connection = $connection;
-    }
-
     /**
      * ses://accessid:aswsecret@region
      *
@@ -28,35 +17,10 @@ class AmazonSesWrapper implements MailWrapperInterface
      */
     public function send(Envelope $envelope)
     {
+        $mail = $this->prepareMailer($envelope);
 
-        $mailMime = new Mail_mime(array('eol' => "\n"));
-
-        $mailMime->headers( ['Content-Type'  => 'text/html; charset=UTF-8'] );
-        $mailMime->setFrom($envelope->getFrom());
-        $mailMime->setSubject($envelope->getSubject());
-        if ($envelope->isHtml())
-        {
-            $mailMime->setHTMLBody($envelope->getBody());
-        }
-        $mailMime->setTxtBody($envelope->getBodyText());
-        foreach((array)$envelope->getAttachments() as $name => $attachment) {
-            $mailMime->addAttachment($attachment['content'], $attachment['content-type'], $name);
-        }
-
-        $to = (array)$envelope->getTo();
-        foreach ($to as $email) {
-            $mailMime->addTo($email);
-        }
-
-        $cc = (array)$envelope->getCC();
-        foreach ($cc as $email) {
-            $mailMime->addCc($email);
-        }
-
-        $bcc = (array)$envelope->getBCC();
-        foreach ($bcc as $email) {
-            $mailMime->addBcc($email);
-        }
+        // Create body before headers in case body makes changes to headers (e.g. altering transfer encoding)
+        $message = $mail->createHeader() . "\n\n" . $mail->createBody();
 
         //Send the message (which must be base 64 encoded):
         $ses = SesClient::factory([
@@ -64,17 +28,10 @@ class AmazonSesWrapper implements MailWrapperInterface
                 'region' => $this->connection->getServer()
         ]);
 
-        $mime_params = array(
-          'text_encoding' => '7bit',
-          'text_charset'  => 'UTF-8',
-          'html_charset'  => 'UTF-8',
-          'head_charset'  => 'UTF-8'
-        );
-
         $ses->sendRawEmail(
             [
                 'RawMessage' => [
-                    'Data' => base64_encode($mailMime->getMessage(null, $mime_params)),
+                    'Data' => base64_encode($message),
                 ]
             ]
         );

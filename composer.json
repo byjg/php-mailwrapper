@@ -13,12 +13,11 @@
         }
     },
     "require": {
-		"php": ">=5.4.0",
-		"ext-curl": "*",
+        "php": ">=5.4.0",
+        "ext-curl": "*",
         "byjg/convert": "~1.0",
         "aws/aws-sdk-php": "2.*",
-        "phpmailer/phpmailer": "~5.2",
-        "pear/mail_mime" : "1.8.9"
-	},
+        "phpmailer/phpmailer": "~5.2"
+    },
     "license": "MIT"
 }

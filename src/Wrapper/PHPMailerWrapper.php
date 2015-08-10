@@ -21,7 +21,12 @@ class PHPMailerWrapper implements MailWrapperInterface
         $this->connection = $connection;
     }
 
-    public function send(Envelope $envelope)
+    /**
+     *
+     * @param Envelope $envelope
+     * @return PHPMailer
+     */
+    protected function prepareMailer(Envelope $envelope)
     {
 		$mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
 		$mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
@@ -35,18 +40,7 @@ class PHPMailerWrapper implements MailWrapperInterface
 			$mail->Body = $envelope->getBodyText();
 		}
 
-
         $mail->IsSMTP(); // telling the class to use SMTP
-
-        $mail->Host = $this->connection->getServer();
-        $mail->Port = $this->connection->getPort();
-
-        if ($this->connection->getUsername() !== false)
-        {
-            $mail->SMTPAuth = true;
-            $mail->Username = $this->connection->getUsername(); // SMTP account username
-            $mail->Password = $this->connection->getPassword();        // SMTP account password
-        }
 
         if ($this->connection->getProtocol() != "smtp")
         {
@@ -87,10 +81,31 @@ class PHPMailerWrapper implements MailWrapperInterface
             $mail->AddAttachment($value['content'], $name, 'base64', $value['content-type']);
         }
 
+        return $mail;
+    }
+
+    /**
+     *
+     * @param Envelope $envelope
+     * @throws Exception
+     */
+    public function send(Envelope $envelope)
+    {
+        $mail = $this->prepareMailer($envelope);
+
+        $mail->Host = $this->connection->getServer();
+        $mail->Port = $this->connection->getPort();
+
+        if ($this->connection->getUsername() !== false)
+        {
+            $mail->SMTPAuth = true;
+            $mail->Username = $this->connection->getUsername(); // SMTP account username
+            $mail->Password = $this->connection->getPassword();        // SMTP account password
+        }
+
 		if (!$mail->Send())
 		{
 			throw new Exception($mail->ErrorInfo);
 		}
-
     }
 }

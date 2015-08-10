@@ -147,7 +147,7 @@ class Envelope
 
 	public function send(MailWrapperInterface $mailer, $to = "")
 	{
-        if ($this->getTo() == "" && $to == "") {
+        if (0 === count($this->getTo()) && $to == "") {
             throw new ErrorException("Destination Email was not provided");
         } elseif ($to != "") {
             $this->addTo($to);

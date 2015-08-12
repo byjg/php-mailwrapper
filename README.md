@@ -49,6 +49,14 @@ The options are:
 | port       | The SMTP Port       |
 
 
+### Gmail specifics
+
+The connection string for sending emails using GMAIL is:
+
+```
+tls://YOUREMAIL@gmail.com:YOURPASSWORD@smtp.gmail.com:587
+```
+
 ### Mandrill API specifics
 
 The connection url for the mandrill api is:

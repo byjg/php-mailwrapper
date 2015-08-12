@@ -28,56 +28,48 @@ class PHPMailerWrapper implements MailWrapperInterface
      */
     protected function prepareMailer(Envelope $envelope)
     {
-		$mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
-		$mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
-		$mail->CharSet = "utf-8";
-		if ($envelope->isHtml())
-		{
-			$mail->MsgHTML($envelope->getBody());
-		}
-		else
-		{
-			$mail->Body = $envelope->getBodyText();
-		}
+        $mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
+        $mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
+        $mail->CharSet = "utf-8";
+        if ($envelope->isHtml()) {
+            $mail->MsgHTML($envelope->getBody());
+        } else {
+            $mail->Body = $envelope->getBodyText();
+        }
 
         $mail->IsSMTP(); // telling the class to use SMTP
 
-        if ($this->connection->getProtocol() != "smtp")
-        {
+        if ($this->connection->getProtocol() != "smtp") {
             $mail->SMTPSecure = $this->connection->getProtocol(); // ssl ou tls!
         }
 
-		$replyTo = Util::decomposeEmail($envelope->getReplyTo());
-		$mail->AddReplyTo($replyTo["email"], $replyTo["name"]);
+        $replyTo = Util::decomposeEmail($envelope->getReplyTo());
+        $mail->AddReplyTo($replyTo["email"], $replyTo["name"]);
 
-		// Define From email
-		$from = Util::decomposeEmail($envelope->getFrom());
-		$mail->SetFrom($from["email"], $from["name"]);
+        // Define From email
+        $from = Util::decomposeEmail($envelope->getFrom());
+        $mail->SetFrom($from["email"], $from["name"]);
 
-		// Add Recipients
-        foreach((array)$envelope->getTo() as $toItem)
-        {
+        // Add Recipients
+        foreach ((array) $envelope->getTo() as $toItem) {
             $to = Util::decomposeEmail($toItem);
             $mail->AddAddress($to["email"], $to["name"]);
         }
 
-		// Add Carbon Copy
-        foreach((array)$envelope->getCC() as $ccItem)
-        {
+        // Add Carbon Copy
+        foreach ((array) $envelope->getCC() as $ccItem) {
             $cc = Util::decomposeEmail($ccItem);
             $mail->AddCC($cc["email"], $cc["name"]);
         }
 
-		// Add Blind Carbon Copy
-        foreach((array)$envelope->getBCC() as $bccItem)
-        {
+        // Add Blind Carbon Copy
+        foreach ((array) $envelope->getBCC() as $bccItem) {
             $bcc = Util::decomposeEmail($bccItem);
             $mail->AddBCC($bcc["email"], $bcc["name"]);
         }
 
-		// Attachments
-        foreach ((array)$envelope->getAttachments() as $name=>$value)
-        {
+        // Attachments
+        foreach ((array) $envelope->getAttachments() as $name => $value) {
             $mail->AddAttachment($value['content'], $name, 'base64', $value['content-type']);
         }
 
@@ -96,16 +88,14 @@ class PHPMailerWrapper implements MailWrapperInterface
         $mail->Host = $this->connection->getServer();
         $mail->Port = $this->connection->getPort();
 
-        if ($this->connection->getUsername() !== false)
-        {
+        if (!empty($this->connection->getUsername())) {
             $mail->SMTPAuth = true;
             $mail->Username = $this->connection->getUsername(); // SMTP account username
             $mail->Password = $this->connection->getPassword();        // SMTP account password
         }
 
-		if (!$mail->Send())
-		{
-			throw new Exception($mail->ErrorInfo);
-		}
+        if (!$mail->Send()) {
+            throw new Exception($mail->ErrorInfo);
+        }
     }
 }

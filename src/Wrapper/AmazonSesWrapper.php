@@ -9,6 +9,7 @@ use ByJG\Mail\MailConnection;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
+
     /**
      * ses://accessid:aswsecret@region
      *
@@ -20,11 +21,11 @@ class AmazonSesWrapper extends PHPMailerWrapper
         $mail = $this->prepareMailer($envelope);
 
         // Create body before headers in case body makes changes to headers (e.g. altering transfer encoding)
-        $message = $mail->createHeader() . $mail->createBody();
+        $message = $mail->createHeader().$mail->createBody();
 
         // Fix BCC header because PHPMailer does not send to us
-        foreach ((array)$envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
+        foreach ((array) $envelope->getBCC() as $bccEmail) {
+            $message = 'Bcc: '.$bccEmail."\n".$message;
         }
 
         //Send the message (which must be base 64 encoded):
@@ -41,5 +42,4 @@ class AmazonSesWrapper extends PHPMailerWrapper
             ]
         );
     }
-
 }

@@ -7,6 +7,7 @@ use ByJG\Mail\MailConnection;
 
 interface MailWrapperInterface
 {
+
     function __construct(MailConnection $connection);
 
     function send(Envelope $envelope);

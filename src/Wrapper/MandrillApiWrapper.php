@@ -72,9 +72,10 @@ class MandrillApiWrapper implements MailWrapperInterface
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            array(
             'Accept: application/json',
-            'Content-Length: ' . strlen($json))
+            'Content-Length: '.strlen($json))
         );
 
         $result = curl_exec($ch);
@@ -84,7 +85,7 @@ class MandrillApiWrapper implements MailWrapperInterface
         } else {
             $resultJson = json_decode($result, true);
             if ($resultJson[0]['status'] == 'error') {
-                throw new Exception('Mandrill: ' . $resultJson[0]['message']);
+                throw new Exception('Mandrill: '.$resultJson[0]['message']);
             }
         }
     }

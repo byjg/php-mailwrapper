@@ -22,6 +22,14 @@ class Envelope
     protected $_isEmbbed = false;
     protected $_attachment = [];
 
+    /**
+     *
+     * @param string $from
+     * @param string $to
+     * @param string $subject
+     * @param string $body
+     * @param bool $isHtml
+     */
     public function __construct($from = "", $to = "", $subject = "", $body = "", $isHtml = true)
     {
         $this->_from = Util::getFullEmail($from);
@@ -34,9 +42,15 @@ class Envelope
         }
     }
 
-    public function addAttachment($name, $value, $contentType)
+    /**
+     *
+     * @param string $contentName
+     * @param string $filePath
+     * @param string $contentType
+     */
+    public function addAttachment($contentName, $filePath, $contentType)
     {
-        $this->_attachment[$name] = [ 'content' => $value, 'content-type' => $contentType];
+        $this->_attachment[$contentName] = [ 'content' => $filePath, 'content-type' => $contentType];
     }
 
     public function getFrom()

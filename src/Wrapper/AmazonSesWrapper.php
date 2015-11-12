@@ -20,8 +20,8 @@ class AmazonSesWrapper extends PHPMailerWrapper
     {
         $mail = $this->prepareMailer($envelope);
 
-        // Create body before headers in case body makes changes to headers (e.g. altering transfer encoding)
-        $message = $mail->createHeader().$mail->createBody();
+        // Call the preSend to set all PHPMailer variables and get the correct header and body;
+        $message = $mail->getFullMessageEnvelope();
 
         // Fix BCC header because PHPMailer does not send to us
         foreach ((array) $envelope->getBCC() as $bccEmail) {

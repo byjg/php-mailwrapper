@@ -17,7 +17,7 @@
         "ext-curl": "*",
         "byjg/convert": "~1.0",
         "aws/aws-sdk-php": "2.*",
-        "phpmailer/phpmailer": "5.2.*"
+        "phpmailer/phpmailer": "^5.2.11"
     },
     "license": "MIT"
 }

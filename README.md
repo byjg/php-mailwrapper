@@ -48,14 +48,51 @@ The options are:
 | smtpserver | The SMTP Host       |
 | port       | The SMTP Port       |
 
+The protocols available are:
+
+| Protocol   | Description         |
+|:-----------|:--------------------|
+| smtp       | SMTP over insecure connection      |
+| tls        | SMTP over secure TLS connection    |
+| ssl        | SMTP over secure SSL connection    |
+| mandrill   | Sending Email using Mandrill API   |
+| ses        | Sending Email using Amazon AWS API |
+
 
 ### Gmail specifics
 
-The connection string for sending emails using GMAIL is:
+From December 2014, Google started imposing an authentication mechanism called 
+XOAUTH2 based on OAuth2 for access to their apps, including Gmail. 
+This change can break both SMTP and IMAP access to gmail, and you may receive 
+authentication failures (often "5.7.14 Please log in via your web browser") 
+from many email clients, including PHPMailer, Apple Mail, Outlook, Thunderbird and others. 
+The error output may include a link to 
+https://support.google.com/mail/bin/answer.py?answer=78754, which 
+gives a list of possible remedies. 
+
+There are two main solutions:
+
+*Sending through SMTP*
+
+You have to enable the option "Allow less secure apps". 
+It does not really make your app significantly less secure. 
+Reportedly, changing this setting may take an hour or more to take effect, 
+so don't expect an immediate fix. You can start changing 
+[here](https://www.google.com/settings/security/lesssecureapps)
+
+The connection string for sending emails using SMTP through GMAIL is:
 
 ```
 tls://YOUREMAIL@gmail.com:YOURPASSWORD@smtp.gmail.com:587
 ```
+
+*Sending Through XOAuth2*
+
+This options is currently unsupported. 
+
+Further information and documentation on how to set it up can be found on this 
+[wiki](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2) page.
+
 
 ### Mandrill API specifics
 
@@ -81,7 +118,7 @@ The access_key_id and secret_key are created at AWS Control Panel. The region ca
 
 ## Install
 
-Just type: `composer install "byjg/mailwrapper=~1.0"`
+Just type: `composer require "byjg/mailwrapper=~1.0"`
 
 ## Running Tests
 

@@ -72,7 +72,7 @@ gives a list of possible remedies.
 
 There are two main solutions:
 
-*Sending through SMTP*
+**Sending through SMTP**
 
 You have to enable the option "Allow less secure apps". 
 It does not really make your app significantly less secure. 
@@ -86,11 +86,11 @@ The connection string for sending emails using SMTP through GMAIL is:
 tls://YOUREMAIL@gmail.com:YOURPASSWORD@smtp.gmail.com:587
 ```
 
-*Sending Through XOAuth2*
+**Sending Through XOAuth2**
 
-This options is currently unsupported. 
+This option is currently unsupported. 
 
-Further information and documentation on how to set it up can be found on this 
+Further information and documentation on how to set up can be found on this 
 [wiki](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2) page.
 
 

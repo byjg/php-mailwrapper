@@ -32,6 +32,7 @@ class MandrillApiWrapper implements MailWrapperInterface
 
         $bodyHtml = $envelope->getBody();
 
+        $params = array();
         $params["key"] = $this->connection->getServer();
         $params["message"] = [
             'html' => $bodyHtml,
@@ -51,12 +52,8 @@ class MandrillApiWrapper implements MailWrapperInterface
         $params["async"] = true;
         $params["ip_pool"] = "Main Pool";
 
-
-        foreach ((array) $envelope->getTo() as $email) {
-            $params['message']['to'][] = [ 'email' => $email, 'type' => 'to'];
-        }
-
-        foreach ((array) $envelope->getCC() as $email) {
+        $sendTo = array_unique(array_merge((array) $envelope->getTo(), (array) $envelope->getCC()));
+        foreach ($sendTo as $email) {
             $params['message']['to'][] = [ 'email' => $email, 'type' => 'to'];
         }
 

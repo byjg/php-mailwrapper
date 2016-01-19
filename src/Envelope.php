@@ -6,6 +6,7 @@ use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Mail\Wrapper\MailWrapperInterface;
 use ByJG\Mail\Wrapper\MandrillApiWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
+use ByJG\Mail\Wrapper\SendMailWrapper;
 use ErrorException;
 use InvalidArgumentException;
 
@@ -193,6 +194,8 @@ class Envelope
             $mail = new AmazonSesWrapper($connection);
         } elseif ($protocol === "mandrill") {
             $mail = new MandrillApiWrapper($connection);
+        } elseif ($protocol === "sendmail") {
+            $mail = new SendMailWrapper();
         } else {
             throw new InvalidArgumentException("Connection '".$connection->getProtocol()."' is not valid");
         }

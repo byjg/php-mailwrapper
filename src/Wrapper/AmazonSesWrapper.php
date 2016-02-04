@@ -5,7 +5,6 @@ namespace ByJG\Mail\Wrapper;
 use Aws\Common\Credentials\Credentials;
 use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
-use ByJG\Mail\MailConnection;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {

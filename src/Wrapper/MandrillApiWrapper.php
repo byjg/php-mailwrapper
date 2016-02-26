@@ -63,19 +63,8 @@ class MandrillApiWrapper implements MailWrapperInterface
 
         $json = json_encode($params);
 
-        $ch = curl_init('https://mandrillapp.com/api/1.0/messages/send.json');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
-            'Accept: application/json',
-            'Content-Length: '.strlen($json))
-        );
-
-        $result = curl_exec($ch);
+        $request = new \ByJG\Util\WebRequest('https://mandrillapp.com/api/1.0/messages/send.json');
+        $result = $request->postPayload($json, 'application/json');
 
         if (!$result) {
             throw new Exception('Cannot connect to Mandrill Api');

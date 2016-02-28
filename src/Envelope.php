@@ -3,6 +3,7 @@
 namespace ByJG\Mail;
 
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
+use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\Mail\Wrapper\MailWrapperInterface;
 use ByJG\Mail\Wrapper\MandrillApiWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
@@ -196,6 +197,8 @@ class Envelope
             $mail = new MandrillApiWrapper($connection);
         } elseif ($protocol === "sendmail") {
             $mail = new SendMailWrapper();
+        } elseif ($protocol === "mailgun") {
+            $mail = new MailgunApiWrapper($connection);
         } else {
             throw new InvalidArgumentException("Connection '".$connection->getProtocol()."' is not valid");
         }

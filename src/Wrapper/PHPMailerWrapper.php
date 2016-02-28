@@ -98,5 +98,7 @@ class PHPMailerWrapper implements MailWrapperInterface
         if (!$mail->Send()) {
             throw new Exception($mail->ErrorInfo);
         }
+
+        return true;
     }
 }

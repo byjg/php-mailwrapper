@@ -74,5 +74,7 @@ class MandrillApiWrapper implements MailWrapperInterface
                 throw new Exception('Mandrill: '.$resultJson[0]['message']);
             }
         }
+
+        return true;
     }
 }

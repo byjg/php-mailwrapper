@@ -39,5 +39,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
                 ]
             ]
         );
+
+        return true;
     }
 }

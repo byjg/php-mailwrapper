@@ -15,6 +15,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @throws Exception
+     * @return bool
      */
     public function send(Envelope $envelope)
     {

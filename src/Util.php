@@ -52,7 +52,7 @@ class Util
 
     public static function isValidEmail($email)
     {
-        $ret = PHPMailer::ValidateAddress($email);
+        $ret = PHPMailer::validateAddress($email);
         return (is_numeric($ret) ? $ret == 1 : $ret);
     }
 }

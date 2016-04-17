@@ -25,7 +25,7 @@ class PHPMailerWrapper implements MailWrapperInterface
     /**
      *
      * @param Envelope $envelope
-     * @return PHPMailer
+     * @return PHPMailerOverride
      */
     protected function prepareMailer(Envelope $envelope)
     {
@@ -81,6 +81,7 @@ class PHPMailerWrapper implements MailWrapperInterface
      *
      * @param Envelope $envelope
      * @throws Exception
+     * @return bool
      */
     public function send(Envelope $envelope)
     {
@@ -95,7 +96,7 @@ class PHPMailerWrapper implements MailWrapperInterface
             $mail->Password = $this->connection->getPassword();        // SMTP account password
         }
 
-        if (!$mail->Send()) {
+        if (!$mail->send()) {
             throw new Exception($mail->ErrorInfo);
         }
 

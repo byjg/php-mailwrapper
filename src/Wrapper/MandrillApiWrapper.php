@@ -4,6 +4,8 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
 use ByJG\Mail\MailConnection;
+use ByJG\Mail\Util;
+use ByJG\Util\WebRequest;
 use Exception;
 
 class MandrillApiWrapper implements MailWrapperInterface
@@ -23,10 +25,11 @@ class MandrillApiWrapper implements MailWrapperInterface
      *
      * @param Envelope $envelope
      * @throws Exception
+     * @return bool
      */
     public function send(Envelope $envelope)
     {
-        $from = \ByJG\Mail\Util::decomposeEmail($envelope->getFrom());
+        $from = Util::decomposeEmail($envelope->getFrom());
         $fromName = $from['name'];
         $fromEmail = $from['email'];
 
@@ -63,7 +66,7 @@ class MandrillApiWrapper implements MailWrapperInterface
 
         $json = json_encode($params);
 
-        $request = new \ByJG\Util\WebRequest('https://mandrillapp.com/api/1.0/messages/send.json');
+        $request = new WebRequest('https://mandrillapp.com/api/1.0/messages/send.json');
         $result = $request->postPayload($json, 'application/json');
 
         if (!$result) {

@@ -13,6 +13,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
      * ses://accessid:aswsecret@region
      *
      * @param Envelope $envelope
+     * @return bool
      */
     public function send(Envelope $envelope)
     {

@@ -146,18 +146,18 @@ class Envelope
     {
         if (!is_null($value) && is_bool($value)) {
             $this->_isHtml = $value;
-        } else {
-            return $this->_isHtml;
         }
+
+        return $this->_isHtml;
     }
 
     public function isEmbbed($value = null)
     {
         if (!is_null($value) && is_bool($value)) {
             $this->_isEmbbed = $value;
-        } else {
-            return $this->_isEmbbed;
         }
+
+        return $this->_isEmbbed;
     }
 
     public function getAttachments()

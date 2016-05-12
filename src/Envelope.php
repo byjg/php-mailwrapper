@@ -52,7 +52,7 @@ class Envelope
      */
     public function addAttachment($contentName, $filePath, $contentType)
     {
-        $this->_attachment[$contentName] = [ 'content' => $filePath, 'content-type' => $contentType];
+        $this->_attachment[$contentName] = ['content' => $filePath, 'content-type' => $contentType];
     }
 
     public function getFrom()
@@ -129,14 +129,14 @@ class Envelope
     {
         $body = preg_replace(
             [
-            '~<div.*?>(.*?)</div>~',
-            '~<p.*?>(.*?)</p>~',
-            '~<br.*?>~'
+                '~<div.*?>(.*?)</div>~',
+                '~<p.*?>(.*?)</p>~',
+                '~<br.*?>~'
             ], [
             "$1\n",
             "$1\n",
             "\n"
-            ], $this->_body
+        ], $this->_body
         );
 
         return strip_tags($body);
@@ -189,7 +189,7 @@ class Envelope
     public static function mailerFactory(MailConnection $connection)
     {
         $protocol = $connection->getProtocol();
-        if (in_array($protocol, [ 'smtp', 'ssl', 'tls'])) {
+        if (in_array($protocol, ['smtp', 'ssl', 'tls'])) {
             $mail = new PHPMailerWrapper($connection);
         } elseif ($protocol === "ses") {
             $mail = new AmazonSesWrapper($connection);
@@ -200,7 +200,7 @@ class Envelope
         } elseif ($protocol === "mailgun") {
             $mail = new MailgunApiWrapper($connection);
         } else {
-            throw new InvalidArgumentException("Connection '".$connection->getProtocol()."' is not valid");
+            throw new InvalidArgumentException("Connection '" . $connection->getProtocol() . "' is not valid");
         }
 
         return $mail;

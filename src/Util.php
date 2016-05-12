@@ -18,7 +18,7 @@ class Util
     public static function getFullEmail($email, $name = "")
     {
         if (!empty($name)) {
-            return "\"".$name."\" <".$email.">";
+            return "\"" . $name . "\" <" . $email . ">";
         } else {
             return $email;
         }

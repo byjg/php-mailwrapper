@@ -55,12 +55,12 @@ class MandrillApiWrapper implements MailWrapperInterface
         $params["async"] = true;
         $params["ip_pool"] = "Main Pool";
 
-        $sendTo = array_unique(array_merge((array) $envelope->getTo(), (array) $envelope->getCC()));
+        $sendTo = array_unique(array_merge((array)$envelope->getTo(), (array)$envelope->getCC()));
         foreach ($sendTo as $email) {
-            $params['message']['to'][] = [ 'email' => $email, 'type' => 'to'];
+            $params['message']['to'][] = ['email' => $email, 'type' => 'to'];
         }
 
-        foreach ((array) $envelope->getBCC() as $email) {
+        foreach ((array)$envelope->getBCC() as $email) {
             $params['message']['bcc_address'] = $email;
         }
 
@@ -74,7 +74,7 @@ class MandrillApiWrapper implements MailWrapperInterface
         } else {
             $resultJson = json_decode($result, true);
             if ($resultJson[0]['status'] == 'error') {
-                throw new Exception('Mandrill: '.$resultJson[0]['message']);
+                throw new Exception('Mandrill: ' . $resultJson[0]['message']);
             }
         }
 

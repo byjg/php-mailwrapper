@@ -24,8 +24,8 @@ class MailgunApiWrapper extends PHPMailerWrapper
         $message = $mail->getFullMessageEnvelope();
 
         // Fix BCC header because PHPMailer does not send to us
-        foreach ((array) $envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: '.$bccEmail."\n".$message;
+        foreach ((array)$envelope->getBCC() as $bccEmail) {
+            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
         }
 
         $domainName = $this->connection->getServer();
@@ -37,7 +37,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
             new UploadFile('message', $message, 'message.mime')
         ];
         // Add "To;"
-        foreach ((array) $envelope->getTo() as $toEmail) {
+        foreach ((array)$envelope->getTo() as $toEmail) {
             $upload[] = new UploadFile('to', $toEmail);
         }
 
@@ -45,7 +45,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
         $resultJson = json_decode($result, true);
         if (!isset($resultJson['id'])) {
-            throw new Exception('Mailgun: '.$resultJson['message']);
+            throw new Exception('Mailgun: ' . $resultJson['message']);
         }
 
         return true;

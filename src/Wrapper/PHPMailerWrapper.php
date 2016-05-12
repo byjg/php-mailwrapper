@@ -51,25 +51,25 @@ class PHPMailerWrapper implements MailWrapperInterface
         $mail->setFrom($from["email"], $from["name"]);
 
         // Add Recipients
-        foreach ((array) $envelope->getTo() as $toItem) {
+        foreach ((array)$envelope->getTo() as $toItem) {
             $to = Util::decomposeEmail($toItem);
             $mail->addAddress($to["email"], $to["name"]);
         }
 
         // Add Carbon Copy
-        foreach ((array) $envelope->getCC() as $ccItem) {
+        foreach ((array)$envelope->getCC() as $ccItem) {
             $cc = Util::decomposeEmail($ccItem);
             $mail->addCC($cc["email"], $cc["name"]);
         }
 
         // Add Blind Carbon Copy
-        foreach ((array) $envelope->getBCC() as $bccItem) {
+        foreach ((array)$envelope->getBCC() as $bccItem) {
             $bcc = Util::decomposeEmail($bccItem);
             $mail->addBCC($bcc["email"], $bcc["name"]);
         }
 
         // Attachments
-        foreach ((array) $envelope->getAttachments() as $name => $value) {
+        foreach ((array)$envelope->getAttachments() as $name => $value) {
             $mail->addAttachment($value['content'], $name, 'base64', $value['content-type']);
         }
 

@@ -23,14 +23,14 @@ class AmazonSesWrapper extends PHPMailerWrapper
         $message = $mail->getFullMessageEnvelope();
 
         // Fix BCC header because PHPMailer does not send to us
-        foreach ((array) $envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: '.$bccEmail."\n".$message;
+        foreach ((array)$envelope->getBCC() as $bccEmail) {
+            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
         }
 
         //Send the message (which must be base 64 encoded):
         $ses = SesClient::factory([
-                'credentials' => new Credentials($this->connection->getUsername(), $this->connection->getPassword()),
-                'region' => $this->connection->getServer()
+            'credentials' => new Credentials($this->connection->getUsername(), $this->connection->getPassword()),
+            'region' => $this->connection->getServer()
         ]);
 
         $ses->sendRawEmail(

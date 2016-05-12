@@ -56,6 +56,7 @@ The protocols available are:
 | smtp       | SMTP over insecure connection      |
 | tls        | SMTP over secure TLS connection    |
 | ssl        | SMTP over secure SSL connection    |
+| sendmail   | Sending Email using PHP mail()     |
 | mandrill   | Sending Email using Mandrill API   |
 | mailgun    | Sending Email using Mailgun API    |
 | ses        | Sending Email using Amazon AWS API |
@@ -126,6 +127,16 @@ mailgun://api:YOUR_API_KEY@YOUR_DOMAIN
 ```
 
 The YOUR_API_KEY and YOUR_DOMAIN are defined at Mailgun Control Panel. 
+
+### Sendmail Specifics
+
+The connection url for the Sendmail is:
+
+```
+sendmail://localhost
+```
+
+You need to setup in the `php.ini` the email relay.
 
 
 ## Install

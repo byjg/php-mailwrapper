@@ -4,6 +4,13 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
 
+/**
+ * Class SendMailWrapper
+ *
+ * sendmail://localhost
+ *
+ * @package ByJG\Mail\Wrapper
+ */
 class SendMailWrapper extends PHPMailerWrapper
 {
 

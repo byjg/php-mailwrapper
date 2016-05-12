@@ -196,7 +196,7 @@ class Envelope
         } elseif ($protocol === "mandrill") {
             $mail = new MandrillApiWrapper($connection);
         } elseif ($protocol === "sendmail") {
-            $mail = new SendMailWrapper();
+            $mail = new SendMailWrapper($connection);
         } elseif ($protocol === "mailgun") {
             $mail = new MailgunApiWrapper($connection);
         } else {

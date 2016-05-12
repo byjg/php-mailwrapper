@@ -3,7 +3,6 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
-use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Util\UploadFile;
 use ByJG\Util\WebRequest;
 use Exception;

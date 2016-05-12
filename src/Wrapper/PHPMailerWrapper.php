@@ -8,7 +8,6 @@ use ByJG\Mail\MailConnection;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
 use Exception;
-use PHPMailer;
 
 class PHPMailerWrapper implements MailWrapperInterface
 {

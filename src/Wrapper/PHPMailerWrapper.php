@@ -4,10 +4,10 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Convert\FromUTF8;
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\MailConnection;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
-use Exception;
 
 class PHPMailerWrapper implements MailWrapperInterface
 {
@@ -79,7 +79,7 @@ class PHPMailerWrapper implements MailWrapperInterface
     /**
      *
      * @param Envelope $envelope
-     * @throws Exception
+     * @throws MailApiException
      * @return bool
      */
     public function send(Envelope $envelope)
@@ -96,7 +96,7 @@ class PHPMailerWrapper implements MailWrapperInterface
         }
 
         if (!$mail->send()) {
-            throw new Exception($mail->ErrorInfo);
+            throw new MailApiException($mail->ErrorInfo);
         }
 
         return true;

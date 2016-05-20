@@ -2,6 +2,8 @@
 
 namespace ByJG\Mail\Override;
 
+use ByJG\Mail\Exception\InvalidMessageFormatException;
+
 class PHPMailerOverride extends \PHPMailer
 {
     public function getFullMessageEnvelope()
@@ -14,7 +16,7 @@ class PHPMailerOverride extends \PHPMailer
     public function getMessageEnvelopeParts()
     {
         if (!$this->preSend()) {
-            throw new \Exception('Invalid Format Message');
+            throw new InvalidMessageFormatException('Invalid Message Format');
         }
 
         return ["header" => $this->MIMEHeader, "body" => $this->MIMEBody];

@@ -3,9 +3,9 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\MailApiException;
 use ByJG\Util\UploadFile;
 use ByJG\Util\WebRequest;
-use Exception;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
@@ -13,8 +13,8 @@ class MailgunApiWrapper extends PHPMailerWrapper
      * malgun://APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
-     * @throws Exception
      * @return bool
+     * @throws MailApiException
      */
     public function send(Envelope $envelope)
     {
@@ -45,7 +45,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
         $resultJson = json_decode($result, true);
         if (!isset($resultJson['id'])) {
-            throw new Exception('Mailgun: ' . $resultJson['message']);
+            throw new MailApiException('Mailgun: ' . $resultJson['message']);
         }
 
         return true;

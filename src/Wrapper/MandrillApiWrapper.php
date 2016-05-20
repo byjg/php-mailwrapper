@@ -3,10 +3,10 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\MailConnection;
 use ByJG\Mail\Util;
 use ByJG\Util\WebRequest;
-use Exception;
 
 class MandrillApiWrapper implements MailWrapperInterface
 {
@@ -24,8 +24,8 @@ class MandrillApiWrapper implements MailWrapperInterface
      * mandril://APIKEY
      *
      * @param Envelope $envelope
-     * @throws Exception
      * @return bool
+     * @throws MailApiException
      */
     public function send(Envelope $envelope)
     {
@@ -70,11 +70,11 @@ class MandrillApiWrapper implements MailWrapperInterface
         $result = $request->postPayload($json, 'application/json');
 
         if (!$result) {
-            throw new Exception('Cannot connect to Mandrill Api');
+            throw new MailApiException('Cannot connect to Mandrill Api');
         } else {
             $resultJson = json_decode($result, true);
             if ($resultJson[0]['status'] == 'error') {
-                throw new Exception('Mandrill: ' . $resultJson[0]['message']);
+                throw new MailApiException('Mandrill: ' . $resultJson[0]['message']);
             }
         }
 

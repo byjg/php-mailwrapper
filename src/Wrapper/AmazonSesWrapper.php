@@ -2,7 +2,7 @@
 
 namespace ByJG\Mail\Wrapper;
 
-use Aws\Common\Credentials\Credentials;
+use Aws\Credentials\Credentials;
 use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 
@@ -28,15 +28,19 @@ class AmazonSesWrapper extends PHPMailerWrapper
         }
 
         //Send the message (which must be base 64 encoded):
-        $ses = SesClient::factory([
-            'credentials' => new Credentials($this->connection->getUsername(), $this->connection->getPassword()),
-            'region' => $this->connection->getServer()
+        $ses = new SesClient([
+            'credentials' => new Credentials(
+                $this->connection->getUsername(),
+                $this->connection->getPassword()
+            ),
+            'region' => $this->connection->getServer(),
+            'version' => '2010-12-01'
         ]);
 
         $ses->sendRawEmail(
             [
                 'RawMessage' => [
-                    'Data' => base64_encode($message),
+                    'Data' => $message,
                 ]
             ]
         );

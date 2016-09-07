@@ -40,7 +40,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
         $ses->sendRawEmail(
             [
                 'RawMessage' => [
-                    'Data' => base64_encode($message),
+                    'Data' => $message,
                 ]
             ]
         );

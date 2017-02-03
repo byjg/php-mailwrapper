@@ -4,13 +4,13 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\MailApiException;
-use ByJG\Util\UploadFile;
+use ByJG\Util\MultiPartItem;
 use ByJG\Util\WebRequest;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
     /**
-     * malgun://APIKEY@DOMAINNAME
+     * malgun://api:APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
      * @return bool
@@ -18,31 +18,44 @@ class MailgunApiWrapper extends PHPMailerWrapper
      */
     public function send(Envelope $envelope)
     {
-        $mail = $this->prepareMailer($envelope);
+        $message = [
+            new MultiPartItem('from', $envelope->getFrom()),
+            new MultiPartItem('subject', $envelope->getSubject()),
+            new MultiPartItem('html', $envelope->getBody()),
+            new MultiPartItem('text', $envelope->getBodyText()),
+        ];
 
-        // Call the preSend to set all PHPMailer variables and get the correct header and body;
-        $message = $mail->getFullMessageEnvelope();
 
-        // Fix BCC header because PHPMailer does not send to us
-        foreach ((array)$envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
+        foreach ((array)$envelope->getTo() as $to) {
+            $message[] = new MultiPartItem('to', $to);
+        }
+
+        foreach ((array)$envelope->getBCC() as $bcc) {
+            $message[] = new MultiPartItem('bcc', $bcc);
+        }
+
+        if (!empty($envelope->getReplyTo())) {
+            $message[] = new MultiPartItem('h:Reply-To', $envelope->getReplyTo());
+        }
+
+        foreach ((array)$envelope->getCC() as $cc) {
+            $message[] = new MultiPartItem('cc', $cc);
+        }
+
+        foreach ((array)$envelope->getAttachments() as $name => $attachment) {
+            $message[] = new MultiPartItem(
+                'attachment',
+                file_get_contents($attachment['content']),
+                $name,
+                $attachment['content-type']
+            );
         }
 
         $domainName = $this->connection->getServer();
-
-        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages.mime");
+        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
         $request->setCredentials($this->connection->getUsername(), $this->connection->getPassword());
 
-        $upload = [
-            new UploadFile('message', $message, 'message.mime')
-        ];
-        // Add "To;"
-        foreach ((array)$envelope->getTo() as $toEmail) {
-            $upload[] = new UploadFile('to', $toEmail);
-        }
-
-        $result = $request->postUploadFile($upload);
-
+        $result = $request->postMultiPartForm($message);
         $resultJson = json_decode($result, true);
         if (!isset($resultJson['id'])) {
             throw new MailApiException('Mailgun: ' . $resultJson['message']);

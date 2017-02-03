@@ -4,12 +4,13 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\MailApiException;
-use Mailgun\Mailgun;
+use ByJG\Util\MultiPartItem;
+use ByJG\Util\WebRequest;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
     /**
-     * malgun://APIKEY@DOMAINNAME
+     * malgun://api:APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
      * @return bool
@@ -18,33 +19,46 @@ class MailgunApiWrapper extends PHPMailerWrapper
     public function send(Envelope $envelope)
     {
         $message = [
-            'from'    => $envelope->getFrom(),
-            'to'      => $envelope->getTo(),
-            'subject' => $envelope->getSubject(),
-            'html'    => $envelope->getBody(),
+            new MultiPartItem('from', $envelope->getFrom()),
+            new MultiPartItem('subject', $envelope->getSubject()),
+            new MultiPartItem('html', $envelope->getBody()),
+            new MultiPartItem('text', $envelope->getBodyText()),
         ];
 
-        if (!empty($envelope->getBCC())) {
-            $message['bcc'] = $envelope->getBCC();
+
+        foreach ((array)$envelope->getTo() as $to) {
+            $message[] = new MultiPartItem('to', $to);
+        }
+
+        foreach ((array)$envelope->getBCC() as $bcc) {
+            $message[] = new MultiPartItem('bcc', $bcc);
         }
 
         if (!empty($envelope->getReplyTo())) {
-            $message['replyTo'] = $envelope->getReplyTo();
+            $message[] = new MultiPartItem('h:Reply-To', $envelope->getReplyTo());
         }
 
-        if (!empty($envelope->getCC())) {
-            $message['cc'] = $envelope->getCC();
+        foreach ((array)$envelope->getCC() as $cc) {
+            $message[] = new MultiPartItem('cc', $cc);
         }
 
-        if (!empty($envelope->getAttachments())) {
-            $message['attatchments'] = $envelope->getAttachments();
+        foreach ((array)$envelope->getAttachments() as $name => $attachment) {
+            $message[] = new MultiPartItem(
+                'attachment',
+                file_get_contents($attachment['content']),
+                $name,
+                $attachment['content-type']
+            );
         }
 
-        try {
-            $mailgun = new Mailgun($this->connection->getPassword());
-            $mailgun->sendMessage($this->connection->getServer(), $message);
-        } catch (\Exception $e) {
-            throw new MailApiException('Mailgun: ' . $e->getMessage());
+        $domainName = $this->connection->getServer();
+        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
+        $request->setCredentials($this->connection->getUsername(), $this->connection->getPassword());
+
+        $result = $request->postMultiPartForm($message);
+        $resultJson = json_decode($result, true);
+        if (!isset($resultJson['id'])) {
+            throw new MailApiException('Mailgun: ' . $resultJson['message']);
         }
 
         return true;

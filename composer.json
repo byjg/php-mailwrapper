@@ -20,5 +20,11 @@
         "aws/aws-sdk-php": "3.*",
         "phpmailer/phpmailer": "5.2.*"
     },
+    "suggest": {
+        "mailgun/mailgun-php": "To use MailgunApiWrapper",
+        "php-http/curl-client": "To use MailgunApiWrapper",
+        "guzzlehttp/psr7": "To use MailgunApiWrapper",
+        "php-http/message": "To use MailgunApiWrapper"
+    },
     "license": "MIT"
 }

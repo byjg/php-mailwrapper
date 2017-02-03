@@ -6,6 +6,7 @@ use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Util\UploadFile;
 use ByJG\Util\WebRequest;
+use Mailgun\Mailgun;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
@@ -18,34 +19,34 @@ class MailgunApiWrapper extends PHPMailerWrapper
      */
     public function send(Envelope $envelope)
     {
-        $mail = $this->prepareMailer($envelope);
-
-        // Call the preSend to set all PHPMailer variables and get the correct header and body;
-        $message = $mail->getFullMessageEnvelope();
-
-        // Fix BCC header because PHPMailer does not send to us
-        foreach ((array)$envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
-        }
-
-        $domainName = $this->connection->getServer();
-
-        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages.mime");
-        $request->setCredentials($this->connection->getUsername(), $this->connection->getPassword());
-
-        $upload = [
-            new UploadFile('message', $message, 'message.mime')
+        $message = [
+            'from'    => $envelope->getFrom(),
+            'to'      => $envelope->getTo(),
+            'subject' => $envelope->getSubject(),
+            'html'    => $envelope->getBody(),
         ];
-        // Add "To;"
-        foreach ((array)$envelope->getTo() as $toEmail) {
-            $upload[] = new UploadFile('to', $toEmail);
+
+        if (!empty($envelope->getBCC())) {
+            $message['bcc'] = $envelope->getBCC();
         }
 
-        $result = $request->postUploadFile($upload);
+        if (!empty($envelope->getReplyTo())) {
+            $message['replyTo'] = $envelope->getReplyTo();
+        }
 
-        $resultJson = json_decode($result, true);
-        if (!isset($resultJson['id'])) {
-            throw new MailApiException('Mailgun: ' . $resultJson['message']);
+        if (!empty($envelope->getCC())) {
+            $message['cc'] = $envelope->getCC();
+        }
+
+        if (!empty($envelope->getAttachments())) {
+            $message['attatchments'] = $envelope->getAttachments();
+        }
+
+        try {
+            $mailgun = new Mailgun($this->connection->getPassword());
+            $mailgun->sendMessage($this->connection->getServer(), $message);
+        } catch (\Exception $e) {
+            throw new MailApiException('Mailgun: ' . $e->getMessage());
         }
 
         return true;

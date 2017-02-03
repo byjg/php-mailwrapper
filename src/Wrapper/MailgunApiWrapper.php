@@ -4,8 +4,6 @@ namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\MailApiException;
-use ByJG\Util\UploadFile;
-use ByJG\Util\WebRequest;
 use Mailgun\Mailgun;
 
 class MailgunApiWrapper extends PHPMailerWrapper

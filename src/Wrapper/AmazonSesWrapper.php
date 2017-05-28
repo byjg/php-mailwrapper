@@ -17,6 +17,8 @@ class AmazonSesWrapper extends PHPMailerWrapper
      */
     public function send(Envelope $envelope)
     {
+        parent::send($envelope);
+
         $mail = $this->prepareMailer($envelope);
 
         // Call the preSend to set all PHPMailer variables and get the correct header and body;
@@ -30,10 +32,10 @@ class AmazonSesWrapper extends PHPMailerWrapper
         //Send the message (which must be base 64 encoded):
         $ses = new SesClient([
             'credentials' => new Credentials(
-                $this->connection->getUsername(),
-                $this->connection->getPassword()
+                $this->uri->getUsername(),
+                $this->uri->getPassword()
             ),
-            'region' => $this->connection->getServer(),
+            'region' => $this->uri->getHost(),
             'version' => '2010-12-01'
         ]);
 

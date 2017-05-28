@@ -9,18 +9,8 @@ use ByJG\Mail\MailConnection;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
 
-class PHPMailerWrapper implements MailWrapperInterface
+class PHPMailerWrapper extends BaseWrapper
 {
-    /**
-     * @var MailConnection
-     */
-    protected $connection = null;
-
-    public function __construct(MailConnection $connection)
-    {
-        $this->connection = $connection;
-    }
-
     /**
      *
      * @param Envelope $envelope
@@ -39,8 +29,8 @@ class PHPMailerWrapper implements MailWrapperInterface
 
         $mail->isSMTP(); // telling the class to use SMTP
 
-        if ($this->connection->getProtocol() != "smtp") {
-            $mail->SMTPSecure = $this->connection->getProtocol(); // ssl ou tls!
+        if ($this->uri->getScheme() != "smtp") {
+            $mail->SMTPSecure = $this->uri->getScheme(); // ssl ou tls!
         }
 
         $replyTo = Util::decomposeEmail($envelope->getReplyTo());
@@ -77,22 +67,23 @@ class PHPMailerWrapper implements MailWrapperInterface
     }
 
     /**
-     *
      * @param Envelope $envelope
-     * @throws MailApiException
      * @return bool
+     * @throws \ByJG\Mail\Exception\MailApiException
      */
     public function send(Envelope $envelope)
     {
+        parent::send($envelope);
+
         $mail = $this->prepareMailer($envelope);
 
-        $mail->Host = $this->connection->getServer();
-        $mail->Port = $this->connection->getPort();
+        $mail->Host = $this->uri->getHost();
+        $mail->Port = $this->uri->getPort();
 
-        if (!empty($this->connection->getUsername())) {
+        if (!empty($this->uri->getUsername())) {
             $mail->SMTPAuth = true;
-            $mail->Username = $this->connection->getUsername(); // SMTP account username
-            $mail->Password = $this->connection->getPassword();        // SMTP account password
+            $mail->Username = $this->uri->getUsername(); // SMTP account username
+            $mail->Password = $this->uri->getPassword();        // SMTP account password
         }
 
         if (!$mail->send()) {

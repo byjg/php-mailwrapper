@@ -6,5 +6,5 @@ use ByJG\Mail\Envelope;
 
 interface MailWrapperInterface
 {
-    function send(Envelope $envelope);
+    public function send(Envelope $envelope);
 }

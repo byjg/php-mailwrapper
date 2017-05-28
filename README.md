@@ -3,35 +3,65 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/byjg/mailwrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byjg/mailwrapper/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5/mini.png)](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5)
 
-## Description
-
 A lightweight wrapper for send mail. The interface is tottaly decoupled from the sender. The motivation is
 create a single interface for sending mail doesn't matter the sender. There are three options available:
 - SMTP (with SSL/TLS)
 - AWS SES (using API directly)
-- Mandrill (using API directly)
+- Mailgun (using API directly)
 
-## Examples
+## How to use
+
+### Envelope Class
+
+MailWrapper provides a envelope class with all the basic necessary attributes to create an email.
+As this Envelope class are totally decoupled from the Mailer engine, you can use it also as DTO.
+See an example below:
 
 ```php
-// Create a connection URL (see below)
-$connection = new \ByJG\Mail\MailConnection('protocol://username:password/smtpserver:port');
-
-// Create the proper mailer based on the connection
-$mailer = ByJG\Mail\Envelope::mailerFactory($connection);
-
+<?php
 // Create the email envelope
 $envelope = new ByJG\Mail\Envelope();
 $envelope->setFrom('johndoe@example.com', 'John Doe');
 $envelope->addTo('jane@example.com');
 $envelope->setSubject('Email Subject');
 $envelope->setBody('html text body');
-
-// The the email with the selected mailer. 
-$envelope->send($mailer);
 ```
 
-### The connection url
+### Sending the email
+
+Once you have created the envelope you can send the email. Basically you have to register in the fabric all mailer 
+you intend to use and then create the mailer:
+
+```php
+<?php
+// Register the available class
+\ByJG\Mail\MailerFactory::registerMailer('smtp', \ByJG\Mail\Wrapper\PHPMailerWrapper::class);
+\ByJG\Mail\MailerFactory::registerMailer('mailgun', \ByJG\Mail\Wrapper\MailgunApiWrapper::class);
+
+// Create the proper mailer based on the scheme
+// In the example below will find the "mailgun" scheme
+$mailer = \ByJG\Mail\MailerFactory::create('mailgun://api:YOUR_API_KEY@YOUR_DOMAIN');
+
+// Send the email: 
+$mailer->send($envelope);
+```
+
+You can create the mailer directly without the factory:
+
+```php
+<?php
+$mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
+    new \ByJG\Util\Uri(
+        'mailgun://api:YOUR_API_KEY@YOUR_DOMAIN'
+    )
+);
+
+// Send the email: 
+$mailer->send($envelope);
+```
+
+
+## The connection url
 
 To create a new sender you have to define a URL like that:
 
@@ -51,15 +81,14 @@ The options are:
 
 The protocols available are:
 
-| Protocol   | Description         |
-|:-----------|:--------------------|
-| smtp       | SMTP over insecure connection      |
-| tls        | SMTP over secure TLS connection    |
-| ssl        | SMTP over secure SSL connection    |
-| sendmail   | Sending Email using PHP mail()     |
-| mandrill   | Sending Email using Mandrill API   |
-| mailgun    | Sending Email using Mailgun API    |
-| ses        | Sending Email using Amazon AWS API |
+| Protocol   | Description                        | URI Pattern
+|:-----------|:-----------------------------------|:---------------
+| smtp       | SMTP over insecure connection      | smtp://username:password@host:25
+| tls        | SMTP over secure TLS connection    | tls://username:password@host:587
+| ssl        | SMTP over secure SSL connection    | ssl://username:password@host:587
+| sendmail   | Sending Email using PHP mail()     | sendmail://localhost
+| mailgun    | Sending Email using Mailgun API    | mailgun://api:YOUR_API_KEY@YOUR_DOMAIN
+| ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION
 
 
 ### Gmail specifics
@@ -96,14 +125,6 @@ This option is currently unsupported.
 Further information and documentation on how to set up can be found on this 
 [wiki](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2) page.
 
-
-### Mandrill API specifics
-
-The connection url for the mandrill api is:
-
-```
-mandrill://mandril_password
-```
 
 The mandrill_password is the API password created at mandrill website.
 
@@ -146,7 +167,5 @@ Just type: `composer require "byjg/mailwrapper=~1.0"`
 ## Running Tests
 
 ```php
-cd tests
-phpunit --bootstrap bootstrap.php .
+phpunit
 ```
-

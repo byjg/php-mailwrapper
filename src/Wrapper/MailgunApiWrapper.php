@@ -14,10 +14,12 @@ class MailgunApiWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @return bool
-     * @throws MailApiException
+     * @throws \ByJG\Mail\Exception\MailApiException
      */
     public function send(Envelope $envelope)
     {
+        parent::send($envelope);
+
         $message = [
             new MultiPartItem('from', $envelope->getFrom()),
             new MultiPartItem('subject', $envelope->getSubject()),
@@ -51,9 +53,9 @@ class MailgunApiWrapper extends PHPMailerWrapper
             );
         }
 
-        $domainName = $this->connection->getServer();
+        $domainName = $this->uri->getHost();
         $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
-        $request->setCredentials($this->connection->getUsername(), $this->connection->getPassword());
+        $request->setCredentials($this->uri->getUsername(), $this->uri->getPassword());
 
         $result = $request->postMultiPartForm($message);
         $resultJson = json_decode($result, true);

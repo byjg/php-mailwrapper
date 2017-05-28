@@ -2,15 +2,6 @@
 
 namespace ByJG\Mail;
 
-use ByJG\Mail\Wrapper\AmazonSesWrapper;
-use ByJG\Mail\Wrapper\MailgunApiWrapper;
-use ByJG\Mail\Wrapper\MailWrapperInterface;
-use ByJG\Mail\Wrapper\MandrillApiWrapper;
-use ByJG\Mail\Wrapper\PHPMailerWrapper;
-use ByJG\Mail\Wrapper\SendMailWrapper;
-use ErrorException;
-use InvalidArgumentException;
-
 class Envelope
 {
     protected $from = "";

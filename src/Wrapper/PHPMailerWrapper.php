@@ -5,7 +5,6 @@ namespace ByJG\Mail\Wrapper;
 use ByJG\Convert\FromUTF8;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\MailApiException;
-use ByJG\Mail\MailConnection;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
 

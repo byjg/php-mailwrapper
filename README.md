@@ -87,7 +87,7 @@ The protocols available are:
 | tls        | SMTP over secure TLS connection    | tls://username:password@host:587
 | ssl        | SMTP over secure SSL connection    | ssl://username:password@host:587
 | sendmail   | Sending Email using PHP mail()     | sendmail://localhost
-| mailgun    | Sending Email using Mailgun API    | mailgun://api:YOUR_API_KEY@YOUR_DOMAIN
+| mailgun    | Sending Email using Mailgun API    | mailgun://YOUR_API_KEY@YOUR_DOMAIN
 | ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION
 
 
@@ -144,7 +144,7 @@ The access_key_id and secret_key are created at AWS Control Panel. The region ca
 The connection url for the Mailgun api is:
 
 ```
-mailgun://api:YOUR_API_KEY@YOUR_DOMAIN
+mailgun://YOUR_API_KEY@YOUR_DOMAIN
 ```
 
 The YOUR_API_KEY and YOUR_DOMAIN are defined at Mailgun Control Panel. 

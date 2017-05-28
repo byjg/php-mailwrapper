@@ -10,6 +10,18 @@ use ByJG\Util\WebRequest;
 class MailgunApiWrapper extends PHPMailerWrapper
 {
     /**
+     * @return \ByJG\Util\WebRequest
+     */
+    public function getRequestObject()
+    {
+        $domainName = $this->uri->getHost();
+        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
+        $request->setCredentials('api', $this->uri->getUsername());
+
+        return $request;
+    }
+
+    /**
      * malgun://api:APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
@@ -53,10 +65,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
             );
         }
 
-        $domainName = $this->uri->getHost();
-        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
-        $request->setCredentials($this->uri->getUsername(), $this->uri->getPassword());
-
+        $request = $this->getRequestObject();
         $result = $request->postMultiPartForm($message);
         $resultJson = json_decode($result, true);
         if (!isset($resultJson['id'])) {

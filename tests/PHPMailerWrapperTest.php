@@ -16,7 +16,7 @@ class PHPMailerWrapperTest extends BaseWrapperTest
     /**
      * @return \Test\MockSender
      */
-    public function getMock($envelope)
+    public function doMockedRequest($envelope)
     {
         $mock = $this->getMockBuilder(PHPMailerOverride::class)
             ->setMethods(['send'])
@@ -45,7 +45,7 @@ class PHPMailerWrapperTest extends BaseWrapperTest
     {
         $envelope = $this->getBasicEnvelope();
 
-        $mock = $this->getMock($envelope);
+        $mock = $this->doMockedRequest($envelope);
         $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
         $result = $this->fixVariableFields($mock->getFullMessageEnvelope());
 

@@ -15,7 +15,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @param $envelope
      * @return \Test\MockSender
      */
-    public function getMock($envelope)
+    public function doMockedRequest($envelope)
     {
         $object = $this->getMockBuilder(MailgunApiWrapper::class)
             ->setMethods(['getRequestObject'])
@@ -45,7 +45,7 @@ class MailgunWrapperTest extends BaseWrapperTest
     {
         $envelope = $this->getBasicEnvelope();
 
-        $mock = $this->getMock($envelope);
+        $mock = $this->doMockedRequest($envelope);
 
         $expected = [
             new MultiPartItem('from', 'from@email.com'),

@@ -14,7 +14,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
     /**
      * @return \Test\MockSender
      */
-    public function getMock($envelope)
+    public function doMockedRequest($envelope)
     {
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
             ->setMethods(['getSesClient'])
@@ -52,7 +52,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
     {
         $envelope = $this->getBasicEnvelope();
 
-        $mock = $this->getMock($envelope);
+        $mock = $this->doMockedRequest($envelope);
         $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
         $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
 

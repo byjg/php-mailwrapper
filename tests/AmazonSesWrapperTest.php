@@ -21,14 +21,14 @@ class AmazonSesWrapperTest extends BaseWrapperTest
             ->setConstructorArgs([new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION')])
             ->getMock();
 
-        $mockSes = new MockSender();
+        $mock = new MockSender();
         $object->expects($this->once())
             ->method('getSesClient')
-            ->will($this->returnValue($mockSes));
+            ->will($this->returnValue($mock));
 
         $object->send($envelope);
 
-        return $mockSes;
+        return $mock;
     }
 
     public function testGetSesClient()
@@ -52,16 +52,16 @@ class AmazonSesWrapperTest extends BaseWrapperTest
     {
         $envelope = $this->getBasicEnvelope();
 
-        $mockSes = $this->getMock($envelope);
-        $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
-        $mockSes->result['RawMessage']['Data'] = $this->fixVariableFields($mockSes->result['RawMessage']['Data']);
+        $mock = $this->getMock($envelope);
+        $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
+        $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
 
-        $return = [
+        $expected = [
             'RawMessage' => [
-                'Data' => $expected
+                'Data' => $mimeMessage
                 ]
         ];
 
-        $this->assertEquals($return, $mockSes->result);
+        $this->assertEquals($expected, $mock->result);
     }
 }

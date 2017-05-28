@@ -18,7 +18,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
      */
     public function send(Envelope $envelope)
     {
-        parent::send($envelope);
+        $this->validate($envelope);
 
         $message = [
             new MultiPartItem('from', $envelope->getFrom()),

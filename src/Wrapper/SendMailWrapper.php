@@ -16,6 +16,8 @@ class SendMailWrapper extends PHPMailerWrapper
 
     public function send(Envelope $envelope)
     {
+        $this->validate($envelope);
+
         $mail = $this->prepareMailer($envelope);
 
         // Call the preSend to set all PHPMailer variables and get the correct header and body;

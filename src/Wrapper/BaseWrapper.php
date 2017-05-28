@@ -22,7 +22,7 @@ abstract class BaseWrapper implements MailWrapperInterface
         $this->uri = $uri;
     }
 
-    public function send(Envelope $envelope)
+    public function validate(Envelope $envelope)
     {
         if (0 === count($envelope->getTo())) {
             throw new \Exception("Destination Email was not provided");

@@ -72,7 +72,7 @@ class PHPMailerWrapper extends BaseWrapper
      */
     public function send(Envelope $envelope)
     {
-        parent::send($envelope);
+        $this->validate($envelope);
 
         $mail = $this->prepareMailer($envelope);
 

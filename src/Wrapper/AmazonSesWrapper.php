@@ -8,6 +8,21 @@ use ByJG\Mail\Envelope;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
+    /**
+     * @return SesClient
+     */
+    public function getSesClient()
+    {
+        //Send the message (which must be base 64 encoded):
+        return new SesClient([
+            'credentials' => new Credentials(
+                $this->uri->getUsername(),
+                $this->uri->getPassword()
+            ),
+            'region' => $this->uri->getHost(),
+            'version' => '2010-12-01'
+        ]);
+    }
 
     /**
      * ses://accessid:aswsecret@region
@@ -17,7 +32,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
      */
     public function send(Envelope $envelope)
     {
-        parent::send($envelope);
+        $this->validate($envelope);
 
         $mail = $this->prepareMailer($envelope);
 
@@ -29,15 +44,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
             $message = 'Bcc: ' . $bccEmail . "\n" . $message;
         }
 
-        //Send the message (which must be base 64 encoded):
-        $ses = new SesClient([
-            'credentials' => new Credentials(
-                $this->uri->getUsername(),
-                $this->uri->getPassword()
-            ),
-            'region' => $this->uri->getHost(),
-            'version' => '2010-12-01'
-        ]);
+        $ses = $this->getSesClient();
 
         $ses->sendRawEmail(
             [

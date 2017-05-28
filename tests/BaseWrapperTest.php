@@ -27,7 +27,7 @@ abstract class BaseWrapperTest extends TestCase
             [
                 '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ \+\d+~',
                 '~([_<])\w{32}([@"\n-])~',
-                '<boundarydelimiter@\w+>'
+                '<boundarydelimiter@[^>]+>'
             ],
             [
                 'xxx, dd, yyyy hh:mi:ss +ffff',
@@ -39,5 +39,4 @@ abstract class BaseWrapperTest extends TestCase
 
         return $text;
     }
-
 }

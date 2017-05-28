@@ -11,13 +11,22 @@ use ByJG\Mail\Util;
 class PHPMailerWrapper extends BaseWrapper
 {
     /**
+     * @return \ByJG\Mail\Override\PHPMailerOverride
+     */
+    public function getMailer()
+    {
+        // the true param means it will throw exceptions on errors, which we need to catch
+        return new PHPMailerOverride(true);
+    }
+
+    /**
      *
      * @param Envelope $envelope
      * @return PHPMailerOverride
      */
     protected function prepareMailer(Envelope $envelope)
     {
-        $mail = new PHPMailerOverride(true); // the true param means it will throw exceptions on errors, which we need to catch
+        $mail = $this->getMailer();
         $mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
         $mail->CharSet = "utf-8";
         $mail->Body = $envelope->getBody();

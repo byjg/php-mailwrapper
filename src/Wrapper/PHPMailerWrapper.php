@@ -20,10 +20,10 @@ class PHPMailerWrapper extends BaseWrapper
         $mail = new PHPMailerOverride(true); // the true param means it will throw exceptions on errors, which we need to catch
         $mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
         $mail->CharSet = "utf-8";
+        $mail->Body = $envelope->getBody();
         if ($envelope->isHtml()) {
             $mail->msgHTML($envelope->getBody());
-        } else {
-            $mail->Body = $envelope->getBodyText();
+            $mail->AltBody = $envelope->getBodyText();
         }
 
         $mail->isSMTP(); // telling the class to use SMTP

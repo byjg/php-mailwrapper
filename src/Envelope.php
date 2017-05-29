@@ -12,7 +12,6 @@ class Envelope
     protected $bcc = [];
     protected $body = "";
     protected $isHtml = false;
-    protected $isEmbbed = false;
     protected $attachment = [];
 
     /**
@@ -36,14 +35,31 @@ class Envelope
     }
 
     /**
-     *
      * @param string $contentName
      * @param string $filePath
      * @param string $contentType
      */
     public function addAttachment($contentName, $filePath, $contentType)
     {
-        $this->attachment[$contentName] = ['content' => $filePath, 'content-type' => $contentType];
+        $this->attachment[$contentName] = [
+            'content' => $filePath,
+            'content-type' => $contentType,
+            'disposition' => 'attachment'
+        ];
+    }
+
+    /**
+     * @param string $contentName
+     * @param string $filePath
+     * @param string $contentType
+     */
+    public function addEmbedImage($contentName, $filePath, $contentType)
+    {
+        $this->attachment[$contentName] = [
+            'content' => $filePath,
+            'content-type' => $contentType,
+            'disposition' => 'inline'
+        ];
     }
 
     public function getFrom()
@@ -159,15 +175,6 @@ class Envelope
         }
 
         return $this->isHtml;
-    }
-
-    public function isEmbbed($value = null)
-    {
-        if (!is_null($value) && is_bool($value)) {
-            $this->isEmbbed = $value;
-        }
-
-        return $this->isEmbbed;
     }
 
     public function getAttachments()

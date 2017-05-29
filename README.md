@@ -60,6 +60,29 @@ $mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
 $mailer->send($envelope);
 ```
 
+### Sending attachment
+
+```php
+<?php
+$envelope = new \ByJG\Mail\Envelope('from@email.com', 'to@email.com', 'Subject', 'Body');
+$envelope->addAttachment('name_of_attachement', '/path/to/file', 'mime/type');
+$mailer->send($envelope);
+```
+
+### Adding attachment as Embed Image
+
+Adding an image as a inline attachment (or Embed) your mail reader will not show as download but you can
+use it as an local image in your email.
+
+See the example:
+
+```php
+<?php
+$envelope = new \ByJG\Mail\Envelope('from@email.com', 'to@email.com', 'Subject');
+$envelope->addEmbedImage('mycontentname', '/path/to/image', 'mime/type');
+$envelope->setBody('<img src="cid:mycontentname" />');
+$mailer->send($envelope);
+```
 
 ## The connection url
 

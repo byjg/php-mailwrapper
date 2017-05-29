@@ -40,6 +40,15 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
+    public function getEmbedImageEnvelope()
+    {
+        $envelope = $this->getFullEnvelope();
+        $envelope->addEmbedImage('myname', __DIR__ . '/resources/moon.png', 'image/png');
+        $envelope->addEmbedImage('myname2', __DIR__ . '/resources/sun.png', 'image/png');
+        $envelope->setBody('<h1>Title</h1>Body<img src="cid:myname"><img src="cid:myname2">');
+        return $envelope;
+    }
+
     protected function fixVariableFields($text)
     {
         $text = preg_replace(

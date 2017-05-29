@@ -58,7 +58,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
         foreach ((array)$envelope->getAttachments() as $name => $attachment) {
             $message[] = new MultiPartItem(
-                'attachment',
+                $attachment['disposition'],
                 file_get_contents($attachment['content']),
                 $name,
                 $attachment['content-type']

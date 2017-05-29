@@ -68,7 +68,24 @@ class PHPMailerWrapper extends BaseWrapper
 
         // Attachments
         foreach ((array)$envelope->getAttachments() as $name => $value) {
-            $mail->addAttachment($value['content'], $name, 'base64', $value['content-type']);
+            switch ($value['disposition']) {
+                case 'attachment':
+                    $mail->addAttachment(
+                        $value['content'],
+                        $name,
+                        'base64',
+                        $value['content-type'],
+                        'attachment'
+                    );
+                    break;
+
+                case 'inline':
+                    $mail->addEmbeddedImage($value['content'], $name, $name, 'base64', $value['content-type']);
+                    break;
+
+                default:
+                    throw new \InvalidArgumentException('Invalid attachment type');
+            }
         }
 
         return $mail;

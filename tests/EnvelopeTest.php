@@ -102,7 +102,8 @@ class EnvelopeTest extends TestCase
             [
                 'name1' => [
                     'content' => '/path/to/file',
-                    'content-type' => 'mime/type'
+                    'content-type' => 'mime/type',
+                    'disposition' => 'attachment'
                 ]
             ],
             $this->object->getAttachments()
@@ -113,11 +114,13 @@ class EnvelopeTest extends TestCase
             [
                 'name1' => [
                     'content' => '/path/to/file',
-                    'content-type' => 'mime/type'
+                    'content-type' => 'mime/type',
+                    'disposition' => 'attachment'
                 ],
                 'name2' => [
                     'content' => '/path/to/file2',
-                    'content-type' => 'mime/type2'
+                    'content-type' => 'mime/type2',
+                    'disposition' => 'attachment'
                 ]
             ],
             $this->object->getAttachments()

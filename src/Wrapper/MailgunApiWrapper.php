@@ -10,14 +10,28 @@ use ByJG\Util\WebRequest;
 class MailgunApiWrapper extends PHPMailerWrapper
 {
     /**
+     * @return \ByJG\Util\WebRequest
+     */
+    public function getRequestObject()
+    {
+        $domainName = $this->uri->getHost();
+        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
+        $request->setCredentials('api', $this->uri->getUsername());
+
+        return $request;
+    }
+
+    /**
      * malgun://api:APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
      * @return bool
-     * @throws MailApiException
+     * @throws \ByJG\Mail\Exception\MailApiException
      */
     public function send(Envelope $envelope)
     {
+        $this->validate($envelope);
+
         $message = [
             new MultiPartItem('from', $envelope->getFrom()),
             new MultiPartItem('subject', $envelope->getSubject()),
@@ -44,17 +58,14 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
         foreach ((array)$envelope->getAttachments() as $name => $attachment) {
             $message[] = new MultiPartItem(
-                'attachment',
+                $attachment['disposition'],
                 file_get_contents($attachment['content']),
                 $name,
                 $attachment['content-type']
             );
         }
 
-        $domainName = $this->connection->getServer();
-        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
-        $request->setCredentials($this->connection->getUsername(), $this->connection->getPassword());
-
+        $request = $this->getRequestObject();
         $result = $request->postMultiPartForm($message);
         $resultJson = json_decode($result, true);
         if (!isset($resultJson['id'])) {

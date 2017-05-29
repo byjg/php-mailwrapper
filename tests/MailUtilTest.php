@@ -2,7 +2,14 @@
 
 use ByJG\Mail\Util;
 
-class MailUtilTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+// backward compatibility
+if (!class_exists('\PHPUnit\Framework\TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
+
+class MailUtilTest extends TestCase
 {
     const EMAIL_OK = 'joao@server.com.br';
     const EMAIL_NOK_1 = 'joao@server.com.';

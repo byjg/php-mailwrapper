@@ -39,11 +39,6 @@ class AmazonSesWrapper extends PHPMailerWrapper
         // Call the preSend to set all PHPMailer variables and get the correct header and body;
         $message = $mail->getFullMessageEnvelope();
 
-        // Fix BCC header because PHPMailer does not send to us
-        foreach ((array)$envelope->getBCC() as $bccEmail) {
-            $message = 'Bcc: ' . $bccEmail . "\n" . $message;
-        }
-
         $ses = $this->getSesClient();
 
         $ses->sendRawEmail(

@@ -48,20 +48,30 @@ class AmazonSesWrapperTest extends BaseWrapperTest
         $this->assertEquals('2010-12-01', $sesClient->getApi()->getApiVersion());
     }
 
-    public function testBasicEnvelope()
+    protected function send($envelope, $rawEmail)
     {
-        $envelope = $this->getBasicEnvelope();
-
         $mock = $this->doMockedRequest($envelope);
-        $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
+        $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.txt'));
         $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
 
         $expected = [
             'RawMessage' => [
                 'Data' => $mimeMessage
-                ]
+            ]
         ];
 
         $this->assertEquals($expected, $mock->result);
+    }
+
+    public function testBasicEnvelope()
+    {
+        $envelope = $this->getBasicEnvelope();
+        $this->send($envelope, 'basicenvelope');
+    }
+
+    public function testFullEnvelope()
+    {
+        $envelope = $this->getFullEnvelope();
+        $this->send($envelope, 'fullenvelope');
     }
 }

@@ -63,7 +63,7 @@ class PHPMailerWrapper extends BaseWrapper
         // Add Blind Carbon Copy
         foreach ((array)$envelope->getBCC() as $bccItem) {
             $bcc = Util::decomposeEmail($bccItem);
-            $mail->addBCC($bcc["email"], $bcc["name"]);
+            $mail->addCustomHeader("Bcc: " . $bcc["email"]);
         }
 
         // Attachments

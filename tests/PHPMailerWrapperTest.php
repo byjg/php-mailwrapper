@@ -41,14 +41,24 @@ class PHPMailerWrapperTest extends BaseWrapperTest
         return $mock;
     }
 
-    public function testBasicEnvelope()
+    protected function send($envelope, $rawEmail)
     {
-        $envelope = $this->getBasicEnvelope();
-
         $mock = $this->doMockedRequest($envelope);
-        $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/basicenvelope.txt'));
+        $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.txt'));
         $result = $this->fixVariableFields($mock->getFullMessageEnvelope());
 
         $this->assertEquals($expected, $result);
+    }
+
+    public function testBasicEnvelope()
+    {
+        $envelope = $this->getBasicEnvelope();
+        $this->send($envelope, 'basicenvelope');
+    }
+
+    public function testFullEnvelope()
+    {
+        $envelope = $this->getFullEnvelope();
+        $this->send($envelope, 'fullenvelope');
     }
 }

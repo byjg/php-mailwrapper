@@ -21,6 +21,17 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
+    public function getFullEnvelope()
+    {
+        $envelope = $this->getBasicEnvelope();
+        $envelope->addTo('to2@email.com', 'Name');
+        $envelope->addCC('cc1@email.com');
+        $envelope->addCC('cc2@email.com');
+        $envelope->addBCC('bcc1@email.com');
+        $envelope->addBCC('bcc2@email.com');
+        return $envelope;
+    }
+
     protected function fixVariableFields($text)
     {
         $text = preg_replace(

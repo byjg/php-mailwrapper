@@ -32,6 +32,14 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
+    public function getAttachmentEnvelope()
+    {
+        $envelope = $this->getFullEnvelope();
+        $envelope->addAttachment('myname', __DIR__ . '/resources/attachment1.txt', 'text/plain');
+        $envelope->addAttachment('myname2', __DIR__ . '/resources/attachment2.txt', 'text/plain');
+        return $envelope;
+    }
+
     protected function fixVariableFields($text)
     {
         $text = preg_replace(

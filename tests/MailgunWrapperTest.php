@@ -82,4 +82,28 @@ class MailgunWrapperTest extends BaseWrapperTest
         $this->assertEquals($expected, $mock->result);
     }
 
+    public function testAttachmentEnvelope()
+    {
+        $envelope = $this->getAttachmentEnvelope();
+
+        $mock = $this->doMockedRequest($envelope);
+
+        $expected = [
+            new MultiPartItem('from', 'from@email.com'),
+            new MultiPartItem('subject', 'Subject'),
+            new MultiPartItem('html', '<h1>Title</h1>Body'),
+            new MultiPartItem('text', "# Title\n\nBody"),
+            new MultiPartItem('to', 'to@email.com'),
+            new MultiPartItem('to', '"Name" <to2@email.com>'),
+            new MultiPartItem('bcc', 'bcc1@email.com'),
+            new MultiPartItem('bcc', 'bcc2@email.com'),
+            new MultiPartItem('h:Reply-To', 'from@email.com'),
+            new MultiPartItem('cc', 'cc1@email.com'),
+            new MultiPartItem('cc', 'cc2@email.com'),
+            new MultiPartItem('attachment', 'Content File 1', 'myname', 'text/plain'),
+            new MultiPartItem('attachment', 'Content File 2', 'myname2', 'text/plain'),
+        ];
+
+        $this->assertEquals($expected, $mock->result);
+    }
 }

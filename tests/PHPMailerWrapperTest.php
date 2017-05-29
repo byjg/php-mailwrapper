@@ -61,4 +61,10 @@ class PHPMailerWrapperTest extends BaseWrapperTest
         $envelope = $this->getFullEnvelope();
         $this->send($envelope, 'fullenvelope');
     }
+
+    public function testAttachmentEnvelope()
+    {
+        $envelope = $this->getAttachmentEnvelope();
+        $this->send($envelope, 'attachmentenvelope');
+    }
 }

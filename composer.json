@@ -18,7 +18,7 @@
         "php": ">=5.5.0",
         "ext-curl": "*",
         "byjg/convert": "1.0.*",
-        "byjg/uri": "1.0.2.x-dev",
+        "byjg/uri": "1.0.*",
         "byjg/webrequest": "1.0.*",
         "aws/aws-sdk-php": "3.*",
         "phpmailer/phpmailer": "5.2.*"

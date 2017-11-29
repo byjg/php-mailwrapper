@@ -53,7 +53,7 @@ abstract class BaseWrapperTest extends TestCase
     {
         $text = preg_replace(
             [
-                '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ \+\d+~',
+                '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ [+-]\d+~',
                 '~([_<])\w{32}([@"\n-])~',
                 '~<boundarydelimiter@[^>]+>~'
             ],

@@ -29,6 +29,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @return bool
+     * @throws \Exception
      */
     public function send(Envelope $envelope)
     {

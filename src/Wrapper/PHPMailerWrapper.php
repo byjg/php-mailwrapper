@@ -20,9 +20,9 @@ class PHPMailerWrapper extends BaseWrapper
     }
 
     /**
-     *
      * @param Envelope $envelope
      * @return PHPMailerOverride
+     * @throws \phpmailerException
      */
     protected function prepareMailer(Envelope $envelope)
     {
@@ -95,6 +95,8 @@ class PHPMailerWrapper extends BaseWrapper
      * @param Envelope $envelope
      * @return bool
      * @throws \ByJG\Mail\Exception\MailApiException
+     * @throws \Exception
+     * @throws \phpmailerException
      */
     public function send(Envelope $envelope)
     {

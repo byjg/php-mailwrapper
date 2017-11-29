@@ -41,7 +41,10 @@ class Util
             if (array_key_exists("email", $parts)) {
                 $email = $parts["email"];
             }
-        } else if (preg_match($pat2, $fullEmail, $parts)) {
+            return array("email" => $email, "name" => $name);
+        }
+
+        if (preg_match($pat2, $fullEmail, $parts)) {
             if (array_key_exists("email", $parts)) {
                 $email = $parts["email"];
             }

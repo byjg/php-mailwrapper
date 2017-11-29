@@ -5,7 +5,7 @@ Cc: cc1@email.com, cc2@email.com
 Reply-To: from@email.com
 Subject: Subject
 Message-ID: <90dfa8c5628ceef4d0579b59b42b784c@jg-Latitude-E6520>
-X-Mailer: PHPMailer 5.2.23 (https://github.com/PHPMailer/PHPMailer)
+X-Mailer: PHPMailer (https://github.com/PHPMailer/PHPMailer)
 Bcc: bcc1@email.com
 Bcc: bcc2@email.com
 MIME-Version: 1.0

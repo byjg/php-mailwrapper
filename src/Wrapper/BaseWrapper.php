@@ -22,6 +22,10 @@ abstract class BaseWrapper implements MailWrapperInterface
         $this->uri = $uri;
     }
 
+    /**
+     * @param \ByJG\Mail\Envelope $envelope
+     * @throws \Exception
+     */
     public function validate(Envelope $envelope)
     {
         if (0 === count($envelope->getTo())) {

@@ -14,6 +14,12 @@ use ByJG\Mail\Envelope;
 class SendMailWrapper extends PHPMailerWrapper
 {
 
+    /**
+     * @param \ByJG\Mail\Envelope $envelope
+     * @return bool
+     * @throws \ByJG\Mail\Exception\InvalidMessageFormatException
+     * @throws \Exception
+     */
     public function send(Envelope $envelope)
     {
         $this->validate($envelope);

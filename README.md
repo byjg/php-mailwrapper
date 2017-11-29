@@ -9,13 +9,22 @@ create a single interface for sending mail doesn't matter the sender. There are 
 - AWS SES (using API directly)
 - Mailgun (using API directly)
 
+## Install
+
+Just type: `composer require "byjg/mailwrapper=2.0.*"`
+
 ## How to use
+
+The MailWrapper has your classes totally decoupled in three parts:
+- The Envelope: the mail envelope. Defines the mail sender, recipients, body, subject, etc;
+- The Mailer: the responsible to deal with the process of send the envelope
+- The Register: Will register the available Mailers in the system. 
 
 ### Envelope Class
 
 MailWrapper provides a envelope class with all the basic necessary attributes to create an email.
 As this Envelope class are totally decoupled from the Mailer engine, you can use it also as DTO.
-See an example below:
+See an example below: (do not forget `require "vendor/autoload.php"`)
 
 ```php
 <?php
@@ -104,14 +113,14 @@ The options are:
 
 The protocols available are:
 
-| Protocol   | Description                        | URI Pattern
-|:-----------|:-----------------------------------|:---------------
-| smtp       | SMTP over insecure connection      | smtp://username:password@host:25
-| tls        | SMTP over secure TLS connection    | tls://username:password@host:587
-| ssl        | SMTP over secure SSL connection    | ssl://username:password@host:587
-| sendmail   | Sending Email using PHP mail()     | sendmail://localhost
-| mailgun    | Sending Email using Mailgun API    | mailgun://YOUR_API_KEY@YOUR_DOMAIN
-| ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION
+| Protocol   | Description                        | URI Pattern                      | Mailer Object
+|:-----------|:-----------------------------------|:---------------------------------|:-------------------
+| smtp       | SMTP over insecure connection      | smtp://username:password@host:25 | PHPMailerWrapper
+| tls        | SMTP over secure TLS connection    | tls://username:password@host:587 | PHPMailerWrapper
+| ssl        | SMTP over secure SSL connection    | ssl://username:password@host:587 | PHPMailerWrapper
+| sendmail   | Sending Email using PHP mail()     | sendmail://localhost             | SendMailWrapper
+| mailgun    | Sending Email using Mailgun API    | mailgun://YOUR_API_KEY@YOUR_DOMAIN| MailgunApiWrapper
+| ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION| AmazonSesWrapper
 
 
 ### Gmail specifics
@@ -149,9 +158,6 @@ Further information and documentation on how to set up can be found on this
 [wiki](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2) page.
 
 
-The mandrill_password is the API password created at mandrill website.
-
-
 ### Amazon SES API specifics
 
 The connection url for the AWS SES api is:
@@ -182,10 +188,27 @@ sendmail://localhost
 
 You need to setup in the `php.ini` the email relay.
 
+## Implementing your Own Wrappers
 
-## Install
+To implement your own wrapper you have to create a class inherited from: `ByJG\Mail\Wrapper\BaseWrapper`  and implement
+how to send in the method: `public function send(Envelope $envelope);`
 
-Just type: `composer require "byjg/mailwrapper=~1.0"`
+```php
+class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
+{
+
+    public function send(Envelope $envelope)
+    {
+        // Do how to send the email using your library
+    }
+    
+    // You can create your own validation methods. 
+    public function validate(Envelope $envelope)
+    {
+        parent::validate($envelope);
+    }
+}
+```
 
 ## Running Tests
 

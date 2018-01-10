@@ -30,7 +30,7 @@ class MailerFactory
 
     /**
      * @param $connection
-     * @return mixed
+     * @return \ByJG\Mail\Wrapper\MailWrapperInterface
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
     public static function create($connection)

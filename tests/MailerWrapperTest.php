@@ -27,6 +27,9 @@ class MailerWrapperTest extends TestCase
         MailerFactory::registerMailer('sendmail', SendMailWrapper::class);
         MailerFactory::registerMailer('mailgun', MailgunApiWrapper::class);
         MailerFactory::registerMailer('ses', AmazonSesWrapper::class);
+
+        // If there is no error above, the test is OK.
+        $this->assertTrue(true);
     }
 
     /**
@@ -46,6 +49,9 @@ class MailerWrapperTest extends TestCase
     {
         MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
         MailerFactory::create('smtp://localhost');
+
+        // If there is no error above the test is OK.
+        $this->assertTrue(true);
     }
 
     /**

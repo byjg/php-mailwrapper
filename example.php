@@ -3,10 +3,9 @@
 require "vendor/autoload.php";
 
 // Create a connection URL (see below)
-$connection = new \ByJG\Mail\MailConnection('protocol://username:password/smtpserver:port');
+\ByJG\Mail\MailerFactory::registerMailer('tls', \ByJG\Mail\Wrapper\PHPMailerWrapper::class);
 
-// Create the proper mailer based on the connection
-$mailer = ByJG\Mail\Envelope::mailerFactory($connection);
+$mailer = \ByJG\Mail\MailerFactory::create('protocol://username:password/smtpserver:port');
 
 // Create the email envelope
 $envelope = new ByJG\Mail\Envelope();
@@ -16,5 +15,4 @@ $envelope->setSubject('Email Subject');
 $envelope->setBody('html text body');
 
 // The the email with the selected mailer.
-$envelope->send($mailer);
-
+$mailer->send($envelope);

@@ -12,6 +12,7 @@ require_once 'MockSender.php';
 class AmazonSesWrapperTest extends BaseWrapperTest
 {
     /**
+     * @param $envelope
      * @return \Test\MockSender
      */
     public function doMockedRequest($envelope)

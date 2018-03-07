@@ -4,13 +4,7 @@ namespace Tests\Functional;
 
 use ByJG\Mail\Envelope;
 use ByJG\Mail\MailerFactory;
-
-// backward compatibility
 use PHPUnit\Framework\TestCase;
-
-if (!class_exists('\PHPUnit\Framework\TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
 
 abstract class FunctionalBase extends TestCase
 {

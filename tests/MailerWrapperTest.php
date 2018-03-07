@@ -8,11 +8,6 @@ use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Mail\Wrapper\SendMailWrapper;
 
-// backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
-
 class MailerWrapperTest extends TestCase
 {
 

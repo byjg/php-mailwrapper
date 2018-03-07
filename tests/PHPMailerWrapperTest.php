@@ -2,9 +2,7 @@
 
 namespace Test;
 
-use Aws\Credentials\Credentials;
 use ByJG\Mail\Override\PHPMailerOverride;
-use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Util\Uri;
 
@@ -14,6 +12,7 @@ require_once 'MockSender.php';
 class PHPMailerWrapperTest extends BaseWrapperTest
 {
     /**
+     * @param $envelope
      * @return \Test\MockSender
      */
     public function doMockedRequest($envelope)

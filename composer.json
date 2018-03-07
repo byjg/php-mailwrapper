@@ -1,30 +1,30 @@
 {
-    "name": "byjg/mailwrapper",
-    "description": "A lightweight wrapper for send mail. The interface is tottaly decoupled from the sender. The sender availables are: PHP Mailer, AWS SES Api, Mandril Api.",
-    "authors": [
-        {
-            "name": "João Gilberto Magalhães",
-            "email": "joao@byjg.com.br"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "ByJG\\Mail\\": "src/"
-        }
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.5.0",
-        "ext-curl": "*",
-        "byjg/convert": "1.0.*",
-        "byjg/uri": "1.0.*",
-        "byjg/webrequest": "1.0.*",
-        "aws/aws-sdk-php": "3.*",
-        "phpmailer/phpmailer": "5.2.*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "5.7.*|6.5.*"
-    },
-    "license": "MIT"
+  "name": "byjg/mailwrapper",
+  "description": "A lightweight wrapper for send mail. The interface is tottaly decoupled from the sender. The sender availables are: PHP Mailer, AWS SES Api, Mandril Api.",
+  "authors": [
+    {
+      "name": "João Gilberto Magalhães",
+      "email": "joao@byjg.com.br"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "ByJG\\Mail\\": "src/"
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.0",
+    "ext-curl": "*",
+    "byjg/convert": "1.0.*",
+    "byjg/uri": "1.0.*",
+    "byjg/webrequest": "1.0.*",
+    "aws/aws-sdk-php": "~3.20",
+    "phpmailer/phpmailer": "^5.2.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">5.7"
+  },
+  "license": "MIT"
 }

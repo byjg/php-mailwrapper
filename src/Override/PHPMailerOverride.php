@@ -3,8 +3,9 @@
 namespace ByJG\Mail\Override;
 
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use PHPMailer\PHPMailer\PHPMailer;
 
-class PHPMailerOverride extends \PHPMailer
+class PHPMailerOverride extends PHPMailer
 {
     public function __construct($exceptions = null)
     {

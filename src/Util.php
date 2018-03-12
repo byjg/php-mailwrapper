@@ -3,7 +3,7 @@
 namespace ByJG\Mail;
 
 use ByJG\Convert\FromUTF8;
-use PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class Util
 {

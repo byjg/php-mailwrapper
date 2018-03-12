@@ -49,11 +49,13 @@ abstract class BaseWrapperTest extends TestCase
         $text = preg_replace(
             [
                 '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ [+-]\d+~',
-                '~([_<])\w{32}([@"\n-])~',
-                '~<boundarydelimiter@[^>]+>~'
+                '~(--\w{2}_)\w+(--|\r)~',
+                '~(="\w{2}_)\w+(")~',
+                '~<[^@]+@[^>]+>~'
             ],
             [
                 'xxx, dd, yyyy hh:mi:ss +ffff',
+                '$1boundarydelimiter$2',
                 '$1boundarydelimiter$2',
                 '<boundarydelimiter@host>'
             ],

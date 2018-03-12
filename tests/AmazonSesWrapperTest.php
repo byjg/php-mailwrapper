@@ -52,7 +52,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
     protected function send($envelope, $rawEmail)
     {
         $mock = $this->doMockedRequest($envelope);
-        $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.txt'));
+        $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));
         $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
 
         $expected = [

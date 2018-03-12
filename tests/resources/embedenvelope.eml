@@ -14,14 +14,12 @@ Content-Type: multipart/alternative;
 Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
-
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/plain; charset=us-ascii
 
 # Title
 
 Body
-
 
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: multipart/related;
@@ -31,7 +29,6 @@ Content-Type: multipart/related;
 Content-Type: text/html; charset=us-ascii
 
 <h1>Title</h1>Body<img src="cid:myname"><img src="cid:myname2">
-
 
 --b2_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: image/png; name="myname"
@@ -62,7 +59,6 @@ cHf8/OhSp8+qXMzOj4pP0qe5PNcCACFhCyDELAytey5tpo121PZlhDaUcR7OwjPPnJk3Ky0wQUjY
 AiCEEDqykMt1dUQkjZVKnVapSa0EMEEGAEgppdbKMgQQQCIlAADg/9pbCqIK/A9SAAAAJXRFWHRk
 YXRlOmNyZWF0ZQAyMDEwLTAyLTExVDExOjI4OjE0LTA2OjAw5/ZaZgAAACV0RVh0ZGF0ZTptb2Rp
 ZnkAMjAwNi0wNS0yOFQxNjowNzowNi0wNTowMCZi1tIAAAAASUVORK5CYII=
-
 
 --b2_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: image/png; name="myname2"
@@ -101,7 +97,6 @@ x+eAqCvm0C4MZQT3dhqWV+qPl6tooGqdAT7rZOt1evQpEaJQEGBtur6yXfsVxujcYGZwLiMN5VPB
 VzWwYtmahj5Rqyic9YBkUS4bSoyszj5fD6FSAioRf7cdIBZGvLWTXZpPFkFK555lizo7LCuiwYIU
 2GnDtl2A2oA1BA0J7XFUZbYFqAx1Crhps1YJbtvI/Yu6BCxCCdzxCNgRAOUXc+C287DhsvgLre/F
 /t6fYdAAAAAASUVORK5CYII=
-
 
 --b2_90dfa8c5628ceef4d0579b59b42b784c--
 

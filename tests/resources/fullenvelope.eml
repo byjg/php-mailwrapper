@@ -1,17 +1,19 @@
 Date: Sun, 28 May 2017 18:39:47 +0000
-To: to@email.com
+To: to@email.com, Name <to2@email.com>
 From: from@email.com
+Cc: cc1@email.com, cc2@email.com
 Reply-To: from@email.com
 Subject: Subject
 Message-ID: <90dfa8c5628ceef4d0579b59b42b784c@jg-Latitude-E6520>
 X-Mailer: PHPMailer (https://github.com/PHPMailer/PHPMailer)
+Bcc: bcc1@email.com
+Bcc: bcc2@email.com
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
 	boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
 Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
-
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/plain; charset=us-ascii
 
@@ -19,12 +21,10 @@ Content-Type: text/plain; charset=us-ascii
 
 Body
 
-
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/html; charset=us-ascii
 
 <h1>Title</h1>Body
-
 
 
 --b1_90dfa8c5628ceef4d0579b59b42b784c--

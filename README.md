@@ -9,18 +9,20 @@ create a single interface for sending mail doesn't matter the sender. There are 
 - AWS SES (using API directly)
 - Mailgun (using API directly)
 
-## Install
+# Install
 
-Just type: `composer require "byjg/mailwrapper=2.0.*"`
+```
+composer require "byjg/mailwrapper=2.0.*"
+```
 
-## How to use
+# How to use
 
 The MailWrapper has your classes totally decoupled in three parts:
 - The Envelope: the mail envelope. Defines the mail sender, recipients, body, subject, etc;
 - The Mailer: the responsible to deal with the process of send the envelope
 - The Register: Will register the available Mailers in the system. 
 
-### Envelope Class
+## Envelope Class
 
 MailWrapper provides a envelope class with all the basic necessary attributes to create an email.
 As this Envelope class are totally decoupled from the Mailer engine, you can use it also as DTO.
@@ -36,7 +38,7 @@ $envelope->setSubject('Email Subject');
 $envelope->setBody('html text body');
 ```
 
-### Sending the email
+## Sending the email
 
 Once you have created the envelope you can send the email. Basically you have to register in the fabric all mailer 
 you intend to use and then create the mailer:
@@ -69,7 +71,7 @@ $mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
 $mailer->send($envelope);
 ```
 
-### Sending attachment
+## Sending attachment
 
 ```php
 <?php
@@ -78,7 +80,7 @@ $envelope->addAttachment('name_of_attachement', '/path/to/file', 'mime/type');
 $mailer->send($envelope);
 ```
 
-### Adding attachment as Embed Image
+## Adding attachment as Embed Image
 
 Adding an image as a inline attachment (or Embed) your mail reader will not show as download but you can
 use it as an local image in your email.
@@ -93,7 +95,7 @@ $envelope->setBody('<img src="cid:mycontentname" />');
 $mailer->send($envelope);
 ```
 
-## The connection url
+# The connection url
 
 To create a new sender you have to define a URL like that:
 
@@ -123,7 +125,7 @@ The protocols available are:
 | ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION| AmazonSesWrapper
 
 
-### Gmail specifics
+## Gmail specifics
 
 From December 2014, Google started imposing an authentication mechanism called 
 XOAUTH2 based on OAuth2 for access to their apps, including Gmail. 
@@ -158,7 +160,7 @@ Further information and documentation on how to set up can be found on this
 [wiki](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2) page.
 
 
-### Amazon SES API specifics
+## Amazon SES API specifics
 
 The connection url for the AWS SES api is:
 
@@ -168,7 +170,7 @@ ses://ACCESS_KEY_ID:SECRET_KEY@REGION
 
 The access_key_id and secret_key are created at AWS Control Panel. The region can be us-east-1, etc. 
 
-### Mailgun API specifics
+## Mailgun API specifics
 
 The connection url for the Mailgun api is:
 
@@ -188,7 +190,7 @@ sendmail://localhost
 
 You need to setup in the `php.ini` the email relay.
 
-## Implementing your Own Wrappers
+# Implementing your Own Wrappers
 
 To implement your own wrapper you have to create a class inherited from: `ByJG\Mail\Wrapper\BaseWrapper`  and implement
 how to send in the method: `public function send(Envelope $envelope);`
@@ -210,8 +212,9 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
 }
 ```
 
-## Running Tests
+# Running Tests
 
 ```php
 phpunit
 ```
+

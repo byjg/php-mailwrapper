@@ -2,12 +2,26 @@
 
 namespace ByJG\Mail\Wrapper;
 
+use ByJG\Mail\Override\PHPMailerOverride;
 use Aws\Credentials\Credentials;
 use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
+
+    /**
+     * @param Envelope $envelope
+     * @return PHPMailerOverride
+     * @throws \phpmailerException
+     */
+    protected function prepareMailer(Envelope $envelope)
+    {
+        $mail = parent::prepareMailer($envelope);
+        $mail->Subject = $envelope->getSubject();
+        return $mail;
+    }
+
     /**
      * @return SesClient
      */

@@ -3,6 +3,7 @@
 namespace Test;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Util;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseWrapperTest extends TestCase
@@ -12,7 +13,12 @@ abstract class BaseWrapperTest extends TestCase
      */
     public function getBasicEnvelope()
     {
-        $envelope = new Envelope('from@email.com', 'to@email.com', 'Subject', '<h1>Title</h1>Body');
+        $envelope = new Envelope(
+            Util::getFullEmail('from@email.com', "João"),
+            Util::getFullEmail('to@email.com', "John"),
+            'Subject in 中国 and русский and português',
+            '<h1>Title</h1>Body'
+        );
         return $envelope;
     }
 
@@ -51,13 +57,13 @@ abstract class BaseWrapperTest extends TestCase
                 '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ [+-]\d+~',
                 '~(--\w{2}_)\w+(--|\r)~',
                 '~(="\w{2}_)\w+(")~',
-                '~<[^@]+@[^>]+>~'
+                '~Message-ID: <[^@]+@[^>]+>~'
             ],
             [
                 'xxx, dd, yyyy hh:mi:ss +ffff',
                 '$1boundarydelimiter$2',
                 '$1boundarydelimiter$2',
-                '<boundarydelimiter@host>'
+                'Message-ID: <boundarydelimiter@host>'
             ],
             $text
         );

@@ -3,7 +3,9 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
+use ByJG\Util\CurlException;
 use ByJG\Util\MultiPartItem;
 use ByJG\Util\WebRequest;
 
@@ -26,9 +28,9 @@ class MailgunApiWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @return bool
-     * @throws \ByJG\Mail\Exception\MailApiException
-     * @throws \ByJG\Util\CurlException
-     * @throws \Exception
+     * @throws MailApiException
+     * @throws InvalidEMailException
+     * @throws CurlException
      */
     public function send(Envelope $envelope)
     {

@@ -48,12 +48,12 @@ class MailgunWrapperTest extends BaseWrapperTest
         $mock = $this->doMockedRequest($envelope);
 
         $expected = [
-            new MultiPartItem('from', 'from@email.com'),
-            new MultiPartItem('subject', 'Subject'),
+            new MultiPartItem('from', '"João" <from@email.com>'),
+            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
             new MultiPartItem('html', '<h1>Title</h1>Body'),
             new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', 'to@email.com'),
-            new MultiPartItem('h:Reply-To', 'from@email.com')
+            new MultiPartItem('to', '"John" <to@email.com>'),
+            new MultiPartItem('h:Reply-To', '"João" <from@email.com>')
         ];
 
         $this->assertEquals($expected, $mock->result);
@@ -66,15 +66,15 @@ class MailgunWrapperTest extends BaseWrapperTest
         $mock = $this->doMockedRequest($envelope);
 
         $expected = [
-            new MultiPartItem('from', 'from@email.com'),
-            new MultiPartItem('subject', 'Subject'),
+            new MultiPartItem('from', '"João" <from@email.com>'),
+            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
             new MultiPartItem('html', '<h1>Title</h1>Body'),
             new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', 'to@email.com'),
+            new MultiPartItem('to', '"John" <to@email.com>'),
             new MultiPartItem('to', '"Name" <to2@email.com>'),
             new MultiPartItem('bcc', 'bcc1@email.com'),
             new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', 'from@email.com'),
+            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
             new MultiPartItem('cc', 'cc1@email.com'),
             new MultiPartItem('cc', 'cc2@email.com'),
         ];
@@ -89,15 +89,15 @@ class MailgunWrapperTest extends BaseWrapperTest
         $mock = $this->doMockedRequest($envelope);
 
         $expected = [
-            new MultiPartItem('from', 'from@email.com'),
-            new MultiPartItem('subject', 'Subject'),
+            new MultiPartItem('from', '"João" <from@email.com>'),
+            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
             new MultiPartItem('html', '<h1>Title</h1>Body'),
             new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', 'to@email.com'),
+            new MultiPartItem('to', '"John" <to@email.com>'),
             new MultiPartItem('to', '"Name" <to2@email.com>'),
             new MultiPartItem('bcc', 'bcc1@email.com'),
             new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', 'from@email.com'),
+            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
             new MultiPartItem('cc', 'cc1@email.com'),
             new MultiPartItem('cc', 'cc2@email.com'),
             new MultiPartItem('attachment', 'Content File 1', 'myname', 'text/plain'),
@@ -114,15 +114,15 @@ class MailgunWrapperTest extends BaseWrapperTest
         $mock = $this->doMockedRequest($envelope);
 
         $expected = [
-            new MultiPartItem('from', 'from@email.com'),
-            new MultiPartItem('subject', 'Subject'),
+            new MultiPartItem('from', '"João" <from@email.com>'),
+            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
             new MultiPartItem('html', '<h1>Title</h1>Body<img src="cid:myname"><img src="cid:myname2">'),
             new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', 'to@email.com'),
+            new MultiPartItem('to', '"John" <to@email.com>'),
             new MultiPartItem('to', '"Name" <to2@email.com>'),
             new MultiPartItem('bcc', 'bcc1@email.com'),
             new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', 'from@email.com'),
+            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
             new MultiPartItem('cc', 'cc1@email.com'),
             new MultiPartItem('cc', 'cc2@email.com'),
             new MultiPartItem('inline',

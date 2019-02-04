@@ -60,7 +60,7 @@ class MailUtilTest extends TestCase
         $this->assertEquals($pair["email"], 'email@domain.com');
 
         $pair = Util::decomposeEmail('"João" <email@domain.com>');
-        $this->assertEquals($pair["name"], '=?iso-8859-1?Q?Jo=E3o?=');
+        $this->assertEquals($pair["name"], 'João');
         $this->assertEquals($pair["email"], 'email@domain.com');
 
     }

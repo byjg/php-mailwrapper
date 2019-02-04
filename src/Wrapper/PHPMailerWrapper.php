@@ -2,8 +2,8 @@
 
 namespace ByJG\Mail\Wrapper;
 
-use ByJG\Convert\FromUTF8;
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
@@ -22,12 +22,12 @@ class PHPMailerWrapper extends BaseWrapper
     /**
      * @param Envelope $envelope
      * @return PHPMailerOverride
-     * @throws \phpmailerException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     protected function prepareMailer(Envelope $envelope)
     {
         $mail = $this->getMailer();
-        $mail->Subject = FromUTF8::toIso88591Email($envelope->getSubject());
+        $mail->Subject = $envelope->getSubject();
         $mail->CharSet = "utf-8";
         $mail->Body = $envelope->getBody();
         if ($envelope->isHtml()) {
@@ -94,9 +94,9 @@ class PHPMailerWrapper extends BaseWrapper
     /**
      * @param Envelope $envelope
      * @return bool
-     * @throws \ByJG\Mail\Exception\MailApiException
-     * @throws \Exception
-     * @throws \phpmailerException
+     * @throws MailApiException
+     * @throws InvalidEMailException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(Envelope $envelope)
     {

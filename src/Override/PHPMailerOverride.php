@@ -15,8 +15,8 @@ class PHPMailerOverride extends PHPMailer
 
     /**
      * @return string
-     * @throws \ByJG\Mail\Exception\InvalidMessageFormatException
-     * @throws \phpmailerException
+     * @throws InvalidMessageFormatException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function getFullMessageEnvelope()
     {
@@ -27,8 +27,8 @@ class PHPMailerOverride extends PHPMailer
 
     /**
      * @return array
-     * @throws \ByJG\Mail\Exception\InvalidMessageFormatException
-     * @throws \phpmailerException
+     * @throws InvalidMessageFormatException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function getMessageEnvelopeParts()
     {

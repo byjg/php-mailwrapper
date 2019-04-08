@@ -2,7 +2,6 @@
 
 namespace ByJG\Mail;
 
-use ByJG\Convert\FromUTF8;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Util
@@ -35,7 +34,7 @@ class Util
         $parts = null;
         if (preg_match($pat, $fullEmail, $parts)) {
             if (array_key_exists("name", $parts)) {
-                $name = FromUTF8::toIso88591Email($parts["name"]);
+                $name = $parts["name"];
             }
 
             if (array_key_exists("email", $parts)) {

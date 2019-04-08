@@ -5,9 +5,12 @@ namespace ByJG\Mail\Wrapper;
 use Aws\Credentials\Credentials;
 use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
+use ByJG\Mail\Exception\InvalidMessageFormatException;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
+
     /**
      * @return SesClient
      */
@@ -29,7 +32,9 @@ class AmazonSesWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @return bool
-     * @throws \Exception
+     * @throws InvalidEMailException
+     * @throws InvalidMessageFormatException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(Envelope $envelope)
     {

@@ -8,6 +8,7 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Util\Uri;
 
 abstract class BaseWrapper implements MailWrapperInterface
@@ -24,16 +25,16 @@ abstract class BaseWrapper implements MailWrapperInterface
 
     /**
      * @param \ByJG\Mail\Envelope $envelope
-     * @throws \Exception
+     * @throws InvalidEMailException
      */
     public function validate(Envelope $envelope)
     {
         if (0 === count($envelope->getTo())) {
-            throw new \Exception("Destination Email was not provided");
+            throw new InvalidEMailException("Destination Email was not provided");
         }
 
         if ($envelope->getFrom() == "") {
-            throw new \Exception("From email was not provided");
+            throw new InvalidEMailException("From email was not provided");
         }
     }
 }

@@ -3,6 +3,8 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
+use ByJG\Mail\Exception\InvalidMessageFormatException;
 
 /**
  * Class SendMailWrapper
@@ -17,8 +19,9 @@ class SendMailWrapper extends PHPMailerWrapper
     /**
      * @param \ByJG\Mail\Envelope $envelope
      * @return bool
-     * @throws \ByJG\Mail\Exception\InvalidMessageFormatException
-     * @throws \Exception
+     * @throws InvalidEMailException
+     * @throws InvalidMessageFormatException
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(Envelope $envelope)
     {

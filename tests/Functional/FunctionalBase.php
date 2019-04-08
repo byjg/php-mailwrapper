@@ -28,9 +28,9 @@ abstract class FunctionalBase extends TestCase
 
         // Create the email envelope
         $this->envelope = new Envelope();
-        $this->envelope->setFrom($this->from, '[' . $this->mailerName . '] Mailwrapper Automated Tests');
+        $this->envelope->setFrom($this->from, '[' . $this->mailerName . '] Automated, Automação');
         $this->envelope->addTo($this->toEmail);
-        $this->envelope->setSubject('Mailwrapper Automated Tests');
+        $this->envelope->setSubject('Automated Tests / Automação');
         $this->envelope->setBody(
             '<pre>' .
             "*** Automated Email ***\n" .

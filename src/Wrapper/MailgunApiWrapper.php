@@ -11,13 +11,20 @@ use ByJG\Util\WebRequest;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
+
+    private $regions = [
+        'us' => 'api.mailgun.net',
+        'eu' => 'api.eu.mailgun.net',
+    ];
+
     /**
      * @return \ByJG\Util\WebRequest
      */
     public function getRequestObject()
     {
         $domainName = $this->uri->getHost();
-        $request = new WebRequest("https://api.mailgun.net/v3/$domainName/messages");
+        $apiUri = $this->getApiUri();
+        $request = new WebRequest("https://$apiUri/v3/$domainName/messages");
         $request->setCredentials('api', $this->uri->getUsername());
 
         return $request;
@@ -78,4 +85,15 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
         return true;
     }
+
+    private function getApiUri()
+    {
+        $query = $this->uri->getQueryPart('region');
+        if (isset($this->regions[$query])) {
+            return $this->regions[$query];
+        }
+
+        return $this->regions['us'];
+    }
+
 }

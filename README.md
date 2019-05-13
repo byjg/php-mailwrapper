@@ -180,6 +180,10 @@ mailgun://YOUR_API_KEY@YOUR_DOMAIN
 
 The YOUR_API_KEY and YOUR_DOMAIN are defined at Mailgun Control Panel. 
 
+The Region of the endpoint can be configured by query parameter "region" (example: mailgun://api-key@mg.domain.cz?region=eu)
+
+Valid values are: us and eu.
+
 ### Sendmail Specifics
 
 The connection url for the Sendmail is:

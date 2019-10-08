@@ -11,7 +11,7 @@ Bcc: bcc1@email.com
 Bcc: bcc2@email.com
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-	boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
+ boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
 Content-Transfer-Encoding: 8bit
 
 This is a multi-part message in MIME format.
@@ -24,7 +24,7 @@ Body
 
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: multipart/related;
-	boundary="b2_90dfa8c5628ceef4d0579b59b42b784c"
+ boundary="b2_90dfa8c5628ceef4d0579b59b42b784c"
 
 --b2_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/html; charset=us-ascii

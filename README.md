@@ -63,7 +63,7 @@ You can create the mailer directly without the factory:
 <?php
 $mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
     new \ByJG\Util\Uri(
-        'mailgun://api:YOUR_API_KEY@YOUR_DOMAIN'
+        'mailgun://your_api_key@YOUR_DOMAIN'
     )
 );
 

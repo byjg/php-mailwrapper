@@ -82,9 +82,13 @@ class MailgunApiWrapper extends PHPMailerWrapper
             );
         }
 
-        $request = RequestMultiPart::buildMultiPart($message, $this->getRequestObject());
+        $request = $this->getRequestObject();
+        RequestMultiPart::buildMultiPart($message, $request);
 
         $result = HttpClient::getInstance()->sendRequest($request);
+        if ($result->getStatusCode() != 200) {
+            throw new MailApiException("Mailgun result code is " . $result->getStatusCode());
+        }
         $resultJson = json_decode($result->getBody()->getContents(), true);
         if (!isset($resultJson['id'])) {
             throw new MailApiException('Mailgun: ' . $resultJson['message']);

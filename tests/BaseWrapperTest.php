@@ -70,4 +70,26 @@ abstract class BaseWrapperTest extends TestCase
 
         return $text;
     }
+
+    protected function fixRequestBody($text)
+    {
+        $text = preg_replace(
+            [
+                '~\r~',
+                '~--boundary-[\w\d]*~',
+                '~!file:moon.png!~',
+                '~!file:sun.png!~',
+            ],
+            [
+                '',
+                '--boundary-12345',
+                file_get_contents(__DIR__ . "/resources/moon.png"),
+                file_get_contents(__DIR__ . "/resources/sun.png"),
+            ],
+            $text
+        );
+
+        return $text;
+    }
+
 }

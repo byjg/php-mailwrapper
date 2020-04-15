@@ -2,34 +2,32 @@
 
 namespace Test;
 
+use ByJG\Mail\Envelope;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
+use ByJG\Util\MockClient;
 use ByJG\Util\MultiPartItem;
+use ByJG\Util\Psr7\Request;
 use ByJG\Util\Uri;
+use MintWare\Streams\MemoryStream;
 
 require_once 'BaseWrapperTest.php';
 require_once 'MockSender.php';
 
 class MailgunWrapperTest extends BaseWrapperTest
 {
+
     /**
      * @param $envelope
-     * @return \Test\MockSender
+     * @return bool
+     * @throws \ByJG\Mail\Exception\InvalidEMailException
+     * @throws \ByJG\Mail\Exception\MailApiException
+     * @throws \ByJG\Util\CurlException
+     * @throws \ByJG\Util\Psr7\MessageException
      */
-    public function doMockedRequest($envelope)
+    public function doMockedRequest(Envelope $envelope, MockClient $mock)
     {
-        $object = $this->getMockBuilder(MailgunApiWrapper::class)
-            ->setMethods(['getRequestObject'])
-            ->setConstructorArgs([new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN')])
-            ->getMock();
-
-        $mock = new MockSender();
-        $object->expects($this->once())
-            ->method('getRequestObject')
-            ->will($this->returnValue($mock));
-
-        $object->send($envelope);
-
-        return $mock;
+        $object = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'), $mock);
+        return $object->send($envelope);
     }
 
     public function testGetRequest()
@@ -37,107 +35,58 @@ class MailgunWrapperTest extends BaseWrapperTest
         $wrapper = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'));
         $request = $wrapper->getRequestObject();
 
-        $this->assertEquals($request->getCurlOption(CURLOPT_HTTPAUTH), CURLAUTH_BASIC);
-        $this->assertEquals($request->getCurlOption(CURLOPT_USERPWD), "api:YOUR_API_KEY");
+        $this->assertEquals("api:YOUR_API_KEY", $request->getUri()->getUserInfo());
     }
 
     public function testBasicEnvelope()
     {
+        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $mock = new MockClient($expectedResponse);
+
         $envelope = $this->getBasicEnvelope();
 
-        $mock = $this->doMockedRequest($envelope);
-
-        $expected = [
-            new MultiPartItem('from', '"João" <from@email.com>'),
-            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
-            new MultiPartItem('html', '<h1>Title</h1>Body'),
-            new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', '"John" <to@email.com>'),
-            new MultiPartItem('h:Reply-To', '"João" <from@email.com>')
-        ];
-
-        $this->assertEquals($expected, $mock->result);
+        $result = $this->doMockedRequest($envelope, $mock);
+        $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/basicenvelope-request.txt"));
+        $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
     }
 
     public function testFullEnvelope()
     {
+        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $mock = new MockClient($expectedResponse);
+
         $envelope = $this->getFullEnvelope();
 
-        $mock = $this->doMockedRequest($envelope);
-
-        $expected = [
-            new MultiPartItem('from', '"João" <from@email.com>'),
-            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
-            new MultiPartItem('html', '<h1>Title</h1>Body'),
-            new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', '"John" <to@email.com>'),
-            new MultiPartItem('to', '"Name" <to2@email.com>'),
-            new MultiPartItem('bcc', 'bcc1@email.com'),
-            new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
-            new MultiPartItem('cc', 'cc1@email.com'),
-            new MultiPartItem('cc', 'cc2@email.com'),
-        ];
-
-        $this->assertEquals($expected, $mock->result);
+        $result = $this->doMockedRequest($envelope, $mock);
+        $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/fullenvelope-request.txt"));
+        $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
     }
 
     public function testAttachmentEnvelope()
     {
+        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $mock = new MockClient($expectedResponse);
+
         $envelope = $this->getAttachmentEnvelope();
 
-        $mock = $this->doMockedRequest($envelope);
-
-        $expected = [
-            new MultiPartItem('from', '"João" <from@email.com>'),
-            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
-            new MultiPartItem('html', '<h1>Title</h1>Body'),
-            new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', '"John" <to@email.com>'),
-            new MultiPartItem('to', '"Name" <to2@email.com>'),
-            new MultiPartItem('bcc', 'bcc1@email.com'),
-            new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
-            new MultiPartItem('cc', 'cc1@email.com'),
-            new MultiPartItem('cc', 'cc2@email.com'),
-            new MultiPartItem('attachment', 'Content File 1', 'myname', 'text/plain'),
-            new MultiPartItem('attachment', 'Content File 2', 'myname2', 'text/plain'),
-        ];
-
-        $this->assertEquals($expected, $mock->result);
+        $result = $this->doMockedRequest($envelope, $mock);
+        $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/attachmentenvelope-request.txt"));
+        $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
     }
 
     public function testEmbedImageEnvelope()
     {
+        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $mock = new MockClient($expectedResponse);
+
         $envelope = $this->getEmbedImageEnvelope();
 
-        $mock = $this->doMockedRequest($envelope);
-
-        $expected = [
-            new MultiPartItem('from', '"João" <from@email.com>'),
-            new MultiPartItem('subject', 'Subject in 中国 and русский and português'),
-            new MultiPartItem('html', '<h1>Title</h1>Body<img src="cid:myname"><img src="cid:myname2">'),
-            new MultiPartItem('text', "# Title\n\nBody"),
-            new MultiPartItem('to', '"John" <to@email.com>'),
-            new MultiPartItem('to', '"Name" <to2@email.com>'),
-            new MultiPartItem('bcc', 'bcc1@email.com'),
-            new MultiPartItem('bcc', 'bcc2@email.com'),
-            new MultiPartItem('h:Reply-To', '"João" <from@email.com>'),
-            new MultiPartItem('cc', 'cc1@email.com'),
-            new MultiPartItem('cc', 'cc2@email.com'),
-            new MultiPartItem('inline',
-                file_get_contents(__DIR__ . '/resources/moon.png'),
-                'myname',
-                'image/png'
-            ),
-            new MultiPartItem(
-                'inline',
-                file_get_contents(__DIR__ . '/resources/sun.png'),
-                'myname2',
-                'image/png'
-            ),
-        ];
-
-        $this->assertEquals($expected, $mock->result);
+        $result = $this->doMockedRequest($envelope, $mock);
+        $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/embedenvelope-request.txt"));
+        $this->assertEquals(base64_encode($expected), base64_encode($this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents())));
     }
 }

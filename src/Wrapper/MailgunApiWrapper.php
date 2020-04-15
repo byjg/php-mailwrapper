@@ -14,11 +14,22 @@ use ByJG\Util\Uri;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
+    private $client;
 
     private $regions = [
         'us' => 'api.mailgun.net',
         'eu' => 'api.eu.mailgun.net',
     ];
+
+    public function __construct(Uri $uri, HttpClient $client = null)
+    {
+        parent::__construct($uri);
+
+        $this->client = $client;
+        if (is_null($client)) {
+            $this->client = new HttpClient();
+        }
+    }
 
     /**
      * @return Request
@@ -85,7 +96,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
         $request = $this->getRequestObject();
         RequestMultiPart::buildMultiPart($message, $request);
 
-        $result = HttpClient::getInstance()->sendRequest($request);
+        $result = $this->client->sendRequest($request);
         if ($result->getStatusCode() != 200) {
             throw new MailApiException("Mailgun result code is " . $result->getStatusCode());
         }

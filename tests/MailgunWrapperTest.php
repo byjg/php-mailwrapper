@@ -87,6 +87,6 @@ class MailgunWrapperTest extends BaseWrapperTest
 
         $result = $this->doMockedRequest($envelope, $mock);
         $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/embedenvelope-request.txt"));
-        $this->assertEquals(base64_encode($expected), base64_encode($this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents())));
+        $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
     }
 }

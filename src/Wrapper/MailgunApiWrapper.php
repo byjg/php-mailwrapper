@@ -93,8 +93,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
             );
         }
 
-        $request = $this->getRequestObject();
-        RequestMultiPart::buildMultiPart($message, $request);
+        $request = RequestMultiPart::buildMultiPart($message, $this->getRequestObject());
 
         $result = $this->client->sendRequest($request);
         if ($result->getStatusCode() != 200) {

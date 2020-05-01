@@ -41,7 +41,7 @@ class MailgunWrapperTest extends BaseWrapperTest
     public function testBasicEnvelope()
     {
         $expectedResponse = new \ByJG\Util\Psr7\Response(200);
-        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
         $envelope = $this->getBasicEnvelope();
@@ -54,7 +54,7 @@ class MailgunWrapperTest extends BaseWrapperTest
     public function testFullEnvelope()
     {
         $expectedResponse = new \ByJG\Util\Psr7\Response(200);
-        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
         $envelope = $this->getFullEnvelope();
@@ -67,7 +67,7 @@ class MailgunWrapperTest extends BaseWrapperTest
     public function testAttachmentEnvelope()
     {
         $expectedResponse = new \ByJG\Util\Psr7\Response(200);
-        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
         $envelope = $this->getAttachmentEnvelope();
@@ -80,7 +80,7 @@ class MailgunWrapperTest extends BaseWrapperTest
     public function testEmbedImageEnvelope()
     {
         $expectedResponse = new \ByJG\Util\Psr7\Response(200);
-        $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
+        $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
         $envelope = $this->getEmbedImageEnvelope();

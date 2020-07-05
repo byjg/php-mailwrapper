@@ -13,8 +13,8 @@ MIME-Version: 1.0
 Content-Type: multipart/alternative;
  boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
 Content-Transfer-Encoding: 8bit
-
 This is a multi-part message in MIME format.
+
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/plain; charset=us-ascii
 
@@ -33,7 +33,7 @@ Content-Type: text/html; charset=us-ascii
 <h1>Title</h1>Body<img src="cid:myname">
 
 --b2_90dfa8c5628ceef4d0579b59b42b784c
-Content-Type: image/gif; name="myname"
+Content-Type: image/gif; name=myname
 Content-Transfer-Encoding: base64
 Content-ID: <myname>
 Content-Disposition: inline; filename=myname

@@ -13,8 +13,8 @@ MIME-Version: 1.0
 Content-Type: multipart/mixed;
  boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
 Content-Transfer-Encoding: 8bit
-
 This is a multi-part message in MIME format.
+
 --b1_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: multipart/alternative;
  boundary="b2_90dfa8c5628ceef4d0579b59b42b784c"
@@ -35,17 +35,15 @@ Content-Type: text/html; charset=us-ascii
 --b2_90dfa8c5628ceef4d0579b59b42b784c--
 
 --b1_90dfa8c5628ceef4d0579b59b42b784c
-Content-Type: text/plain; name="myname"
+Content-Type: text/plain; name=myname
 Content-Transfer-Encoding: base64
-Content-ID: <myname>
 Content-Disposition: attachment; filename=myname
 
 Q29udGVudCBGaWxlIDE=
 
 --b1_90dfa8c5628ceef4d0579b59b42b784c
-Content-Type: text/plain; name="myname2"
+Content-Type: text/plain; name=myname2
 Content-Transfer-Encoding: base64
-Content-ID: <myname2>
 Content-Disposition: attachment; filename=myname2
 
 Q29udGVudCBGaWxlIDI=

@@ -44,9 +44,8 @@ abstract class BaseWrapperTest extends TestCase
     public function getEmbedImageEnvelope()
     {
         $envelope = $this->getFullEnvelope();
-        $envelope->addEmbedImage('myname', __DIR__ . '/resources/moon.png', 'image/png');
-        $envelope->addEmbedImage('myname2', __DIR__ . '/resources/sun.png', 'image/png');
-        $envelope->setBody('<h1>Title</h1>Body<img src="cid:myname"><img src="cid:myname2">');
+        $envelope->addEmbedImage('myname', __DIR__ . '/resources/pixel.gif', 'image/gif');
+        $envelope->setBody('<h1>Title</h1>Body<img src="cid:myname">');
         return $envelope;
     }
 
@@ -70,4 +69,28 @@ abstract class BaseWrapperTest extends TestCase
 
         return $text;
     }
+
+    protected function fixRequestBody($text)
+    {
+        $text = preg_replace(
+            [
+                '~\r~',
+                '~--[\w\d]*~',
+                '~!file:pixel.gif!~',
+                '~!file:moon.png!~',
+                '~!file:sun.png!~',
+            ],
+            [
+                '',
+                '--12345',
+                file_get_contents(__DIR__ . "/resources/pixel.gif"),
+                file_get_contents(__DIR__ . "/resources/moon.png"),
+                file_get_contents(__DIR__ . "/resources/sun.png"),
+            ],
+            $text
+        );
+
+        return $text;
+    }
+
 }

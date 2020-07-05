@@ -1,0 +1,27 @@
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="from";
+
+"João" <from@email.com>
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="subject";
+
+Subject in 中国 and русский and português
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="html";
+
+<h1>Title</h1>Body
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="text";
+
+# Title
+
+Body
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="to";
+
+"John" <to@email.com>
+--77b0aff9f12f81ac038ab09709cdcb13
+Content-Disposition: form-data; name="h:Reply-To";
+
+"João" <from@email.com>
+--77b0aff9f12f81ac038ab09709cdcb13--

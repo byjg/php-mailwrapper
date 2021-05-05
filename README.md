@@ -1,5 +1,5 @@
 # Mail Wrapper
-[![Build Status](https://travis-ci.org/byjg/mailwrapper.svg?branch=master)](https://travis-ci.org/byjg/mailwrapper)
+[![Build Status](https://travis-ci.com/byjg/mailwrapper.svg?branch=master)](https://travis-ci.com/byjg/mailwrapper)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/byjg/mailwrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byjg/mailwrapper/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5/mini.png)](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5)
 

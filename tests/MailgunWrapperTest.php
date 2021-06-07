@@ -8,7 +8,7 @@ use ByJG\Util\MockClient;
 use ByJG\Util\MultiPartItem;
 use ByJG\Util\Psr7\Request;
 use ByJG\Util\Uri;
-use MintWare\Streams\MemoryStream;
+use ByJG\Util\Psr7\MemoryStream;
 
 require_once 'BaseWrapperTest.php';
 require_once 'MockSender.php';

@@ -13,17 +13,6 @@ class MailUtilTest extends TestCase
     const EMAIL_NOK_4 = 'joao@server(.111';
     const EMAIL_NOK_5 = 'joao-server.com';
 
-
-    // Run before each test case
-    function setUp()
-    {
-    }
-
-    // Run end each test case
-    function teardown()
-    {
-    }
-
     function test_IsValidEmail()
     {
         $this->assertTrue(Util::isValidEmail(self::EMAIL_OK));

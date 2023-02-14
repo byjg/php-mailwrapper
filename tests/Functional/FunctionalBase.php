@@ -18,7 +18,7 @@ abstract class FunctionalBase extends TestCase
     /**
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (!$this->uri || !$this->from || !$this->toEmail) {
             return;
@@ -40,7 +40,7 @@ abstract class FunctionalBase extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->mailer = null;
         $this->from = null;

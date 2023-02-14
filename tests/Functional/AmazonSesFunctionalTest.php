@@ -13,7 +13,7 @@ class AmazonSesFunctionalTest extends FunctionalBase
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
-    public function setUp()
+    public function setUp(): void
     {
         MailerFactory::registerMailer('ses', AmazonSesWrapper::class);
 

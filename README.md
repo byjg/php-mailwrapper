@@ -1,7 +1,10 @@
 # Mail Wrapper
-[![Build Status](https://travis-ci.com/byjg/mailwrapper.svg?branch=master)](https://travis-ci.com/byjg/mailwrapper)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/byjg/mailwrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byjg/mailwrapper/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5/mini.png)](https://insight.sensiolabs.com/projects/e2d6c644-6c2b-4cdd-a84b-94d6b0d1bba5)
+
+[![Build Status](https://github.com/byjg/mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/mailwrapper/actions/workflows/phpunit.yml)
+[![Opensource ByJG](https://img.shields.io/badge/opensource-byjg-success.svg)](http://opensource.byjg.com)
+[![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/mailwrapper/)
+[![GitHub license](https://img.shields.io/github/license/byjg/mailwrapper.svg)](https://opensource.byjg.com/opensource/licensing.html)
+[![GitHub release](https://img.shields.io/github/release/byjg/mailwrapper.svg)](https://github.com/byjg/mailwrapper/releases/)
 
 A lightweight wrapper for send mail. The interface is tottaly decoupled from the sender. The motivation is
 create a single interface for sending mail doesn't matter the sender. There are three options available:
@@ -219,6 +222,8 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
 # Running Tests
 
 ```php
-phpunit
+vendor/bin/phpunit
 ```
 
+----
+[Open source ByJG](http://opensource.byjg.com)

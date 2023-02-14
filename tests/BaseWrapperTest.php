@@ -54,8 +54,8 @@ abstract class BaseWrapperTest extends TestCase
         $text = preg_replace(
             [
                 '~\w+, \d+ \w+ \w+ \d+:\d+:\d+ [+-]\d+~',
-                '~(--\w{2}_)\w+(--|\r)~',
-                '~(="\w{2}_)\w+(")~',
+                '~(--\w{2}=_)\w+(--|\r)~',
+                '~(="\w{2}=_)\w+(")~',
                 '~Message-ID: <[^@]+@[^>]+>~'
             ],
             [

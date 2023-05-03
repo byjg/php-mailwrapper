@@ -18,12 +18,10 @@ class MailerWrapperTest extends TestCase
      */
     public function testRegisterMailer()
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('tls', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('ssl', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('sendmail', SendMailWrapper::class);
-        MailerFactory::registerMailer('mailgun', MailgunApiWrapper::class);
-        MailerFactory::registerMailer('ses', AmazonSesWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
+        MailerFactory::registerMailer(SendMailWrapper::class);
+        MailerFactory::registerMailer(MailgunApiWrapper::class);
+        MailerFactory::registerMailer(AmazonSesWrapper::class);
 
         // If there is no error above, the test is OK.
         $this->assertTrue(true);
@@ -35,7 +33,7 @@ class MailerWrapperTest extends TestCase
     public function testRegisterMailerFail()
     {
         $this->expectException(InvalidMailHandlerException::class);
-        MailerFactory::registerMailer('some', '\\Non\\Existant\\Class');
+        MailerFactory::registerMailer(MailerWrapperTest::class);
     }
 
     /**
@@ -44,7 +42,7 @@ class MailerWrapperTest extends TestCase
      */
     public function testCreate()
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::create('smtp://localhost');
 
         // If there is no error above the test is OK.
@@ -58,7 +56,7 @@ class MailerWrapperTest extends TestCase
     public function testCreateFail()
     {
         $this->expectException(ProtocolNotRegisteredException::class);
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::create('some://localhost');
     }
 }

@@ -15,7 +15,7 @@ class AmazonSesFunctionalTest extends FunctionalBase
      */
     public function setUp(): void
     {
-        MailerFactory::registerMailer('ses', AmazonSesWrapper::class);
+        MailerFactory::registerMailer(AmazonSesWrapper::class);
 
         $this->mailerName = "Aws Ses";
         $this->toEmail = getenv('AWSSES_TOEMAIL');

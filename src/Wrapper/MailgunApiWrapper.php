@@ -21,6 +21,11 @@ class MailgunApiWrapper extends PHPMailerWrapper
         'eu' => 'api.eu.mailgun.net',
     ];
 
+    public static function schema()
+    {
+        return ['mailgun'];
+    }
+
     public function __construct(Uri $uri, HttpClient $client = null)
     {
         parent::__construct($uri);

@@ -9,6 +9,7 @@ namespace ByJG\Mail;
 
 use ByJG\Mail\Exception\InvalidMailHandlerException;
 use ByJG\Mail\Exception\ProtocolNotRegisteredException;
+use ByJG\Mail\Wrapper\MailWrapperInterface;
 use ByJG\Util\Uri;
 
 class MailerFactory
@@ -20,13 +21,18 @@ class MailerFactory
      * @param string $class
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      */
-    public static function registerMailer($protocol, $class)
+    public static function registerMailer($class)
     {
-        if (!class_exists($class, true)) {
-            throw new InvalidMailHandlerException('Class not found!');
+        if (!in_array(MailWrapperInterface::class, class_implements($class))) {
+            throw new InvalidMailHandlerException('Class not implements ConnectorInterface!');
         }
-        self::$config[$protocol] = $class;
+
+        $protocolList = $class::schema();
+        foreach ((array)$protocolList as $item) {
+            self::$config[$item] = $class;
+        }
     }
+
 
     /**
      * @param $connection

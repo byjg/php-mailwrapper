@@ -15,7 +15,7 @@ class MailgunFunctionalTest extends FunctionalBase
      */
     public function setUp(): void
     {
-        MailerFactory::registerMailer('mailgun', MailgunApiWrapper::class);
+        MailerFactory::registerMailer(MailgunApiWrapper::class);
 
         $this->mailerName = "Mailgun";
         $this->toEmail = getenv('MAILGUN_TOEMAIL');

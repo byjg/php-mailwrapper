@@ -1,9 +1,12 @@
 <?php
 
+use ByJG\Mail\MailerFactory;
+use ByJG\Mail\Wrapper\PHPMailerWrapper;
+
 require "vendor/autoload.php";
 
 // Create a connection URL (see below)
-\ByJG\Mail\MailerFactory::registerMailer('tls', \ByJG\Mail\Wrapper\PHPMailerWrapper::class);
+MailerFactory::registerMailer(PHPMailerWrapper::class);
 
 $mailer = \ByJG\Mail\MailerFactory::create('protocol://username:password/smtpserver:port');
 

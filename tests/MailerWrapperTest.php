@@ -2,6 +2,8 @@
 
 namespace ByJG\Mail;
 
+use ByJG\Mail\Exception\InvalidMailHandlerException;
+use ByJG\Mail\Exception\ProtocolNotRegisteredException;
 use \PHPUnit\Framework\TestCase;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
@@ -16,12 +18,10 @@ class MailerWrapperTest extends TestCase
      */
     public function testRegisterMailer()
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('tls', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('ssl', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('sendmail', SendMailWrapper::class);
-        MailerFactory::registerMailer('mailgun', MailgunApiWrapper::class);
-        MailerFactory::registerMailer('ses', AmazonSesWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
+        MailerFactory::registerMailer(SendMailWrapper::class);
+        MailerFactory::registerMailer(MailgunApiWrapper::class);
+        MailerFactory::registerMailer(AmazonSesWrapper::class);
 
         // If there is no error above, the test is OK.
         $this->assertTrue(true);
@@ -29,11 +29,11 @@ class MailerWrapperTest extends TestCase
 
     /**
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
-     * @expectedException \ByJG\Mail\Exception\InvalidMailHandlerException
      */
     public function testRegisterMailerFail()
     {
-        MailerFactory::registerMailer('some', '\\Non\\Existant\\Class');
+        $this->expectException(InvalidMailHandlerException::class);
+        MailerFactory::registerMailer(MailerWrapperTest::class);
     }
 
     /**
@@ -42,7 +42,7 @@ class MailerWrapperTest extends TestCase
      */
     public function testCreate()
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::create('smtp://localhost');
 
         // If there is no error above the test is OK.
@@ -51,12 +51,12 @@ class MailerWrapperTest extends TestCase
 
     /**
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
-     * @expectedException \ByJG\Mail\Exception\ProtocolNotRegisteredException
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      */
     public function testCreateFail()
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
+        $this->expectException(ProtocolNotRegisteredException::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::create('some://localhost');
     }
 }

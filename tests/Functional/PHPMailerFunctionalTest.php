@@ -13,11 +13,9 @@ class PHPMailerFunctionalTest extends FunctionalBase
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
-    public function setUp()
+    public function setUp(): void
     {
-        MailerFactory::registerMailer('smtp', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('tls', PHPMailerWrapper::class);
-        MailerFactory::registerMailer('ssl', PHPMailerWrapper::class);
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
 
         $this->mailerName = "Smtp";
         $this->toEmail = getenv('PHPMAILER_TOEMAIL');

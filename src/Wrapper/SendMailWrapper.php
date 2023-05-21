@@ -16,6 +16,11 @@ use ByJG\Mail\Exception\InvalidMessageFormatException;
 class SendMailWrapper extends PHPMailerWrapper
 {
 
+    public static function schema()
+    {
+        return ['sendmail'];
+    }
+
     /**
      * @param \ByJG\Mail\Envelope $envelope
      * @return bool

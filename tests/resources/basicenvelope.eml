@@ -8,21 +8,19 @@ Message-ID: <90dfa8c5628ceef4d0579b59b42b784c@jg-Latitude-E6520>
 X-Mailer: PHPMailer (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
- boundary="b1_90dfa8c5628ceef4d0579b59b42b784c"
+ boundary="b1=_90dfa8c5628ceef4d0579b59b42b784c"
 Content-Transfer-Encoding: 8bit
-This is a multi-part message in MIME format.
-
---b1_90dfa8c5628ceef4d0579b59b42b784c
+--b1=_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/plain; charset=us-ascii
 
 # Title
 
 Body
 
---b1_90dfa8c5628ceef4d0579b59b42b784c
+--b1=_90dfa8c5628ceef4d0579b59b42b784c
 Content-Type: text/html; charset=us-ascii
 
 <h1>Title</h1>Body
 
 
---b1_90dfa8c5628ceef4d0579b59b42b784c--
+--b1=_90dfa8c5628ceef4d0579b59b42b784c--

@@ -11,6 +11,11 @@ use ByJG\Mail\Exception\InvalidMessageFormatException;
 class AmazonSesWrapper extends PHPMailerWrapper
 {
 
+    public static function schema()
+    {
+        return ['ses'];
+    }
+
     /**
      * @return SesClient
      */

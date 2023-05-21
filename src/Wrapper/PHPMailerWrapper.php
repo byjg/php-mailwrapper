@@ -10,6 +10,11 @@ use ByJG\Mail\Util;
 
 class PHPMailerWrapper extends BaseWrapper
 {
+    public static function schema()
+    {
+        return ['smtp', 'tls', 'ssl'];
+    }
+
     /**
      * @return \ByJG\Mail\Override\PHPMailerOverride
      */

@@ -221,13 +221,24 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
 ## Install
 
 ```shell
-composer require "byjg/mailwrapper=5.0.*"
+composer require "byjg/mailwrapper=4.9.*"
 ```
 
 ## Running Tests
 
 ```php
 vendor/bin/phpunit
+```
+
+## Dependencies
+
+```mermaid
+flowchart TD
+    byjg/mail-wrapper --> ext-curl
+    byjg/mail-wrapper --> byjg/convert
+    byjg/mail-wrapper --> byjg/webrequest
+    byjg/mail-wrapper --> aws/aws-sdk-php
+    byjg/mail-wrapper --> phpmailer/phpmailer
 ```
 
 ----

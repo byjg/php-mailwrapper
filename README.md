@@ -13,12 +13,6 @@ create a single interface for sending mail doesn't matter the sender. There are 
 - AWS SES (using API directly)
 - Mailgun (using API directly)
 
-## Install
-
-```shell
-composer require "byjg/mailwrapper=2.0.*"
-```
-
 ## How to use
 
 The MailWrapper has your classes totally decoupled in three parts:
@@ -224,10 +218,27 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
 }
 ```
 
+## Install
+
+```shell
+composer require "byjg/mailwrapper=4.9.*"
+```
+
 ## Running Tests
 
 ```php
 vendor/bin/phpunit
+```
+
+## Dependencies
+
+```mermaid
+flowchart TD
+    byjg/mail-wrapper --> ext-curl
+    byjg/mail-wrapper --> byjg/convert
+    byjg/mail-wrapper --> byjg/webrequest
+    byjg/mail-wrapper --> aws/aws-sdk-php
+    byjg/mail-wrapper --> phpmailer/phpmailer
 ```
 
 ----

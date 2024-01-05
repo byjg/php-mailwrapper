@@ -1,10 +1,10 @@
 # Mail Wrapper
 
-[![Build Status](https://github.com/byjg/mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/mailwrapper/actions/workflows/phpunit.yml)
+[![Build Status](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml)
 [![Opensource ByJG](https://img.shields.io/badge/opensource-byjg-success.svg)](http://opensource.byjg.com)
-[![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/mailwrapper/)
-[![GitHub license](https://img.shields.io/github/license/byjg/mailwrapper.svg)](https://opensource.byjg.com/opensource/licensing.html)
-[![GitHub release](https://img.shields.io/github/release/byjg/mailwrapper.svg)](https://github.com/byjg/mailwrapper/releases/)
+[![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/php-mailwrapper/)
+[![GitHub license](https://img.shields.io/github/license/byjg/php-mailwrapper.svg)](https://opensource.byjg.com/opensource/licensing.html)
+[![GitHub release](https://img.shields.io/github/release/byjg/php-mailwrapper.svg)](https://github.com/byjg/php-mailwrapper/releases/)
 
 A lightweight wrapper for send mail. The interface is tottaly decoupled from the sender. The motivation is
 create a single interface for sending mail doesn't matter the sender. There are three options available:
@@ -221,24 +221,24 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
 ## Install
 
 ```shell
-composer require "byjg/mailwrapper=4.9.*"
+composer require "byjg/mailwrapper"
 ```
 
 ## Running Tests
 
-```php
-vendor/bin/phpunit
+```shell
+./vendor/bin/phpunit
 ```
 
 ## Dependencies
 
 ```mermaid
 flowchart TD
-    byjg/mail-wrapper --> ext-curl
-    byjg/mail-wrapper --> byjg/convert
-    byjg/mail-wrapper --> byjg/webrequest
-    byjg/mail-wrapper --> aws/aws-sdk-php
-    byjg/mail-wrapper --> phpmailer/phpmailer
+    byjg/mailwrapper --> ext-curl
+    byjg/mailwrapper --> byjg/convert
+    byjg/mailwrapper --> byjg/webrequest
+    byjg/mailwrapper --> aws/aws-sdk-php
+    byjg/mailwrapper --> phpmailer/phpmailer
 ```
 
 ----

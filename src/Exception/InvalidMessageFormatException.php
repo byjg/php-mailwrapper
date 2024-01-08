@@ -2,7 +2,9 @@
 
 namespace ByJG\Mail\Exception;
 
-class InvalidMessageFormatException extends \Exception
+use Exception;
+
+class InvalidMessageFormatException extends Exception
 {
 
 }

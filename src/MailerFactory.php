@@ -14,19 +14,19 @@ use ByJG\Util\Uri;
 
 class MailerFactory
 {
-    private static $config = [];
+    private static array $config = [];
 
     /**
-     * @param string $protocol
      * @param string $class
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
+     * @throws InvalidMailHandlerException
      */
-    public static function registerMailer($class)
+    public static function registerMailer(string $class)
     {
         if (!in_array(MailWrapperInterface::class, class_implements($class))) {
             throw new InvalidMailHandlerException('Class not implements ConnectorInterface!');
         }
 
+        /** @var MailWrapperInterface $class */
         $protocolList = $class::schema();
         foreach ((array)$protocolList as $item) {
             self::$config[$item] = $class;
@@ -35,11 +35,11 @@ class MailerFactory
 
 
     /**
-     * @param $connection
-     * @return \ByJG\Mail\Wrapper\MailWrapperInterface
-     * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
+     * @param string $connection
+     * @return MailWrapperInterface
+     * @throws ProtocolNotRegisteredException
      */
-    public static function create($connection)
+    public static function create(string $connection): MailWrapperInterface
     {
         $uri = new Uri($connection);
 

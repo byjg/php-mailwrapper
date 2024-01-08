@@ -5,6 +5,7 @@ namespace ByJG\Mail\Wrapper;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * Class SendMailWrapper
@@ -16,19 +17,19 @@ use ByJG\Mail\Exception\InvalidMessageFormatException;
 class SendMailWrapper extends PHPMailerWrapper
 {
 
-    public static function schema()
+    public static function schema(): array
     {
         return ['sendmail'];
     }
 
     /**
-     * @param \ByJG\Mail\Envelope $envelope
+     * @param Envelope $envelope
      * @return bool
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): bool
     {
         $this->validate($envelope);
 

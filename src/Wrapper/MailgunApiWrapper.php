@@ -5,42 +5,49 @@ namespace ByJG\Mail\Wrapper;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
-use ByJG\Util\CurlException;
+use ByJG\Util\Exception\MessageException;
+use ByJG\Util\Exception\NetworkException;
+use ByJG\Util\Exception\RequestException;
 use ByJG\Util\Helper\RequestMultiPart;
 use ByJG\Util\HttpClient;
 use ByJG\Util\MultiPartItem;
 use ByJG\Util\Psr7\Request;
 use ByJG\Util\Uri;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 
 class MailgunApiWrapper extends PHPMailerWrapper
 {
-    private $client;
+    private ClientInterface $client;
 
-    private $regions = [
+    private array $regions = [
         'us' => 'api.mailgun.net',
         'eu' => 'api.eu.mailgun.net',
     ];
 
-    public static function schema()
+    public static function schema(): array
     {
         return ['mailgun'];
     }
 
-    public function __construct(Uri $uri, HttpClient $client = null)
+    public function __construct(Uri $uri, ClientInterface $client = null)
     {
         parent::__construct($uri);
 
-        $this->client = $client;
         if (is_null($client)) {
             $this->client = new HttpClient();
+        } else {
+            $this->client = $client;
         }
     }
 
     /**
      * @return Request
-     * @throws \ByJG\Util\Psr7\MessageException
+     * @throws MessageException
+     * @throws RequestException
      */
-    public function getRequestObject()
+    public function getRequestObject(): RequestInterface
     {
         $domainName = $this->uri->getHost();
         $apiUri = $this->getApiUri();
@@ -56,12 +63,14 @@ class MailgunApiWrapper extends PHPMailerWrapper
      *
      * @param Envelope $envelope
      * @return bool
-     * @throws MailApiException
      * @throws InvalidEMailException
-     * @throws CurlException
-     * @throws \ByJG\Util\Psr7\MessageException
+     * @throws MailApiException
+     * @throws MessageException
+     * @throws RequestException
+     * @throws NetworkException
+     * @throws ClientExceptionInterface
      */
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): bool
     {
         $this->validate($envelope);
 
@@ -73,11 +82,11 @@ class MailgunApiWrapper extends PHPMailerWrapper
         ];
 
 
-        foreach ((array)$envelope->getTo() as $to) {
+        foreach ($envelope->getTo() as $to) {
             $message[] = new MultiPartItem('to', $to);
         }
 
-        foreach ((array)$envelope->getBCC() as $bcc) {
+        foreach ($envelope->getBCC() as $bcc) {
             $message[] = new MultiPartItem('bcc', $bcc);
         }
 
@@ -85,11 +94,11 @@ class MailgunApiWrapper extends PHPMailerWrapper
             $message[] = new MultiPartItem('h:Reply-To', $envelope->getReplyTo());
         }
 
-        foreach ((array)$envelope->getCC() as $cc) {
+        foreach ($envelope->getCC() as $cc) {
             $message[] = new MultiPartItem('cc', $cc);
         }
 
-        foreach ((array)$envelope->getAttachments() as $name => $attachment) {
+        foreach ($envelope->getAttachments() as $name => $attachment) {
             $message[] = new MultiPartItem(
                 $attachment['disposition'],
                 file_get_contents($attachment['content']),

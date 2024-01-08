@@ -2,7 +2,9 @@
 
 namespace ByJG\Mail\Exception;
 
-class ProtocolNotRegisteredException extends \Exception
+use Exception;
+
+class ProtocolNotRegisteredException extends Exception
 {
 
 }

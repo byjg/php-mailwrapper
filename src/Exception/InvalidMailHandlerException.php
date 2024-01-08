@@ -2,7 +2,9 @@
 
 namespace ByJG\Mail\Exception;
 
-class InvalidMailHandlerException extends \Exception
+use Exception;
+
+class InvalidMailHandlerException extends Exception
 {
 
 }

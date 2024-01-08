@@ -6,7 +6,7 @@ use ByJG\Mail\Envelope;
 
 interface MailWrapperInterface
 {
-    public static function schema();
+    public static function schema(): array;
 
-    public function send(Envelope $envelope);
+    public function send(Envelope $envelope): bool;
 }

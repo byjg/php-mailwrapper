@@ -14,9 +14,9 @@ use ByJG\Util\Uri;
 abstract class BaseWrapper implements MailWrapperInterface
 {
     /**
-     * @var \ByJG\Util\Uri
+     * @var Uri
      */
-    protected $uri = null;
+    protected ?Uri $uri = null;
 
     public function __construct(Uri $uri)
     {
@@ -24,10 +24,10 @@ abstract class BaseWrapper implements MailWrapperInterface
     }
 
     /**
-     * @param \ByJG\Mail\Envelope $envelope
+     * @param Envelope $envelope
      * @throws InvalidEMailException
      */
-    public function validate(Envelope $envelope)
+    public function validate(Envelope $envelope): void
     {
         if (0 === count($envelope->getTo())) {
             throw new InvalidEMailException("Destination Email was not provided");

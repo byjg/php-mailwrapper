@@ -2,7 +2,9 @@
 
 namespace ByJG\Mail\Exception;
 
-class MailApiException extends \Exception
+use Exception;
+
+class MailApiException extends Exception
 {
 
 }

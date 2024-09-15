@@ -7,7 +7,9 @@ use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use ByJG\Util\MockClient;
 use PHPMailer\PHPMailer\Exception;
+use Test\MockSender;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
@@ -18,7 +20,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
     }
 
     /**
-     * @return SesClient
+     * @return mixed
      */
     public function getSesClient(): mixed
     {

@@ -1,24 +1,21 @@
 <?php
 
-namespace Test;
+namespace Tests;
 
 use Aws\Credentials\Credentials;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Util\Uri;
 
-require_once 'BaseWrapperTest.php';
-require_once 'MockSender.php';
-
 class AmazonSesWrapperTest extends BaseWrapperTest
 {
     /**
      * @param $envelope
-     * @return \Test\MockSender
+     * @return MockSender
      */
     public function doMockedRequest($envelope)
     {
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
-            ->setMethods(['getSesClient'])
+            ->onlyMethods(['getSesClient'])
             ->setConstructorArgs([new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION')])
             ->getMock();
 

@@ -14,7 +14,7 @@ use ByJG\Util\Uri;
 abstract class BaseWrapper implements MailWrapperInterface
 {
     /**
-     * @var Uri
+     * @var Uri|null
      */
     protected ?Uri $uri = null;
 

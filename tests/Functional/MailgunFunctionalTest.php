@@ -5,8 +5,6 @@ namespace Tests\Functional;
 use ByJG\Mail\MailerFactory;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
 
-require_once "FunctionalBase.php";
-
 class MailgunFunctionalTest extends FunctionalBase
 {
     /**

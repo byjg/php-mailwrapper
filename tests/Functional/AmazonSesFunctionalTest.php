@@ -5,8 +5,6 @@ namespace Tests\Functional;
 use ByJG\Mail\MailerFactory;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
 
-require_once "FunctionalBase.php";
-
 class AmazonSesFunctionalTest extends FunctionalBase
 {
     /**

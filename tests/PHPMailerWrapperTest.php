@@ -1,24 +1,27 @@
 <?php
 
-namespace Test;
+namespace Tests;
 
+use ByJG\Mail\Exception\InvalidEMailException;
+use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Util\Uri;
-
-require_once 'BaseWrapperTest.php';
-require_once 'MockSender.php';
+use PHPMailer\PHPMailer\Exception;
 
 class PHPMailerWrapperTest extends BaseWrapperTest
 {
     /**
      * @param $envelope
-     * @return \Test\MockSender
+     * @return PHPMailerOverride
+     * @throws InvalidEMailException
+     * @throws MailApiException
+     * @throws Exception
      */
-    public function doMockedRequest($envelope)
+    public function doMockedRequest($envelope): PHPMailerOverride
     {
         $mock = $this->getMockBuilder(PHPMailerOverride::class)
-            ->setMethods(['send'])
+            ->onlyMethods(['send'])
             ->setConstructorArgs([true])
             ->getMock();
         $mock->expects($this->once())
@@ -27,7 +30,7 @@ class PHPMailerWrapperTest extends BaseWrapperTest
 
 
         $object = $this->getMockBuilder(PHPMailerWrapper::class)
-            ->setMethods(['getMailer'])
+            ->onlyMethods(['getMailer'])
             ->setConstructorArgs([new Uri('smtp://username:password@host:25')])
             ->getMock();
 

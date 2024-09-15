@@ -39,7 +39,7 @@ class SendMailWrapper extends PHPMailerWrapper
         $messageParts = $mail->getMessageEnvelopeParts();
 
         // Fix BCC header because PHPMailer does not send to us
-        foreach ((array)$envelope->getBCC() as $bccEmail) {
+        foreach ($envelope->getBCC() as $bccEmail) {
             $messageParts['header'] .= 'Bcc: ' . $bccEmail . "\n";
         }
 

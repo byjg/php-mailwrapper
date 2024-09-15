@@ -28,7 +28,7 @@ class MailerFactory
 
         /** @var MailWrapperInterface $class */
         $protocolList = $class::schema();
-        foreach ((array)$protocolList as $item) {
+        foreach ($protocolList as $item) {
             self::$config[$item] = $class;
         }
     }

@@ -6,13 +6,13 @@ use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
-use ByJG\Util\Exception\MessageException;
-use ByJG\Util\Exception\NetworkException;
-use ByJG\Util\Exception\RequestException;
-use ByJG\Util\MockClient;
-use ByJG\Util\Psr7\Response;
+use ByJG\WebRequest\Exception\MessageException;
+use ByJG\WebRequest\Exception\NetworkException;
+use ByJG\WebRequest\Exception\RequestException;
+use ByJG\WebRequest\MockClient;
+use ByJG\WebRequest\Psr7\Response;
 use ByJG\Util\Uri;
-use ByJG\Util\Psr7\MemoryStream;
+use ByJG\WebRequest\Psr7\MemoryStream;
 use Psr\Http\Client\ClientExceptionInterface;
 
 class MailgunWrapperTest extends BaseWrapperTest

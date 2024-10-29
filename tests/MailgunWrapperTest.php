@@ -1,30 +1,35 @@
 <?php
 
-namespace Test;
+namespace Tests;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\InvalidEMailException;
+use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
-use ByJG\Util\MockClient;
-use ByJG\Util\MultiPartItem;
-use ByJG\Util\Psr7\Request;
+use ByJG\WebRequest\Exception\MessageException;
+use ByJG\WebRequest\Exception\NetworkException;
+use ByJG\WebRequest\Exception\RequestException;
+use ByJG\WebRequest\MockClient;
+use ByJG\WebRequest\Psr7\Response;
 use ByJG\Util\Uri;
-use ByJG\Util\Psr7\MemoryStream;
-
-require_once 'BaseWrapperTest.php';
-require_once 'MockSender.php';
+use ByJG\WebRequest\Psr7\MemoryStream;
+use Psr\Http\Client\ClientExceptionInterface;
 
 class MailgunWrapperTest extends BaseWrapperTest
 {
 
     /**
-     * @param $envelope
+     * @param Envelope $envelope
+     * @param MockClient $mock
      * @return bool
-     * @throws \ByJG\Mail\Exception\InvalidEMailException
-     * @throws \ByJG\Mail\Exception\MailApiException
-     * @throws \ByJG\Util\CurlException
-     * @throws \ByJG\Util\Psr7\MessageException
+     * @throws InvalidEMailException
+     * @throws MailApiException
+     * @throws MessageException
+     * @throws NetworkException
+     * @throws RequestException
+     * @throws ClientExceptionInterface
      */
-    public function doMockedRequest(Envelope $envelope, MockClient $mock)
+    public function doMockedRequest(Envelope $envelope, MockClient $mock): bool
     {
         $object = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'), $mock);
         return $object->send($envelope);
@@ -40,7 +45,7 @@ class MailgunWrapperTest extends BaseWrapperTest
 
     public function testBasicEnvelope()
     {
-        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
@@ -53,7 +58,7 @@ class MailgunWrapperTest extends BaseWrapperTest
 
     public function testFullEnvelope()
     {
-        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
@@ -66,7 +71,7 @@ class MailgunWrapperTest extends BaseWrapperTest
 
     public function testAttachmentEnvelope()
     {
-        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 
@@ -79,7 +84,7 @@ class MailgunWrapperTest extends BaseWrapperTest
 
     public function testEmbedImageEnvelope()
     {
-        $expectedResponse = new \ByJG\Util\Psr7\Response(200);
+        $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
         $mock = new MockClient($expectedResponse);
 

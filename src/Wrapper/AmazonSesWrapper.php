@@ -7,19 +7,20 @@ use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use PHPMailer\PHPMailer\Exception;
 
 class AmazonSesWrapper extends PHPMailerWrapper
 {
 
-    public static function schema()
+    public static function schema(): array
     {
         return ['ses'];
     }
 
     /**
-     * @return SesClient
+     * @return mixed
      */
-    public function getSesClient()
+    public function getSesClient(): mixed
     {
         //Send the message (which must be base 64 encoded):
         return new SesClient([
@@ -39,9 +40,9 @@ class AmazonSesWrapper extends PHPMailerWrapper
      * @return bool
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): bool
     {
         $this->validate($envelope);
 

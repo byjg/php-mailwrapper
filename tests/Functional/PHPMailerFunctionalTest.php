@@ -5,8 +5,6 @@ namespace Tests\Functional;
 use ByJG\Mail\MailerFactory;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
 
-require_once "FunctionalBase.php";
-
 class PHPMailerFunctionalTest extends FunctionalBase
 {
     /**

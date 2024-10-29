@@ -4,15 +4,15 @@ namespace ByJG\Mail;
 
 class Envelope
 {
-    protected $from = "";
-    protected $to = [];
-    protected $subject = "";
-    protected $replyTo = "";
-    protected $cc = [];
-    protected $bcc = [];
-    protected $body = "";
-    protected $isHtml = false;
-    protected $attachment = [];
+    protected string $from = "";
+    protected array $to = [];
+    protected string $subject = "";
+    protected string $replyTo = "";
+    protected array $cc = [];
+    protected array $bcc = [];
+    protected string $body = "";
+    protected bool $isHtml = false;
+    protected array $attachment = [];
 
     /**
      *
@@ -22,7 +22,7 @@ class Envelope
      * @param string $body
      * @param bool $isHtml
      */
-    public function __construct($from = "", $to = "", $subject = "", $body = "", $isHtml = true)
+    public function __construct(string $from = "", string $to = "", string $subject = "", string $body = "", bool $isHtml = true)
     {
         $this->from = Util::getFullEmail($from);
         $this->subject = $subject;
@@ -39,7 +39,7 @@ class Envelope
      * @param string $filePath
      * @param string $contentType
      */
-    public function addAttachment($contentName, $filePath, $contentType)
+    public function addAttachment(string $contentName, string $filePath, string $contentType): void
     {
         $this->attachment[$contentName] = [
             'content' => $filePath,
@@ -53,7 +53,7 @@ class Envelope
      * @param string $filePath
      * @param string $contentType
      */
-    public function addEmbedImage($contentName, $filePath, $contentType)
+    public function addEmbedImage(string $contentName, string $filePath, string $contentType): void
     {
         $this->attachment[$contentName] = [
             'content' => $filePath,
@@ -62,92 +62,92 @@ class Envelope
         ];
     }
 
-    public function getFrom()
+    public function getFrom(): string
     {
         return $this->from;
     }
 
-    public function setFrom($email, $name = null)
+    public function setFrom(string $email, ?string $name = null): void
     {
         $this->from = Util::getFullEmail($email, $name);
     }
 
-    public function getTo()
+    public function getTo(): array
     {
         return $this->to;
     }
 
-    public function setTo($email, $name = "")
+    public function setTo(string $email, string $name = ""): void
     {
         $this->to = [Util::getFullEmail($email, $name)];
     }
 
-    public function addTo($email, $name = "")
+    public function addTo(string $email, string $name = ""): void
     {
         $this->to[] = Util::getFullEmail($email, $name);
     }
 
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    public function setSubject($value)
+    public function setSubject(string $value): void
     {
         $this->subject = $value;
     }
 
-    public function getReplyTo()
+    public function getReplyTo(): string
     {
         return $this->replyTo == "" ? $this->getFrom() : $this->replyTo;
     }
 
-    public function setReplyTo($email)
+    public function setReplyTo(string $email): void
     {
         $this->replyTo = Util::getFullEmail($email);
     }
 
-    public function getCC()
+    public function getCC(): array
     {
         return $this->cc;
     }
 
-    public function setCC($email, $name = null)
+    public function setCC(string $email, ?string $name = null): void
     {
         $this->cc = [Util::getFullEmail($email, $name)];
     }
 
-    public function addCC($email, $name = null)
+    public function addCC(string $email, ?string $name = null): void
     {
         $this->cc[] = Util::getFullEmail($email, $name);
     }
 
-    public function getBCC()
+    public function getBCC(): array
     {
         return $this->bcc;
     }
 
-    public function setBCC($email, $name = null)
+    public function setBCC(string $email, ?string $name = null): void
     {
         $this->bcc = [Util::getFullEmail($email, $name)];
     }
 
-    public function addBCC($email, $name = null)
+    public function addBCC(string $email, ?string $name = null): void
     {
         $this->bcc[] = Util::getFullEmail($email, $name);
     }
 
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
 
-    public function setBody($value)
+    public function setBody(string $value): void
     {
         $this->body = $value;
     }
 
-    public function getBodyText()
+    public function getBodyText(): string
     {
         $body = preg_replace(
             [
@@ -168,16 +168,16 @@ class Envelope
         return strip_tags($body);
     }
 
-    public function isHtml($value = null)
+    public function isHtml(?bool $bool = null): bool
     {
-        if (!is_null($value) && is_bool($value)) {
-            $this->isHtml = $value;
+        if (is_bool($bool)) {
+            $this->isHtml = $bool;
         }
 
         return $this->isHtml;
     }
 
-    public function getAttachments()
+    public function getAttachments(): array
     {
         return $this->attachment;
     }

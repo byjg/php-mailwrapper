@@ -6,13 +6,13 @@ use ByJG\Mail\Envelope;
 
 class FakeSenderWrapper extends BaseWrapper
 {
-    public static function schema()
+    public static function schema(): array
     {
         return ['fake', 'fakesender'];
     }
 
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): bool
     {
-        // Do nothing
+        return true;
     }
 }

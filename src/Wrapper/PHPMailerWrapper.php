@@ -7,18 +7,20 @@ use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Override\PHPMailerOverride;
 use ByJG\Mail\Util;
+use InvalidArgumentException;
+use PHPMailer\PHPMailer\Exception;
 
 class PHPMailerWrapper extends BaseWrapper
 {
-    public static function schema()
+    public static function schema(): array
     {
         return ['smtp', 'tls', 'ssl'];
     }
 
     /**
-     * @return \ByJG\Mail\Override\PHPMailerOverride
+     * @return PHPMailerOverride
      */
-    public function getMailer()
+    public function getMailer(): PHPMailerOverride
     {
         // the true param means it will throw exceptions on errors, which we need to catch
         return new PHPMailerOverride(true);
@@ -27,9 +29,9 @@ class PHPMailerWrapper extends BaseWrapper
     /**
      * @param Envelope $envelope
      * @return PHPMailerOverride
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
-    protected function prepareMailer(Envelope $envelope)
+    protected function prepareMailer(Envelope $envelope): PHPMailerOverride
     {
         $mail = $this->getMailer();
         $mail->Subject = $envelope->getSubject();
@@ -54,25 +56,25 @@ class PHPMailerWrapper extends BaseWrapper
         $mail->setFrom($from["email"], $from["name"]);
 
         // Add Recipients
-        foreach ((array)$envelope->getTo() as $toItem) {
+        foreach ($envelope->getTo() as $toItem) {
             $to = Util::decomposeEmail($toItem);
             $mail->addAddress($to["email"], $to["name"]);
         }
 
         // Add Carbon Copy
-        foreach ((array)$envelope->getCC() as $ccItem) {
+        foreach ($envelope->getCC() as $ccItem) {
             $cc = Util::decomposeEmail($ccItem);
             $mail->addCC($cc["email"], $cc["name"]);
         }
 
         // Add Blind Carbon Copy
-        foreach ((array)$envelope->getBCC() as $bccItem) {
+        foreach ($envelope->getBCC() as $bccItem) {
             $bcc = Util::decomposeEmail($bccItem);
             $mail->addCustomHeader("Bcc: " . $bcc["email"]);
         }
 
         // Attachments
-        foreach ((array)$envelope->getAttachments() as $name => $value) {
+        foreach ($envelope->getAttachments() as $name => $value) {
             switch ($value['disposition']) {
                 case 'attachment':
                     $mail->addAttachment(
@@ -89,7 +91,7 @@ class PHPMailerWrapper extends BaseWrapper
                     break;
 
                 default:
-                    throw new \InvalidArgumentException('Invalid attachment type');
+                    throw new InvalidArgumentException('Invalid attachment type');
             }
         }
 
@@ -101,9 +103,9 @@ class PHPMailerWrapper extends BaseWrapper
      * @return bool
      * @throws MailApiException
      * @throws InvalidEMailException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): bool
     {
         $this->validate($envelope);
 

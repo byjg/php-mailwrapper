@@ -10,11 +10,11 @@ class Util
     /**
      * Get Full Email Name
      *
-     * @param String $name
      * @param String $email
+     * @param string|null $name
      * @return String
      */
-    public static function getFullEmail($email, $name = "")
+    public static function getFullEmail(string $email, ?string $name = ""): string
     {
         if (!empty($name)) {
             return "\"" . $name . "\" <" . $email . ">";
@@ -23,7 +23,7 @@ class Util
         }
     }
 
-    public static function decomposeEmail($fullEmail)
+    public static function decomposeEmail(string $fullEmail): array
     {
         $pat = "/[\"'](?P<name>[\S\s]*)[\"']\s+<(?P<email>.*)>/";
         $pat2 = "/<(?P<email>.*)>/";
@@ -31,7 +31,6 @@ class Util
         $email = $fullEmail;
         $name = "";
 
-        $parts = null;
         if (preg_match($pat, $fullEmail, $parts)) {
             if (array_key_exists("name", $parts)) {
                 $name = $parts["name"];
@@ -52,7 +51,7 @@ class Util
         return array("email" => $email, "name" => $name);
     }
 
-    public static function isValidEmail($email)
+    public static function isValidEmail(string $email): bool
     {
         $ret = PHPMailer::validateAddress($email);
         return (is_numeric($ret) ? $ret == 1 : $ret);

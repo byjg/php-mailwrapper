@@ -5,7 +5,7 @@ namespace ByJG\Mail;
 class SendResult
 {
     public function __construct(
-        public bool $success,
-        public ?string $id = null,
+        public readonly bool $success,
+        public readonly ?string $id = null,
     ) {}
 }

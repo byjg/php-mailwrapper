@@ -54,7 +54,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
 
         $ses = $this->getSesClient();
 
-        $ses->sendRawEmail(
+        $result = $ses->sendRawEmail(
             [
                 'RawMessage' => [
                     'Data' => $message,
@@ -62,17 +62,6 @@ class AmazonSesWrapper extends PHPMailerWrapper
             ]
         );
 
-        $messageId = null;
-        $messageLines = explode("\n", str_replace(["\r\n", "\r"], "\n", $message));
-
-        foreach ($messageLines as $line) {
-            if (stripos($line, 'Message-ID:') === 0) {
-                $value = trim(substr($line, strlen('Message-ID:')));
-                $messageId = trim($value, "<> \t\r\n");
-                break;
-            }
-        }
-
-        return new SendResult(true, $messageId);
+        return new SendResult(true, $result->get('MessageId'));
     }
 }

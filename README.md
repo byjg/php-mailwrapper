@@ -114,15 +114,15 @@ The options are:
 
 The protocols available are:
 
-| Scheme     | Description                        | URI Pattern                          | Mailer Object
-|:-----------|:-----------------------------------|:-------------------------------------|:-------------------
-| smtp       | SMTP over insecure connection      | smtp://username:password@host:25     | PHPMailerWrapper
-| tls        | SMTP over secure TLS connection    | tls://username:password@host:587     | PHPMailerWrapper
-| ssl        | SMTP over secure SSL connection    | ssl://username:password@host:587     | PHPMailerWrapper
-| sendmail   | Sending Email using PHP mail()     | sendmail://localhost                 | SendMailWrapper
-| mailgun    | Sending Email using Mailgun API    | mailgun://YOUR_API_KEY@YOUR_DOMAIN   | MailgunApiWrapper
-| ses        | Sending Email using Amazon AWS API | ses://ACCESS_KEY_ID:SECRET_KEY@REGION| AmazonSesWrapper
-| fakesender | Do nothing                         | fakesender://anything                | FakeSenderWrapper
+| Scheme     | Description                        | URI Pattern                              | Mailer Object      | 
+|:-----------|:-----------------------------------|:-----------------------------------------|:-------------------|
+| smtp       | SMTP over insecure connection      | `smtp://username:password@host:25`       | PHPMailerWrapper   | 
+| tls        | SMTP over secure TLS connection    | `tls://username:password@host:587`       | PHPMailerWrapper   | 
+| ssl        | SMTP over secure SSL connection    | `ssl://username:password@host:587`       | PHPMailerWrapper   | 
+| sendmail   | Sending Email using PHP mail()     | `sendmail://localhost`                   | SendMailWrapper    |
+| mailgun    | Sending Email using Mailgun API    | `mailgun://YOUR_API_KEY@YOUR_DOMAIN`     | MailgunApiWrapper  |
+| ses        | Sending Email using Amazon AWS API | `ses://ACCESS_KEY_ID:SECRET_KEY@REGION`  | AmazonSesWrapper   |
+| fakesender | Do nothing                         | `fakesender://anything`                  | FakeSenderWrapper  |
 
 ### Gmail specifics
 
@@ -132,7 +132,7 @@ This change can break both SMTP and IMAP access to gmail, and you may receive
 authentication failures (often "5.7.14 Please log in via your web browser")
 from many email clients, including PHPMailer, Apple Mail, Outlook, Thunderbird and others.
 The error output may include a link to
-<https://support.google.com/mail/bin/answer.py?answer=78754>, which
+[https://support.google.com/mail/bin/answer.py?answer=78754](https://support.google.com/mail/bin/answer.py?answer=78754), which
 gives a list of possible remedies.
 
 There are two main solutions:

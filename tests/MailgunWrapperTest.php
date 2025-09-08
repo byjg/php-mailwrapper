@@ -5,6 +5,7 @@ namespace Tests;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
+use ByJG\Mail\SendResult;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\WebRequest\Exception\MessageException;
 use ByJG\WebRequest\Exception\NetworkException;
@@ -21,15 +22,15 @@ class MailgunWrapperTest extends BaseWrapperTest
     /**
      * @param Envelope $envelope
      * @param MockClient $mock
-     * @return bool
+     * @return SendResult
+     * @throws ClientExceptionInterface
      * @throws InvalidEMailException
      * @throws MailApiException
      * @throws MessageException
      * @throws NetworkException
      * @throws RequestException
-     * @throws ClientExceptionInterface
      */
-    public function doMockedRequest(Envelope $envelope, MockClient $mock): bool
+    public function doMockedRequest(Envelope $envelope, MockClient $mock): SendResult
     {
         $object = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'), $mock);
         return $object->send($envelope);

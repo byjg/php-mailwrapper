@@ -6,6 +6,7 @@ use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Override\PHPMailerOverride;
+use ByJG\Mail\SendResult;
 use ByJG\Mail\Util;
 use InvalidArgumentException;
 use PHPMailer\PHPMailer\Exception;
@@ -100,12 +101,12 @@ class PHPMailerWrapper extends BaseWrapper
 
     /**
      * @param Envelope $envelope
-     * @return bool
-     * @throws MailApiException
-     * @throws InvalidEMailException
+     * @return SendResult
      * @throws Exception
+     * @throws InvalidEMailException
+     * @throws MailApiException
      */
-    public function send(Envelope $envelope): bool
+    public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);
 
@@ -124,6 +125,6 @@ class PHPMailerWrapper extends BaseWrapper
             throw new MailApiException($mail->ErrorInfo);
         }
 
-        return true;
+        return new SendResult(true, $mail->getLastMessageID());
     }
 }

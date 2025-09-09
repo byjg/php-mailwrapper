@@ -3,6 +3,7 @@
 namespace ByJG\Mail\Wrapper;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\SendResult;
 
 class FakeSenderWrapper extends BaseWrapper
 {
@@ -11,8 +12,8 @@ class FakeSenderWrapper extends BaseWrapper
         return ['fake', 'fakesender'];
     }
 
-    public function send(Envelope $envelope): bool
+    public function send(Envelope $envelope): SendResult
     {
-        return true;
+        return new SendResult(true, 'fake-id-123');
     }
 }

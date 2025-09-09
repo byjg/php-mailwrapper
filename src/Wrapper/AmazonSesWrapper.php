@@ -7,6 +7,7 @@ use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use ByJG\Mail\SendResult;
 use PHPMailer\PHPMailer\Exception;
 
 class AmazonSesWrapper extends PHPMailerWrapper
@@ -37,12 +38,12 @@ class AmazonSesWrapper extends PHPMailerWrapper
      * ses://accessid:aswsecret@region
      *
      * @param Envelope $envelope
-     * @return bool
+     * @return SendResult
+     * @throws Exception
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
-     * @throws Exception
      */
-    public function send(Envelope $envelope): bool
+    public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);
 
@@ -53,7 +54,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
 
         $ses = $this->getSesClient();
 
-        $ses->sendRawEmail(
+        $result = $ses->sendRawEmail(
             [
                 'RawMessage' => [
                     'Data' => $message,
@@ -61,6 +62,6 @@ class AmazonSesWrapper extends PHPMailerWrapper
             ]
         );
 
-        return true;
+        return new SendResult(true, $result->get('MessageId'));
     }
 }

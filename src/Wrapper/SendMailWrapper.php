@@ -5,6 +5,7 @@ namespace ByJG\Mail\Wrapper;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
+use ByJG\Mail\SendResult;
 use PHPMailer\PHPMailer\Exception;
 
 /**
@@ -24,12 +25,12 @@ class SendMailWrapper extends PHPMailerWrapper
 
     /**
      * @param Envelope $envelope
-     * @return bool
+     * @return SendResult
+     * @throws Exception
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
-     * @throws Exception
      */
-    public function send(Envelope $envelope): bool
+    public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);
 
@@ -47,6 +48,6 @@ class SendMailWrapper extends PHPMailerWrapper
             mail($toEmail, $envelope->getSubject(), $messageParts['body'], $messageParts['header']);
         }
 
-        return true;
+        return new SendResult(true, $mail->getLastMessageID());
     }
 }

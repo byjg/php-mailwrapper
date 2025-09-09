@@ -5,6 +5,7 @@ namespace ByJG\Mail\Wrapper;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
+use ByJG\Mail\SendResult;
 use ByJG\WebRequest\Exception\MessageException;
 use ByJG\WebRequest\Exception\NetworkException;
 use ByJG\WebRequest\Exception\RequestException;
@@ -62,15 +63,15 @@ class MailgunApiWrapper extends PHPMailerWrapper
      * malgun://api:APIKEY@DOMAINNAME
      *
      * @param Envelope $envelope
-     * @return bool
+     * @return SendResult
+     * @throws ClientExceptionInterface
      * @throws InvalidEMailException
      * @throws MailApiException
      * @throws MessageException
-     * @throws RequestException
      * @throws NetworkException
-     * @throws ClientExceptionInterface
+     * @throws RequestException
      */
-    public function send(Envelope $envelope): bool
+    public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);
 
@@ -118,7 +119,9 @@ class MailgunApiWrapper extends PHPMailerWrapper
             throw new MailApiException('Mailgun: ' . $resultJson['message']);
         }
 
-        return true;
+        $messageId = $resultJson['id'];
+
+        return new SendResult(true, $messageId);
     }
 
     private function getApiUri()

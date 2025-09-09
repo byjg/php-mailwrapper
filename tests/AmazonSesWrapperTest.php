@@ -3,16 +3,23 @@
 namespace Tests;
 
 use Aws\Credentials\Credentials;
+use ByJG\Mail\Exception\InvalidEMailException;
+use ByJG\Mail\Exception\InvalidMessageFormatException;
+use ByJG\Mail\SendResult;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Util\Uri;
+use PHPMailer\PHPMailer\Exception;
 
 class AmazonSesWrapperTest extends BaseWrapperTest
 {
     /**
      * @param $envelope
-     * @return MockSender
+     * @return array
+     * @throws InvalidEMailException
+     * @throws InvalidMessageFormatException
+     * @throws Exception
      */
-    public function doMockedRequest($envelope)
+    public function doMockedRequest($envelope): array
     {
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
             ->onlyMethods(['getSesClient'])
@@ -24,9 +31,9 @@ class AmazonSesWrapperTest extends BaseWrapperTest
             ->method('getSesClient')
             ->will($this->returnValue($mock));
 
-        $object->send($envelope);
+        $result = $object->send($envelope);
 
-        return $mock;
+        return [$mock, $result];
     }
 
     public function testGetSesClient()
@@ -46,9 +53,14 @@ class AmazonSesWrapperTest extends BaseWrapperTest
         $this->assertEquals('2010-12-01', $sesClient->getApi()->getApiVersion());
     }
 
-    protected function send($envelope, $rawEmail)
+    /**
+     * @throws Exception
+     * @throws InvalidMessageFormatException
+     * @throws InvalidEMailException
+     */
+    protected function send($envelope, $rawEmail): SendResult
     {
-        $mock = $this->doMockedRequest($envelope);
+        [$mock, $result] = $this->doMockedRequest($envelope);
         $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));
         $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
 
@@ -59,29 +71,63 @@ class AmazonSesWrapperTest extends BaseWrapperTest
         ];
 
         $this->assertEquals($expected, $mock->result);
+
+        return $result;
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidMessageFormatException
+     * @throws InvalidEMailException
+     */
     public function testBasicEnvelope()
     {
         $envelope = $this->getBasicEnvelope();
-        $this->send($envelope, 'basicenvelope');
+        $result = $this->send($envelope, 'basicenvelope');
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('EXAMPLEf3f73d99b-c63fb06f-d263-41f8-a0fb-d0dc67d56c07-000000', $result->id);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidMessageFormatException
+     * @throws InvalidEMailException
+     */
     public function testFullEnvelope()
     {
         $envelope = $this->getFullEnvelope();
-        $this->send($envelope, 'fullenvelope');
+        $result = $this->send($envelope, 'fullenvelope');
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('EXAMPLEf3f73d99b-c63fb06f-d263-41f8-a0fb-d0dc67d56c07-000000', $result->id);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidMessageFormatException
+     * @throws InvalidEMailException
+     */
     public function testAttachmentEnvelope()
     {
         $envelope = $this->getAttachmentEnvelope();
-        $this->send($envelope, 'attachmentenvelope');
+        $result = $this->send($envelope, 'attachmentenvelope');
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('EXAMPLEf3f73d99b-c63fb06f-d263-41f8-a0fb-d0dc67d56c07-000000', $result->id);
     }
 
+    /**
+     * @throws Exception
+     * @throws InvalidMessageFormatException
+     * @throws InvalidEMailException
+     */
     public function testEmbedImageEnvelope()
     {
         $envelope = $this->getEmbedImageEnvelope();
-        $this->send($envelope, 'embedenvelope');
+        $result = $this->send($envelope, 'embedenvelope');
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('EXAMPLEf3f73d99b-c63fb06f-d263-41f8-a0fb-d0dc67d56c07-000000', $result->id);
     }
 }

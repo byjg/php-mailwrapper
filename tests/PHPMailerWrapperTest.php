@@ -13,21 +13,25 @@ class PHPMailerWrapperTest extends BaseWrapperTest
 {
     /**
      * @param $envelope
-     * @return PHPMailerOverride
+     * @return array
+     * @throws Exception
      * @throws InvalidEMailException
      * @throws MailApiException
-     * @throws Exception
      */
-    public function doMockedRequest($envelope): PHPMailerOverride
+    public function doMockedRequest($envelope): array
     {
         $mock = $this->getMockBuilder(PHPMailerOverride::class)
-            ->onlyMethods(['send'])
+            ->onlyMethods(['send', 'getLastMessageID'])
             ->setConstructorArgs([true])
             ->getMock();
+
         $mock->expects($this->once())
             ->method('send')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
+        $mock->expects($this->once())
+            ->method('getLastMessageID')
+            ->willReturn('mocked-message-id');
 
         $object = $this->getMockBuilder(PHPMailerWrapper::class)
             ->onlyMethods(['getMailer'])
@@ -36,20 +40,22 @@ class PHPMailerWrapperTest extends BaseWrapperTest
 
         $object->expects($this->once())
             ->method('getMailer')
-            ->will($this->returnValue($mock));
+            ->willReturn($mock);
 
-        $object->send($envelope);
+        $sendResult = $object->send($envelope);
 
-        return $mock;
+        return [$mock, $sendResult];
     }
 
     protected function send($envelope, $rawEmail)
     {
-        $mock = $this->doMockedRequest($envelope);
+        [$mock, $sendResult] = $this->doMockedRequest($envelope);
         $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));
         $result = $this->fixVariableFields($mock->getFullMessageEnvelope());
 
         $this->assertEquals($expected, $result);
+        $this->assertTrue($sendResult->success);
+        $this->assertEquals('mocked-message-id', $sendResult->id);
     }
 
     public function testBasicEnvelope()

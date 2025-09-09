@@ -104,13 +104,13 @@ scheme://username:password/smtpserver:port
 
 The options are:
 
-| Part       | Description         |
-|:-----------|:--------------------|
+| Part       | Description                                                                                             |
+|:-----------|:--------------------------------------------------------------------------------------------------------|
 | scheme     | The email scheme: smtp, ssl, tls, mandrill and ses. Note that mandrill and ses use your own private api |
-| username   | The username        |
-| password   | The password        |
-| smtpserver | The SMTP Host       |
-| port       | The SMTP Port       |
+| username   | The username                                                                                            |
+| password   | The password                                                                                            |
+| smtpserver | The SMTP Host                                                                                           |
+| port       | The SMTP Port                                                                                           |
 
 The protocols available are:
 
@@ -205,7 +205,7 @@ class MyWrapper extends \ByJG\Mail\Wrapper\BaseWrapper
         return ['mywrapper'];
     }
 
-    public function send(Envelope $envelope)
+    public function send(Envelope $envelope): \ByJG\Mail\SendResult
     {
         // Do how to send the email using your library
     }

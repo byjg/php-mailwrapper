@@ -5,6 +5,7 @@ namespace Tests;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
+use ByJG\Mail\SendResult;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\WebRequest\Exception\MessageException;
 use ByJG\WebRequest\Exception\NetworkException;
@@ -21,20 +22,24 @@ class MailgunWrapperTest extends BaseWrapperTest
     /**
      * @param Envelope $envelope
      * @param MockClient $mock
-     * @return bool
+     * @return SendResult
+     * @throws ClientExceptionInterface
      * @throws InvalidEMailException
      * @throws MailApiException
      * @throws MessageException
      * @throws NetworkException
      * @throws RequestException
-     * @throws ClientExceptionInterface
      */
-    public function doMockedRequest(Envelope $envelope, MockClient $mock): bool
+    public function doMockedRequest(Envelope $envelope, MockClient $mock): SendResult
     {
         $object = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'), $mock);
         return $object->send($envelope);
     }
 
+    /**
+     * @throws RequestException
+     * @throws MessageException
+     */
     public function testGetRequest()
     {
         $wrapper = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'));
@@ -43,6 +48,14 @@ class MailgunWrapperTest extends BaseWrapperTest
         $this->assertEquals("api:YOUR_API_KEY", $request->getUri()->getUserInfo());
     }
 
+    /**
+     * @throws MailApiException
+     * @throws RequestException
+     * @throws NetworkException
+     * @throws ClientExceptionInterface
+     * @throws InvalidEMailException
+     * @throws MessageException
+     */
     public function testBasicEnvelope()
     {
         $expectedResponse = new Response(200);
@@ -54,8 +67,19 @@ class MailgunWrapperTest extends BaseWrapperTest
         $result = $this->doMockedRequest($envelope, $mock);
         $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/basicenvelope-request.txt"));
         $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('12345', $result->id);
     }
 
+    /**
+     * @throws MailApiException
+     * @throws RequestException
+     * @throws NetworkException
+     * @throws InvalidEMailException
+     * @throws ClientExceptionInterface
+     * @throws MessageException
+     */
     public function testFullEnvelope()
     {
         $expectedResponse = new Response(200);
@@ -67,8 +91,19 @@ class MailgunWrapperTest extends BaseWrapperTest
         $result = $this->doMockedRequest($envelope, $mock);
         $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/fullenvelope-request.txt"));
         $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('12345', $result->id);
     }
 
+    /**
+     * @throws MailApiException
+     * @throws RequestException
+     * @throws NetworkException
+     * @throws ClientExceptionInterface
+     * @throws InvalidEMailException
+     * @throws MessageException
+     */
     public function testAttachmentEnvelope()
     {
         $expectedResponse = new Response(200);
@@ -80,8 +115,19 @@ class MailgunWrapperTest extends BaseWrapperTest
         $result = $this->doMockedRequest($envelope, $mock);
         $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/attachmentenvelope-request.txt"));
         $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('12345', $result->id);
     }
 
+    /**
+     * @throws MailApiException
+     * @throws NetworkException
+     * @throws RequestException
+     * @throws InvalidEMailException
+     * @throws ClientExceptionInterface
+     * @throws MessageException
+     */
     public function testEmbedImageEnvelope()
     {
         $expectedResponse = new Response(200);
@@ -93,5 +139,8 @@ class MailgunWrapperTest extends BaseWrapperTest
         $result = $this->doMockedRequest($envelope, $mock);
         $expected = $this->fixRequestBody(file_get_contents(__DIR__ . "/resources/embedenvelope-request.txt"));
         $this->assertEquals($expected, $this->fixRequestBody($mock->getRequestedObject()->getBody()->getContents()));
+
+        $this->assertTrue($result->success);
+        $this->assertEquals('12345', $result->id);
     }
 }

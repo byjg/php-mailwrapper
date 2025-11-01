@@ -16,7 +16,7 @@ use ByJG\Util\Uri;
 use ByJG\WebRequest\Psr7\MemoryStream;
 use Psr\Http\Client\ClientExceptionInterface;
 
-class MailgunWrapperTest extends BaseWrapperTest
+class MailgunTestWrapper extends BaseTestWrapper
 {
 
     /**
@@ -40,7 +40,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @throws RequestException
      * @throws MessageException
      */
-    public function testGetRequest()
+    public function testGetRequest(): void
     {
         $wrapper = new MailgunApiWrapper(new Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN'));
         $request = $wrapper->getRequestObject();
@@ -56,7 +56,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @throws InvalidEMailException
      * @throws MessageException
      */
-    public function testBasicEnvelope()
+    public function testBasicEnvelope(): void
     {
         $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
@@ -80,7 +80,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @throws ClientExceptionInterface
      * @throws MessageException
      */
-    public function testFullEnvelope()
+    public function testFullEnvelope(): void
     {
         $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
@@ -104,7 +104,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @throws InvalidEMailException
      * @throws MessageException
      */
-    public function testAttachmentEnvelope()
+    public function testAttachmentEnvelope(): void
     {
         $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));
@@ -128,7 +128,7 @@ class MailgunWrapperTest extends BaseWrapperTest
      * @throws ClientExceptionInterface
      * @throws MessageException
      */
-    public function testEmbedImageEnvelope()
+    public function testEmbedImageEnvelope(): void
     {
         $expectedResponse = new Response(200);
         $expectedResponse = $expectedResponse->withBody(new MemoryStream('{"id":"12345"}'));

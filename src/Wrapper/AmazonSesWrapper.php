@@ -13,6 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 class AmazonSesWrapper extends PHPMailerWrapper
 {
 
+    #[\Override]
     public static function schema(): array
     {
         return ['ses'];
@@ -43,6 +44,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
      */
+    #[\Override]
     public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);

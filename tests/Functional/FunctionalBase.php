@@ -18,6 +18,7 @@ abstract class FunctionalBase extends TestCase
     /**
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
+    #[\Override]
     public function setUp(): void
     {
         if (!$this->uri || !$this->from || !$this->toEmail) {
@@ -40,6 +41,7 @@ abstract class FunctionalBase extends TestCase
         );
     }
 
+    #[\Override]
     public function tearDown(): void
     {
         $this->mailer = null;
@@ -48,6 +50,9 @@ abstract class FunctionalBase extends TestCase
         $this->envelope = null;
     }
 
+    /**
+     * @return void
+     */
     public function testSendEmail()
     {
         if (empty($this->mailer)) {

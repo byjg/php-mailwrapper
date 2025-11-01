@@ -9,7 +9,7 @@ use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Util\Uri;
 use PHPMailer\PHPMailer\Exception;
 
-class PHPMailerWrapperTest extends BaseWrapperTest
+class PHPMailerTestWrapper extends BaseTestWrapper
 {
     /**
      * @param $envelope
@@ -47,7 +47,7 @@ class PHPMailerWrapperTest extends BaseWrapperTest
         return [$mock, $sendResult];
     }
 
-    protected function send($envelope, $rawEmail)
+    protected function send($envelope, $rawEmail): void
     {
         [$mock, $sendResult] = $this->doMockedRequest($envelope);
         $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));
@@ -58,25 +58,25 @@ class PHPMailerWrapperTest extends BaseWrapperTest
         $this->assertEquals('mocked-message-id', $sendResult->id);
     }
 
-    public function testBasicEnvelope()
+    public function testBasicEnvelope(): void
     {
         $envelope = $this->getBasicEnvelope();
         $this->send($envelope, 'basicenvelope');
     }
 
-    public function testFullEnvelope()
+    public function testFullEnvelope(): void
     {
         $envelope = $this->getFullEnvelope();
         $this->send($envelope, 'fullenvelope');
     }
 
-    public function testAttachmentEnvelope()
+    public function testAttachmentEnvelope(): void
     {
         $envelope = $this->getAttachmentEnvelope();
         $this->send($envelope, 'attachmentenvelope');
     }
 
-    public function testEmbedImageEnvelope()
+    public function testEmbedImageEnvelope(): void
     {
         $envelope = $this->getEmbedImageEnvelope();
         $this->send($envelope, 'embedenvelope');

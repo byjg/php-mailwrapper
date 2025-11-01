@@ -13,6 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class PHPMailerWrapper extends BaseWrapper
 {
+    #[\Override]
     public static function schema(): array
     {
         return ['smtp', 'tls', 'ssl'];
@@ -106,6 +107,7 @@ class PHPMailerWrapper extends BaseWrapper
      * @throws InvalidEMailException
      * @throws MailApiException
      */
+    #[\Override]
     public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);

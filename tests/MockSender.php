@@ -9,7 +9,7 @@ class MockSender
     public $result;
 
     // AmazonSes
-    public function sendRawEmail($raw)
+    public function sendRawEmail($raw): Result
     {
         $this->result = $raw;
 
@@ -19,7 +19,7 @@ class MockSender
     }
 
     // Mailgun Wrapper
-    public function postMultiPartForm($message)
+    public function postMultiPartForm($message): string
     {
         $this->result = $message;
         return '{"id": "123445"}';

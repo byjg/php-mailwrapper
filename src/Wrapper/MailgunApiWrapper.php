@@ -27,12 +27,13 @@ class MailgunApiWrapper extends PHPMailerWrapper
         'eu' => 'api.eu.mailgun.net',
     ];
 
+    #[\Override]
     public static function schema(): array
     {
         return ['mailgun'];
     }
 
-    public function __construct(Uri $uri, ClientInterface $client = null)
+    public function __construct(Uri $uri, ?ClientInterface $client = null)
     {
         parent::__construct($uri);
 
@@ -71,6 +72,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
      * @throws NetworkException
      * @throws RequestException
      */
+    #[\Override]
     public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);

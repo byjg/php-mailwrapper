@@ -16,7 +16,7 @@ class MailerWrapperTest extends TestCase
     /**
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      */
-    public function testRegisterMailer()
+    public function testRegisterMailer(): void
     {
         MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::registerMailer(SendMailWrapper::class);
@@ -30,7 +30,7 @@ class MailerWrapperTest extends TestCase
     /**
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      */
-    public function testRegisterMailerFail()
+    public function testRegisterMailerFail(): void
     {
         $this->expectException(InvalidMailHandlerException::class);
         MailerFactory::registerMailer(MailerWrapperTest::class);
@@ -40,7 +40,7 @@ class MailerWrapperTest extends TestCase
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         MailerFactory::registerMailer(PHPMailerWrapper::class);
         MailerFactory::create('smtp://localhost');
@@ -53,7 +53,7 @@ class MailerWrapperTest extends TestCase
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      */
-    public function testCreateFail()
+    public function testCreateFail(): void
     {
         $this->expectException(ProtocolNotRegisteredException::class);
         MailerFactory::registerMailer(PHPMailerWrapper::class);

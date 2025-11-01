@@ -13,7 +13,7 @@ class MailUtilTest extends TestCase
     const EMAIL_NOK_4 = 'joao@server(.111';
     const EMAIL_NOK_5 = 'joao-server.com';
 
-    function test_IsValidEmail()
+    function test_IsValidEmail(): void
     {
         $this->assertTrue(Util::isValidEmail(self::EMAIL_OK));
         $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_1));
@@ -23,14 +23,14 @@ class MailUtilTest extends TestCase
         $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_5));
     }
 
-    function test_GetFullEmailName()
+    function test_GetFullEmailName(): void
     {
         $this->assertEquals(Util::getFullEmail("joao@server.com.br", "Joao"), '"Joao" <joao@server.com.br>');
         $this->assertEquals(Util::getFullEmail("joao@server.com.br", ""), 'joao@server.com.br');
         $this->assertEquals(Util::getFullEmail("joao@server.com.br"), 'joao@server.com.br');
     }
 
-    function test_GetEmailPair()
+    function test_GetEmailPair(): void
     {
         $pair = Util::decomposeEmail('"Name" <email@domain.com>');
         $this->assertEquals($pair["name"], 'Name');

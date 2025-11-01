@@ -10,7 +10,7 @@ use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Util\Uri;
 use PHPMailer\PHPMailer\Exception;
 
-class AmazonSesWrapperTest extends BaseWrapperTest
+class AmazonSesTestWrapper extends BaseTestWrapper
 {
     /**
      * @param $envelope
@@ -29,14 +29,14 @@ class AmazonSesWrapperTest extends BaseWrapperTest
         $mock = new MockSender();
         $object->expects($this->once())
             ->method('getSesClient')
-            ->will($this->returnValue($mock));
+            ->willReturn($mock);
 
         $result = $object->send($envelope);
 
         return [$mock, $result];
     }
 
-    public function testGetSesClient()
+    public function testGetSesClient(): void
     {
         $sesWrapper = new AmazonSesWrapper(new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION'));
         $sesClient = $sesWrapper->getSesClient();
@@ -80,7 +80,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
      * @throws InvalidMessageFormatException
      * @throws InvalidEMailException
      */
-    public function testBasicEnvelope()
+    public function testBasicEnvelope(): void
     {
         $envelope = $this->getBasicEnvelope();
         $result = $this->send($envelope, 'basicenvelope');
@@ -94,7 +94,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
      * @throws InvalidMessageFormatException
      * @throws InvalidEMailException
      */
-    public function testFullEnvelope()
+    public function testFullEnvelope(): void
     {
         $envelope = $this->getFullEnvelope();
         $result = $this->send($envelope, 'fullenvelope');
@@ -108,7 +108,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
      * @throws InvalidMessageFormatException
      * @throws InvalidEMailException
      */
-    public function testAttachmentEnvelope()
+    public function testAttachmentEnvelope(): void
     {
         $envelope = $this->getAttachmentEnvelope();
         $result = $this->send($envelope, 'attachmentenvelope');
@@ -122,7 +122,7 @@ class AmazonSesWrapperTest extends BaseWrapperTest
      * @throws InvalidMessageFormatException
      * @throws InvalidEMailException
      */
-    public function testEmbedImageEnvelope()
+    public function testEmbedImageEnvelope(): void
     {
         $envelope = $this->getEmbedImageEnvelope();
         $result = $this->send($envelope, 'embedenvelope');

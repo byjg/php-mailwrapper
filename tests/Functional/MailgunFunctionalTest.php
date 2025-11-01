@@ -11,6 +11,7 @@ class MailgunFunctionalTest extends FunctionalBase
      * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
      * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
      */
+    #[\Override]
     public function setUp(): void
     {
         MailerFactory::registerMailer(MailgunApiWrapper::class);

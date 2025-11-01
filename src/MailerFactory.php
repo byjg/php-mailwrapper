@@ -18,7 +18,10 @@ class MailerFactory
 
     /**
      * @param string $class
+     *
      * @throws InvalidMailHandlerException
+     *
+     * @return void
      */
     public static function registerMailer(string $class)
     {

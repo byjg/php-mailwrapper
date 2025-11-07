@@ -1,7 +1,8 @@
 <?php
 
-namespace ByJG\Mail;
+namespace Tests;
 
+use ByJG\Mail\Envelope;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeTest extends TestCase
@@ -10,7 +11,7 @@ class EnvelopeTest extends TestCase
     /**
      * @var Envelope
      */
-    protected $object;
+    protected Envelope $object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

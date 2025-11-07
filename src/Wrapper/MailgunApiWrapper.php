@@ -54,7 +54,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
         $domainName = $this->uri->getHost();
         $apiUri = $this->getApiUri();
 
-        $uri = Uri::getInstanceFromString("https://$apiUri/v3/$domainName/messages")
+        $uri = Uri::getInstance("https://$apiUri/v3/$domainName/messages")
             ->withUserInfo('api', $this->uri->getUsername());
 
         return Request::getInstance($uri)->withMethod("POST");

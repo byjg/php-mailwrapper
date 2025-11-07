@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\MailApiException;
 use ByJG\Mail\Override\PHPMailerOverride;
@@ -12,13 +13,13 @@ use PHPMailer\PHPMailer\Exception;
 class PHPMailerTestWrapper extends BaseTestWrapper
 {
     /**
-     * @param $envelope
+     * @param Envelope $envelope
      * @return array
      * @throws Exception
      * @throws InvalidEMailException
      * @throws MailApiException
      */
-    public function doMockedRequest($envelope): array
+    public function doMockedRequest(Envelope $envelope): array
     {
         $mock = $this->getMockBuilder(PHPMailerOverride::class)
             ->onlyMethods(['send', 'getLastMessageID'])
@@ -47,7 +48,7 @@ class PHPMailerTestWrapper extends BaseTestWrapper
         return [$mock, $sendResult];
     }
 
-    protected function send($envelope, $rawEmail): void
+    protected function send(Envelope $envelope, string $rawEmail): void
     {
         [$mock, $sendResult] = $this->doMockedRequest($envelope);
         $expected = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));

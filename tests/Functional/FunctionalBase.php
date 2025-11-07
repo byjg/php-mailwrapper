@@ -3,22 +3,26 @@
 namespace Tests\Functional;
 
 use ByJG\Mail\Envelope;
+use ByJG\Mail\Exception\ProtocolNotRegisteredException;
 use ByJG\Mail\MailerFactory;
+use ByJG\Mail\Wrapper\MailWrapperInterface;
+use ByJG\Util\Uri;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 abstract class FunctionalBase extends TestCase
 {
-    protected $uri;
-    protected $from;
-    protected $toEmail;
-    protected $mailer;
-    protected $envelope;
-    protected $mailerName;
+    protected Uri|string|false $uri;
+    protected string|null $from;
+    protected string|null $toEmail;
+    protected MailWrapperInterface|null $mailer;
+    protected Envelope|null $envelope;
+    protected string $mailerName;
 
     /**
-     * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
+     * @throws ProtocolNotRegisteredException
      */
-    #[\Override]
+    #[Override]
     public function setUp(): void
     {
         if (!$this->uri || !$this->from || !$this->toEmail) {
@@ -41,7 +45,7 @@ abstract class FunctionalBase extends TestCase
         );
     }
 
-    #[\Override]
+    #[Override]
     public function tearDown(): void
     {
         $this->mailer = null;
@@ -57,8 +61,8 @@ abstract class FunctionalBase extends TestCase
     {
         if (empty($this->mailer)) {
             $this->markTestSkipped('Environment Variables not set');
-            return;
         }
-        $this->assertTrue($this->mailer->send($this->envelope));
+        $result = $this->mailer->send($this->envelope);
+        $this->assertTrue($result->success);
     }
 }

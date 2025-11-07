@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Aws\Credentials\Credentials;
+use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
 use ByJG\Mail\SendResult;
@@ -19,7 +20,7 @@ class AmazonSesTestWrapper extends BaseTestWrapper
      * @throws InvalidMessageFormatException
      * @throws Exception
      */
-    public function doMockedRequest($envelope): array
+    public function doMockedRequest(Envelope $envelope): array
     {
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
             ->onlyMethods(['getSesClient'])
@@ -58,7 +59,7 @@ class AmazonSesTestWrapper extends BaseTestWrapper
      * @throws InvalidMessageFormatException
      * @throws InvalidEMailException
      */
-    protected function send($envelope, $rawEmail): SendResult
+    protected function send(Envelope $envelope, string $rawEmail): SendResult
     {
         [$mock, $result] = $this->doMockedRequest($envelope);
         $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));

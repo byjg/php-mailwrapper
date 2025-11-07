@@ -20,9 +20,9 @@ class AmazonSesWrapper extends PHPMailerWrapper
     }
 
     /**
-     * @return mixed
+     * @return SesClient
      */
-    public function getSesClient(): mixed
+    public function getSesClient(): SesClient
     {
         //Send the message (which must be base 64 encoded):
         return new SesClient([

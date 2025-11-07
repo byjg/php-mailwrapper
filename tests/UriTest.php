@@ -1,6 +1,6 @@
 <?php
 
-namespace ByJG\Mail;
+namespace Tests;
 
 use ByJG\Util\Uri;
 use PHPUnit\Framework\TestCase;

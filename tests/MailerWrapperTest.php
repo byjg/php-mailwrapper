@@ -1,10 +1,11 @@
 <?php
 
-namespace ByJG\Mail;
+namespace Tests;
 
 use ByJG\Mail\Exception\InvalidMailHandlerException;
 use ByJG\Mail\Exception\ProtocolNotRegisteredException;
-use \PHPUnit\Framework\TestCase;
+use ByJG\Mail\MailerFactory;
+use PHPUnit\Framework\TestCase;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
@@ -14,7 +15,7 @@ class MailerWrapperTest extends TestCase
 {
 
     /**
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
+     * @throws InvalidMailHandlerException
      */
     public function testRegisterMailer(): void
     {
@@ -28,7 +29,7 @@ class MailerWrapperTest extends TestCase
     }
 
     /**
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
+     * @throws InvalidMailHandlerException
      */
     public function testRegisterMailerFail(): void
     {
@@ -37,8 +38,8 @@ class MailerWrapperTest extends TestCase
     }
 
     /**
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
-     * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
+     * @throws InvalidMailHandlerException
+     * @throws ProtocolNotRegisteredException
      */
     public function testCreate(): void
     {
@@ -50,8 +51,8 @@ class MailerWrapperTest extends TestCase
     }
 
     /**
-     * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
+     * @throws ProtocolNotRegisteredException
+     * @throws InvalidMailHandlerException
      */
     public function testCreateFail(): void
     {

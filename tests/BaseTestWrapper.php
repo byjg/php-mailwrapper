@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseTestWrapper extends TestCase
 {
     /**
-     * @return \ByJG\Mail\Envelope
+     * @return Envelope
      */
-    public function getBasicEnvelope()
+    public function getBasicEnvelope(): Envelope
     {
         $envelope = new Envelope(
             Util::getFullEmail('from@email.com', "João"),
@@ -33,7 +33,7 @@ abstract class BaseTestWrapper extends TestCase
         return $envelope;
     }
 
-    public function getAttachmentEnvelope()
+    public function getAttachmentEnvelope(): Envelope
     {
         $envelope = $this->getFullEnvelope();
         $envelope->addAttachment('myname', __DIR__ . '/resources/attachment1.txt', 'text/plain');
@@ -41,7 +41,7 @@ abstract class BaseTestWrapper extends TestCase
         return $envelope;
     }
 
-    public function getEmbedImageEnvelope()
+    public function getEmbedImageEnvelope(): Envelope
     {
         $envelope = $this->getFullEnvelope();
         $envelope->addEmbedImage('myname', __DIR__ . '/resources/pixel.gif', 'image/gif');

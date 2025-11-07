@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use ByJG\Mail\Util;
 
 use PHPUnit\Framework\TestCase;
@@ -16,11 +18,11 @@ class MailUtilTest extends TestCase
     function test_IsValidEmail(): void
     {
         $this->assertTrue(Util::isValidEmail(self::EMAIL_OK));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_1));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_2));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_3));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_4));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_5));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_1));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_2));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_3));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_4));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_5));
     }
 
     function test_GetFullEmailName(): void

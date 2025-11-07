@@ -6,10 +6,10 @@ use Aws\Result;
 
 class MockSender
 {
-    public $result;
+    public string $result;
 
     // AmazonSes
-    public function sendRawEmail($raw): Result
+    public function sendRawEmail(string $raw): Result
     {
         $this->result = $raw;
 

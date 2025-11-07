@@ -2,16 +2,19 @@
 
 namespace Tests\Functional;
 
+use ByJG\Mail\Exception\InvalidMailHandlerException;
+use ByJG\Mail\Exception\ProtocolNotRegisteredException;
 use ByJG\Mail\MailerFactory;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
+use Override;
 
 class AmazonSesFunctionalTest extends FunctionalBase
 {
     /**
-     * @throws \ByJG\Mail\Exception\InvalidMailHandlerException
-     * @throws \ByJG\Mail\Exception\ProtocolNotRegisteredException
+     * @throws InvalidMailHandlerException
+     * @throws ProtocolNotRegisteredException
      */
-    #[\Override]
+    #[Override]
     public function setUp(): void
     {
         MailerFactory::registerMailer(AmazonSesWrapper::class);

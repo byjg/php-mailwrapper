@@ -10,7 +10,7 @@ use ByJG\Mail\SendResult;
 use ByJG\Mail\Wrapper\FakeSenderWrapper;
 use ByJG\Util\Uri;
 
-class FakeSenderWrapperTest extends BaseWrapperTest
+class FakeSenderTestWrapper extends BaseTestWrapper
 {
     /**
      * @param Envelope $envelope
@@ -24,7 +24,7 @@ class FakeSenderWrapperTest extends BaseWrapperTest
         return $wrapper->send($envelope);
     }
 
-    public function testBasicEnvelope()
+    public function testBasicEnvelope(): void
     {
         $envelope = $this->getBasicEnvelope();
 
@@ -34,7 +34,7 @@ class FakeSenderWrapperTest extends BaseWrapperTest
         $this->assertEquals('fake-id-123', $result->id);
     }
 
-    public function testFullEnvelope()
+    public function testFullEnvelope(): void
     {
         $envelope = $this->getFullEnvelope();
 
@@ -44,7 +44,7 @@ class FakeSenderWrapperTest extends BaseWrapperTest
         $this->assertEquals('fake-id-123', $result->id);
     }
 
-    public function testAttachmentEnvelope()
+    public function testAttachmentEnvelope(): void
     {
         $envelope = $this->getAttachmentEnvelope();
 
@@ -54,7 +54,7 @@ class FakeSenderWrapperTest extends BaseWrapperTest
         $this->assertEquals('fake-id-123', $result->id);
     }
 
-    public function testEmbedImageEnvelope()
+    public function testEmbedImageEnvelope(): void
     {
         $envelope = $this->getEmbedImageEnvelope();
 

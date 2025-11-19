@@ -13,15 +13,16 @@ use PHPMailer\PHPMailer\Exception;
 class AmazonSesWrapper extends PHPMailerWrapper
 {
 
+    #[\Override]
     public static function schema(): array
     {
         return ['ses'];
     }
 
     /**
-     * @return mixed
+     * @return SesClient
      */
-    public function getSesClient(): mixed
+    public function getSesClient(): SesClient
     {
         //Send the message (which must be base 64 encoded):
         return new SesClient([
@@ -43,6 +44,7 @@ class AmazonSesWrapper extends PHPMailerWrapper
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
      */
+    #[\Override]
     public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);

@@ -11,6 +11,7 @@ use ByJG\Mail\Exception\InvalidMailHandlerException;
 use ByJG\Mail\Exception\ProtocolNotRegisteredException;
 use ByJG\Mail\Wrapper\MailWrapperInterface;
 use ByJG\Util\Uri;
+use Psr\Http\Message\UriInterface;
 
 class MailerFactory
 {
@@ -18,9 +19,12 @@ class MailerFactory
 
     /**
      * @param string $class
+     *
      * @throws InvalidMailHandlerException
+     *
+     * @return void
      */
-    public static function registerMailer(string $class)
+    public static function registerMailer(string $class): void
     {
         if (!in_array(MailWrapperInterface::class, class_implements($class))) {
             throw new InvalidMailHandlerException('Class not implements ConnectorInterface!');
@@ -35,13 +39,16 @@ class MailerFactory
 
 
     /**
-     * @param string $connection
+     * @param Uri|string $connection
      * @return MailWrapperInterface
      * @throws ProtocolNotRegisteredException
      */
-    public static function create(string $connection): MailWrapperInterface
+    public static function create(UriInterface|string $connection): MailWrapperInterface
     {
-        $uri = new Uri($connection);
+        $uri = $connection;
+        if (is_string($connection)) {
+            $uri = new Uri($connection);
+        }
 
         if (!isset(self::$config[$uri->getScheme()])) {
             throw new ProtocolNotRegisteredException('Protocol not found/registered!');

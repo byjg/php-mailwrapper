@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use ByJG\Mail\Util;
 
 use PHPUnit\Framework\TestCase;
@@ -13,24 +15,24 @@ class MailUtilTest extends TestCase
     const EMAIL_NOK_4 = 'joao@server(.111';
     const EMAIL_NOK_5 = 'joao-server.com';
 
-    function test_IsValidEmail()
+    function test_IsValidEmail(): void
     {
         $this->assertTrue(Util::isValidEmail(self::EMAIL_OK));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_1));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_2));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_3));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_4));
-        $this->assertTrue(!Util::isValidEmail(self::EMAIL_NOK_5));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_1));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_2));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_3));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_4));
+        $this->assertFalse(Util::isValidEmail(self::EMAIL_NOK_5));
     }
 
-    function test_GetFullEmailName()
+    function test_GetFullEmailName(): void
     {
         $this->assertEquals(Util::getFullEmail("joao@server.com.br", "Joao"), '"Joao" <joao@server.com.br>');
         $this->assertEquals(Util::getFullEmail("joao@server.com.br", ""), 'joao@server.com.br');
         $this->assertEquals(Util::getFullEmail("joao@server.com.br"), 'joao@server.com.br');
     }
 
-    function test_GetEmailPair()
+    function test_GetEmailPair(): void
     {
         $pair = Util::decomposeEmail('"Name" <email@domain.com>');
         $this->assertEquals($pair["name"], 'Name');

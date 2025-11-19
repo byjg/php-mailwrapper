@@ -18,6 +18,7 @@ use PHPMailer\PHPMailer\Exception;
 class SendMailWrapper extends PHPMailerWrapper
 {
 
+    #[\Override]
     public static function schema(): array
     {
         return ['sendmail'];
@@ -30,6 +31,7 @@ class SendMailWrapper extends PHPMailerWrapper
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
      */
+    #[\Override]
     public function send(Envelope $envelope): SendResult
     {
         $this->validate($envelope);

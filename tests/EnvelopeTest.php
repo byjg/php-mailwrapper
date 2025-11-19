@@ -1,7 +1,8 @@
 <?php
 
-namespace ByJG\Mail;
+namespace Tests;
 
+use ByJG\Mail\Envelope;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeTest extends TestCase
@@ -10,12 +11,13 @@ class EnvelopeTest extends TestCase
     /**
      * @var Envelope
      */
-    protected $object;
+    protected Envelope $object;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
+    #[\Override]
     protected function setUp(): void
     {
         $this->object = new Envelope;
@@ -25,12 +27,13 @@ class EnvelopeTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
+    #[\Override]
     protected function tearDown(): void
     {
 
     }
 
-    public function testGetFrom()
+    public function testGetFrom(): void
     {
         $this->object->setFrom('some@email.com');
         $this->assertEquals('some@email.com', $this->object->getFrom());
@@ -39,7 +42,7 @@ class EnvelopeTest extends TestCase
         $this->assertEquals('"John Doe" <some@email.com>', $this->object->getFrom());
     }
 
-    public function testGetTo()
+    public function testGetTo(): void
     {
         $this->object->addTo('some@email.com');
         $this->assertEquals(['some@email.com'], $this->object->getTo());
@@ -51,13 +54,13 @@ class EnvelopeTest extends TestCase
         $this->assertEquals(['"Only This" <new@email.com>'], $this->object->getTo());
     }
 
-    public function testGetSubject()
+    public function testGetSubject(): void
     {
         $this->object->setSubject('Test');
         $this->assertEquals('Test', $this->object->getSubject());
     }
 
-    public function testGetCC()
+    public function testGetCC(): void
     {
         $this->object->addCC('some@email.com');
         $this->assertEquals(['some@email.com'], $this->object->getCC());
@@ -69,7 +72,7 @@ class EnvelopeTest extends TestCase
         $this->assertEquals(['"Only This" <new@email.com>'], $this->object->getCC());
     }
 
-    public function testGetBCC()
+    public function testGetBCC(): void
     {
         $this->object->addBCC('some@email.com');
         $this->assertEquals(['some@email.com'], $this->object->getBCC());
@@ -82,7 +85,7 @@ class EnvelopeTest extends TestCase
     }
 
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $this->object->setBody('<p><b>Some title</b></p><p>Other test<br/>Break</p>');
         $this->assertEquals('<p><b>Some title</b></p><p>Other test<br/>Break</p>', $this->object->getBody());
@@ -90,7 +93,7 @@ class EnvelopeTest extends TestCase
     }
 
 
-    public function testGetAttachments()
+    public function testGetAttachments(): void
     {
         $this->object->addAttachment('name1', '/path/to/file', 'mime/type');
         $this->assertEquals(

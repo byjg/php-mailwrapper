@@ -1,13 +1,13 @@
 <?php
 
-namespace ByJG\Mail;
+namespace Tests;
 
 use ByJG\Util\Uri;
 use PHPUnit\Framework\TestCase;
 
 class UriTest extends TestCase
 {
-    public function testGetFull()
+    public function testGetFull(): void
     {
         $object = new Uri("smtp://user:pass@server:1234");
         $this->assertEquals('smtp', $object->getScheme());

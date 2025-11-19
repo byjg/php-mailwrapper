@@ -6,10 +6,10 @@ use Aws\Result;
 
 class MockSender
 {
-    public $result;
+    public string $result;
 
     // AmazonSes
-    public function sendRawEmail($raw)
+    public function sendRawEmail(string $raw): Result
     {
         $this->result = $raw;
 
@@ -19,7 +19,7 @@ class MockSender
     }
 
     // Mailgun Wrapper
-    public function postMultiPartForm($message)
+    public function postMultiPartForm($message): string
     {
         $this->result = $message;
         return '{"id": "123445"}';

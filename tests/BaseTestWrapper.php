@@ -6,12 +6,12 @@ use ByJG\Mail\Envelope;
 use ByJG\Mail\Util;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseWrapperTest extends TestCase
+abstract class BaseTestWrapper extends TestCase
 {
     /**
-     * @return \ByJG\Mail\Envelope
+     * @return Envelope
      */
-    public function getBasicEnvelope()
+    public function getBasicEnvelope(): Envelope
     {
         $envelope = new Envelope(
             Util::getFullEmail('from@email.com', "João"),
@@ -22,7 +22,7 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
-    public function getFullEnvelope()
+    public function getFullEnvelope(): Envelope
     {
         $envelope = $this->getBasicEnvelope();
         $envelope->addTo('to2@email.com', 'Name');
@@ -33,7 +33,7 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
-    public function getAttachmentEnvelope()
+    public function getAttachmentEnvelope(): Envelope
     {
         $envelope = $this->getFullEnvelope();
         $envelope->addAttachment('myname', __DIR__ . '/resources/attachment1.txt', 'text/plain');
@@ -41,7 +41,7 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
-    public function getEmbedImageEnvelope()
+    public function getEmbedImageEnvelope(): Envelope
     {
         $envelope = $this->getFullEnvelope();
         $envelope->addEmbedImage('myname', __DIR__ . '/resources/pixel.gif', 'image/gif');
@@ -49,7 +49,12 @@ abstract class BaseWrapperTest extends TestCase
         return $envelope;
     }
 
-    protected function fixVariableFields($text)
+    /**
+     * @return null|string|string[]
+     *
+     * @psalm-return array<string>|null|string
+     */
+    protected function fixVariableFields($text): array|string|null
     {
         $text = preg_replace(
             [
@@ -70,7 +75,12 @@ abstract class BaseWrapperTest extends TestCase
         return $text;
     }
 
-    protected function fixRequestBody($text)
+    /**
+     * @return null|string|string[]
+     *
+     * @psalm-return array<string>|null|string
+     */
+    protected function fixRequestBody($text): array|string|null
     {
         $text = preg_replace(
             [
@@ -83,9 +93,9 @@ abstract class BaseWrapperTest extends TestCase
             [
                 '',
                 '--12345',
-                file_get_contents(__DIR__ . "/resources/pixel.gif"),
-                file_get_contents(__DIR__ . "/resources/moon.png"),
-                file_get_contents(__DIR__ . "/resources/sun.png"),
+                file_get_contents(__DIR__ . "/resources/pixel.gif") ?: '',
+                file_get_contents(__DIR__ . "/resources/moon.png") ?: '',
+                file_get_contents(__DIR__ . "/resources/sun.png") ?: '',
             ],
             $text
         );

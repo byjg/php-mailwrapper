@@ -15,10 +15,11 @@ use Psr\Http\Message\UriInterface;
 
 class MailerFactory
 {
+    /** @var array<string, class-string<MailWrapperInterface>> */
     private static array $config = [];
 
     /**
-     * @param string $class
+     * @param class-string<MailWrapperInterface> $class
      *
      * @throws InvalidMailHandlerException
      *
@@ -26,11 +27,12 @@ class MailerFactory
      */
     public static function registerMailer(string $class): void
     {
-        if (!in_array(MailWrapperInterface::class, class_implements($class))) {
+        $implements = class_implements($class);
+        if ($implements === false || !in_array(MailWrapperInterface::class, $implements)) {
             throw new InvalidMailHandlerException('Class not implements ConnectorInterface!');
         }
 
-        /** @var MailWrapperInterface $class */
+        /** @var class-string<MailWrapperInterface> $class */
         $protocolList = $class::schema();
         foreach ($protocolList as $item) {
             self::$config[$item] = $class;
@@ -45,16 +47,14 @@ class MailerFactory
      */
     public static function create(UriInterface|string $connection): MailWrapperInterface
     {
-        $uri = $connection;
-        if (is_string($connection)) {
-            $uri = new Uri($connection);
-        }
+        $uri = is_string($connection) ? new Uri($connection) : $connection;
 
-        if (!isset(self::$config[$uri->getScheme()])) {
+        $scheme = $uri->getScheme();
+        if (!isset(self::$config[$scheme])) {
             throw new ProtocolNotRegisteredException('Protocol not found/registered!');
         }
 
-        $class = self::$config[$uri->getScheme()];
+        $class = self::$config[$scheme];
 
         return new $class($uri);
     }

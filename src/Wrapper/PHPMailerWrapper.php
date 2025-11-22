@@ -46,8 +46,8 @@ class PHPMailerWrapper extends BaseWrapper
 
         $mail->isSMTP(); // telling the class to use SMTP
 
-        if ($this->uri->getScheme() != "smtp") {
-            $mail->SMTPSecure = $this->uri->getScheme(); // ssl ou tls!
+        if ($this->uri?->getScheme() != "smtp") {
+            $mail->SMTPSecure = $this->uri?->getScheme() ?? ''; // ssl ou tls!
         }
 
         $replyTo = Util::decomposeEmail($envelope->getReplyTo());
@@ -114,14 +114,12 @@ class PHPMailerWrapper extends BaseWrapper
 
         $mail = $this->prepareMailer($envelope);
 
-        $mail->Host = $this->uri->getHost();
-        $mail->Port = $this->uri->getPort();
+        $mail->Host = $this->uri?->getHost() ?? '';
+        $mail->Port = $this->uri?->getPort() ?? 25;
 
-        if (!empty($this->uri->getUsername())) {
-            $mail->SMTPAuth = true;
-            $mail->Username = $this->uri->getUsername(); // SMTP account username
-            $mail->Password = $this->uri->getPassword();        // SMTP account password
-        }
+        $mail->SMTPAuth = !empty($this->uri?->getUsername());
+        $mail->Username = $this->uri?->getUsername() ?? '';  // SMTP account username
+        $mail->Password = $this->uri?->getPassword() ?? '';  // SMTP account password
 
         if (!$mail->send()) {
             throw new MailApiException($mail->ErrorInfo);

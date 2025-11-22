@@ -51,11 +51,11 @@ class MailgunApiWrapper extends PHPMailerWrapper
      */
     public function getRequestObject(): RequestInterface
     {
-        $domainName = $this->uri->getHost();
+        $domainName = $this->uri?->getHost() ?? '';
         $apiUri = $this->getApiUri();
 
         $uri = Uri::getInstance("https://$apiUri/v3/$domainName/messages")
-            ->withUserInfo('api', $this->uri->getUsername());
+            ->withUserInfo('api', $this->uri?->getUsername() ?? '');
 
         return Request::getInstance($uri)->withMethod("POST");
     }
@@ -104,7 +104,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
         foreach ($envelope->getAttachments() as $name => $attachment) {
             $message[] = new MultiPartItem(
                 $attachment['disposition'],
-                file_get_contents($attachment['content']),
+                file_get_contents($attachment['content']) ?: '',
                 $name,
                 $attachment['content-type']
             );
@@ -128,7 +128,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
 
     private function getApiUri()
     {
-        $query = $this->uri->getQueryPart('region');
+        $query = $this->uri?->getQueryPart('region');
         if (isset($this->regions[$query])) {
             return $this->regions[$query];
         }

@@ -27,10 +27,10 @@ class AmazonSesWrapper extends PHPMailerWrapper
         //Send the message (which must be base 64 encoded):
         return new SesClient([
             'credentials' => new Credentials(
-                $this->uri->getUsername(),
-                $this->uri->getPassword()
+                $this->uri?->getUsername() ?? '',
+                $this->uri?->getPassword() ?? ''
             ),
-            'region' => $this->uri->getHost(),
+            'region' => $this->uri?->getHost() ?? '',
             'version' => '2010-12-01'
         ]);
     }

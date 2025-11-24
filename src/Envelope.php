@@ -163,7 +163,7 @@ class Envelope
                 "\n"
             ],
             $this->body
-        );
+        ) ?? $this->body;
 
         return strip_tags($body);
     }

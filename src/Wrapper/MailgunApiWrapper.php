@@ -129,7 +129,7 @@ class MailgunApiWrapper extends PHPMailerWrapper
     private function getApiUri()
     {
         $query = $this->uri?->getQueryPart('region');
-        if (isset($this->regions[$query])) {
+        if ($query !== null && isset($this->regions[$query])) {
             return $this->regions[$query];
         }
 

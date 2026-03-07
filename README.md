@@ -1,10 +1,4 @@
----
-tags: [php, email]
----
-
 # Mail Wrapper
-
-A lightweight wrapper for sending email. The interface is totally decoupled from the sender, providing a single interface for sending mail regardless of the underlying mail service.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%23ea4aaa?logo=githubsponsors&logoColor=white&labelColor=0d1117)](https://github.com/sponsors/byjg)
 [![Build Status](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml)
@@ -12,6 +6,8 @@ A lightweight wrapper for sending email. The interface is totally decoupled from
 [![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/php-mailwrapper/)
 [![GitHub license](https://img.shields.io/github/license/byjg/php-mailwrapper.svg)](https://opensource.byjg.com/opensource/licensing.html)
 [![GitHub release](https://img.shields.io/github/release/byjg/php-mailwrapper.svg)](https://github.com/byjg/php-mailwrapper/releases/)
+
+A lightweight wrapper for sending email. The interface is totally decoupled from the sender, providing a single interface for sending mail regardless of the underlying mail service.
 
 ## Available Wrappers
 
@@ -29,13 +25,13 @@ composer require "byjg/mailwrapper"
 
 ## Documentation
 
-- **[Getting Started](getting-started)** - Installation, quick start, and architecture overview
-- **[Envelope](envelope)** - Creating and configuring email messages
-- **[Connection Strings](connection-strings)** - URI patterns for different mail services (SMTP, Mailgun, SES, etc.)
-- **[Mailer Factory](mailer-factory)** - Registering and creating mailers
-- **[Attachments](attachments)** - Sending attachments and embedded images
-- **[Custom Wrappers](custom-wrappers)** - Implementing your own mail wrapper
-- **[Exceptions](exceptions)** - Error handling and exception types
+- **[Getting Started](docs/getting-started.md)** - Installation, quick start, and architecture overview
+- **[Envelope](docs/envelope.md)** - Creating and configuring email messages
+- **[Connection Strings](docs/connection-strings.md)** - URI patterns for different mail services (SMTP, Mailgun, SES, etc.)
+- **[Mailer Factory](docs/mailer-factory.md)** - Registering and creating mailers
+- **[Attachments](docs/attachments.md)** - Sending attachments and embedded images
+- **[Custom Wrappers](docs/custom-wrappers.md)** - Implementing your own mail wrapper
+- **[Exceptions](docs/exceptions.md)** - Error handling and exception types
 
 ## Quick Start
 
@@ -81,7 +77,7 @@ MailWrapper is organized into three main components:
 | ses        | Amazon SES API                     | `ses://ACCESS_KEY_ID:SECRET_KEY@REGION`  |
 | fakesender | Testing (does nothing)             | `fakesender://localhost`                 |
 
-See [Connection Strings](connection-strings) for detailed configuration examples.
+See [Connection Strings](docs/connection-strings.md) for detailed configuration examples.
 
 ## Running Tests
 

@@ -11,7 +11,7 @@ A lightweight wrapper for sending email. The interface is totally decoupled from
 [![Build Status](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml)
 [![Opensource ByJG](https://img.shields.io/badge/opensource-byjg-success.svg)](http://opensource.byjg.com)
 [![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/php-mailwrapper/)
-[![GitHub license](https://img.shields.io/github/license/byjg/php-mailwrapper.svg)](https://opensource.byjg.com/opensource/licensing.html)
+[![GitHub license](https://img.shields.io/github/license/byjg/php-mailwrapper.svg)](https://opensource.byjg.com/license/)
 [![GitHub release](https://img.shields.io/github/release/byjg/php-mailwrapper.svg)](https://github.com/byjg/php-mailwrapper/releases/)
 
 ## Available Wrappers
@@ -88,14 +88,6 @@ See [Connection Strings](docs/connection-strings.md) for detailed configuration 
 
 ```shell
 ./vendor/bin/phpunit
-```
-
-## Dependencies
-
-```mermaid
-flowchart TD
-    byjg/mailwrapper --> byjg/convert
-    byjg/mailwrapper --> byjg/webrequest
 ```
 
 ----

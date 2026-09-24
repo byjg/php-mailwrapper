@@ -16,7 +16,7 @@ use ByJG\Util\Uri;
 use ByJG\WebRequest\Psr7\MemoryStream;
 use Psr\Http\Client\ClientExceptionInterface;
 
-class MailgunTestWrapper extends BaseTestWrapper
+class MailgunWrapperTest extends BaseTestWrapper
 {
 
     /**

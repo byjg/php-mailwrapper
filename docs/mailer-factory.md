@@ -160,3 +160,6 @@ if ($isTestEnvironment) {
     $mailer = \ByJG\Mail\MailerFactory::create($productionConnection);
 }
 ```
+
+`FakeSenderWrapper::getSent()` returns the envelopes it was given, and `clear()` forgets them.
+See [FakeSender](connection-strings.md#fakesender-testing).

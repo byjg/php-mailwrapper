@@ -30,7 +30,7 @@ scheme://username:password@host:port
 | sendmail   | PHP's built-in mail() function     | `sendmail://localhost`                   | SendMailWrapper    |
 | mailgun    | Mailgun API                        | `mailgun://YOUR_API_KEY@YOUR_DOMAIN`     | MailgunApiWrapper  |
 | ses        | Amazon SES API                     | `ses://ACCESS_KEY_ID:SECRET_KEY@REGION`  | AmazonSesWrapper   |
-| fakesender | Testing (does nothing)             | `fakesender://localhost`                 | FakeSenderWrapper  |
+| fakesender | Testing (sends nothing)            | `fakesender://localhost`                 | FakeSenderWrapper  |
 
 ## Examples
 
@@ -106,4 +106,17 @@ $mailer = \ByJG\Mail\MailerFactory::create(
 );
 ```
 
-The FakeSender wrapper does nothing and always returns success. It's useful for testing without actually sending emails.
+The FakeSender wrapper sends nothing and always returns success. It's useful for testing without actually sending emails.
+
+It keeps every envelope it is given, so a test can check what would have been sent:
+
+```php
+use ByJG\Mail\Wrapper\FakeSenderWrapper;
+
+FakeSenderWrapper::clear();                  // forget earlier sends
+$service->requestPasswordReset($email);      // code under test sends through the mailer
+
+$sent = FakeSenderWrapper::getSent();        // list<Envelope>, oldest first
+$this->assertCount(1, $sent);
+$this->assertEquals('Password Reset', $sent[0]->getSubject());
+```

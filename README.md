@@ -20,7 +20,7 @@ A lightweight wrapper for sending email. The interface is totally decoupled from
 - **AWS SES** - Amazon Simple Email Service (using API directly)
 - **Mailgun** - Mailgun API (using API directly)
 - **SendMail** - PHP's built-in mail() function
-- **FakeSender** - For testing (does nothing)
+- **FakeSender** - For testing (sends nothing, keeps the envelopes for assertions)
 
 ## Install
 

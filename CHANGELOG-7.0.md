@@ -7,6 +7,13 @@
 
 - None.
 
+## New Features
+
+- `FakeSenderWrapper` keeps every envelope it is given. `FakeSenderWrapper::getSent()`
+  returns them, oldest first, and `FakeSenderWrapper::clear()` forgets them, so a test can
+  check what the application would have sent. Sending still does nothing and always
+  succeeds.
+
 ## Requirements
 
 - PHP 8.3, 8.4, 8.5 and 8.6 are now supported: `"php": ">=8.3 <8.7"`.
@@ -43,3 +50,8 @@ While 7.0 is unreleased these resolve to `7.0.x-dev` from each component's
 ## Housekeeping
 
 - `phpunit.xml.dist` renamed to `phpunit.xml`.
+- The wrapper tests now run. They were named `*TestWrapper.php`, which PHPUnit's default
+  `Test.php` suffix skips, so the Amazon SES, FakeSender, Mailgun and PHPMailer tests had
+  not been running. They are renamed to `*WrapperTest.php`. The Amazon SES test, broken
+  unnoticed since `getSesClient()` gained its `SesClient` return type, now uses the SDK's
+  `Aws\MockHandler` instead of the `MockSender` stand-in, which is removed.

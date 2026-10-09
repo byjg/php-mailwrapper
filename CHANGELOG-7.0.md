@@ -55,3 +55,6 @@ While 7.0 is unreleased these resolve to `7.0.x-dev` from each component's
   not been running. They are renamed to `*WrapperTest.php`. The Amazon SES test, broken
   unnoticed since `getSesClient()` gained its `SesClient` return type, now uses the SDK's
   `Aws\MockHandler` instead of the `MockSender` stand-in, which is removed.
+- `phpunit.xml` sets `ignoreIndirectDeprecations="true"`. PHP 8.6 deprecates `is` as a class
+  name, and `guzzlehttp/promises` (required by the AWS SDK) has a class called `Is`.
+  Deprecations raised inside this package's own `src/` still fail the suite.

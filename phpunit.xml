@@ -28,7 +28,9 @@ and open the template in the editor.
         <ini name="error_reporting" value="E_ALL" />
     </php>
 
-    <source>
+    <source
+        ignoreIndirectDeprecations="true"
+    >
         <include>
             <directory>./src/</directory>
         </include>

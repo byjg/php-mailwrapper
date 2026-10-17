@@ -28,7 +28,6 @@ Thrown when email validation fails.
 **Common causes:**
 - Missing sender address
 - Missing recipient address
-- Invalid email format
 
 **Example:**
 
@@ -106,12 +105,14 @@ Thrown when the message format is invalid or incomplete.
 - Missing required fields
 - Malformed content
 
+`AmazonSesWrapper` and `SendMailWrapper` throw it when PHPMailer cannot build the MIME message.
+Custom wrappers can also throw it for their own validation.
+
 **Example:**
 
 ```php
 use ByJG\Mail\Exception\InvalidMessageFormatException;
 
-// This exception might be thrown by custom wrappers with additional validation
 try {
     // Some wrapper that validates subject is not empty
     $mailer->send($envelope);

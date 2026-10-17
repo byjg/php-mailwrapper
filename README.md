@@ -82,6 +82,7 @@ MailWrapper is organized into three main components:
 | mailgun    | Mailgun API                        | `mailgun://YOUR_API_KEY@YOUR_DOMAIN`     |
 | ses        | Amazon SES API                     | `ses://ACCESS_KEY_ID:SECRET_KEY@REGION`  |
 | fakesender | Testing (does nothing)             | `fakesender://localhost`                 |
+| fake       | Alias of `fakesender`              | `fake://localhost`                       |
 
 See [Connection Strings](docs/connection-strings.md) for detailed configuration examples.
 

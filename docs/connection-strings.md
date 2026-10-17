@@ -14,7 +14,7 @@ scheme://username:password@host:port
 
 | Part       | Description                                                                    |
 |:-----------|:-------------------------------------------------------------------------------|
-| scheme     | The email scheme: smtp, ssl, tls, sendmail, mailgun, ses, fakesender          |
+| scheme     | The email scheme: smtp, ssl, tls, sendmail, mailgun, ses, fakesender, fake    |
 | username   | The username for authentication                                                |
 | password   | The password for authentication                                                |
 | host       | The SMTP host or service endpoint                                             |
@@ -31,6 +31,7 @@ scheme://username:password@host:port
 | mailgun    | Mailgun API                        | `mailgun://YOUR_API_KEY@YOUR_DOMAIN`     | MailgunApiWrapper  |
 | ses        | Amazon SES API                     | `ses://ACCESS_KEY_ID:SECRET_KEY@REGION`  | AmazonSesWrapper   |
 | fakesender | Testing (sends nothing)            | `fakesender://localhost`                 | FakeSenderWrapper  |
+| fake       | Alias of `fakesender`              | `fake://localhost`                       | FakeSenderWrapper  |
 
 ## Examples
 

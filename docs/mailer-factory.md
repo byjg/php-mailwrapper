@@ -48,6 +48,9 @@ $mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
 );
 ```
 
+`MailgunApiWrapper` also accepts an optional PSR-18 `Psr\Http\Client\ClientInterface` as its second
+argument (default: `ByJG\WebRequest\HttpClient`), which is useful to inject a mock client in tests.
+
 This approach is useful when:
 - You only use a single mailer type
 - You want to avoid the registration step
@@ -155,6 +158,7 @@ Use FakeSender for testing:
 ```php
 // Test configuration
 if ($isTestEnvironment) {
+    \ByJG\Mail\MailerFactory::registerMailer(\ByJG\Mail\Wrapper\FakeSenderWrapper::class);
     $mailer = \ByJG\Mail\MailerFactory::create('fakesender://localhost');
 } else {
     $mailer = \ByJG\Mail\MailerFactory::create($productionConnection);

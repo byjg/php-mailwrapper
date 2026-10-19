@@ -38,6 +38,9 @@ $uri = new \ByJG\Util\Uri('tls://username:password@smtp.example.com:587');
 $mailer = \ByJG\Mail\MailerFactory::create($uri);
 ```
 
+Any PSR-7 `UriInterface` is accepted. A URI that is not a `\ByJG\Util\Uri` (for example
+`GuzzleHttp\Psr7\Uri`) is converted to one, since the wrappers are built from `\ByJG\Util\Uri`.
+
 ## Creating Mailers Directly
 
 You can bypass the factory and instantiate wrappers directly:

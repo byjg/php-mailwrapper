@@ -14,6 +14,12 @@
   check what the application would have sent. Sending still does nothing and always
   succeeds.
 
+## Bug Fixes
+
+- `MailerFactory::create()` accepted any PSR-7 `UriInterface`, but passed it as is to the
+  wrappers, whose constructors require `ByJG\Util\Uri`, so another implementation (e.g.
+  `GuzzleHttp\Psr7\Uri`) threw a `TypeError`. It is now converted to a `ByJG\Util\Uri`.
+
 ## Requirements
 
 - PHP 8.3, 8.4, 8.5 and 8.6 are now supported: `"php": ">=8.3 <8.7"`.

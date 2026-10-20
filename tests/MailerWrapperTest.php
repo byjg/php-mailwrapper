@@ -5,8 +5,10 @@ namespace Tests;
 use ByJG\Mail\Exception\InvalidMailHandlerException;
 use ByJG\Mail\Exception\ProtocolNotRegisteredException;
 use ByJG\Mail\MailerFactory;
+use ByJG\Util\Uri;
 use PHPUnit\Framework\TestCase;
 use ByJG\Mail\Wrapper\AmazonSesWrapper;
+use ByJG\Mail\Wrapper\BaseWrapper;
 use ByJG\Mail\Wrapper\MailgunApiWrapper;
 use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Mail\Wrapper\SendMailWrapper;
@@ -48,6 +50,24 @@ class MailerWrapperTest extends TestCase
 
         // If there is no error above the test is OK.
         $this->assertTrue(true);
+    }
+
+    /**
+     * @throws InvalidMailHandlerException
+     * @throws ProtocolNotRegisteredException
+     */
+    public function testCreateWithAnotherPsr7Uri(): void
+    {
+        MailerFactory::registerMailer(PHPMailerWrapper::class);
+        $mailer = MailerFactory::create(new \GuzzleHttp\Psr7\Uri('smtp://user:secret@mail.example.com:587'));
+
+        $this->assertInstanceOf(PHPMailerWrapper::class, $mailer);
+        /** @var Uri $uri */
+        $uri = (new \ReflectionProperty(BaseWrapper::class, 'uri'))->getValue($mailer);
+        $this->assertSame('mail.example.com', $uri->getHost());
+        $this->assertSame(587, $uri->getPort());
+        $this->assertSame('user', $uri->getUsername());
+        $this->assertSame('secret', $uri->getPassword());
     }
 
     /**

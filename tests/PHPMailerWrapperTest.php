@@ -10,7 +10,7 @@ use ByJG\Mail\Wrapper\PHPMailerWrapper;
 use ByJG\Util\Uri;
 use PHPMailer\PHPMailer\Exception;
 
-class PHPMailerTestWrapper extends BaseTestWrapper
+class PHPMailerWrapperTest extends BaseTestWrapper
 {
     /**
      * @param Envelope $envelope

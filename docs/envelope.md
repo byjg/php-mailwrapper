@@ -110,3 +110,15 @@ $textBody = $envelope->getBodyText();
 ```
 
 This is useful for multipart emails that include both HTML and plain text versions.
+
+## Email Helpers
+
+Addresses with a name are stored as `"Name" <email>`. The `ByJG\Mail\Util` class has the helpers used for that:
+
+```php
+use ByJG\Mail\Util;
+
+Util::getFullEmail('john@example.com', 'John');      // '"John" <john@example.com>'
+Util::decomposeEmail('"John" <john@example.com>');   // ['email' => 'john@example.com', 'name' => 'John']
+Util::isValidEmail('john@example.com');              // true (uses PHPMailer::validateAddress)
+```

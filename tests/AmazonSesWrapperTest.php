@@ -3,6 +3,9 @@
 namespace Tests;
 
 use Aws\Credentials\Credentials;
+use Aws\MockHandler;
+use Aws\Result;
+use Aws\Ses\SesClient;
 use ByJG\Mail\Envelope;
 use ByJG\Mail\Exception\InvalidEMailException;
 use ByJG\Mail\Exception\InvalidMessageFormatException;
@@ -11,30 +14,41 @@ use ByJG\Mail\Wrapper\AmazonSesWrapper;
 use ByJG\Util\Uri;
 use PHPMailer\PHPMailer\Exception;
 
-class AmazonSesTestWrapper extends BaseTestWrapper
+class AmazonSesWrapperTest extends BaseTestWrapper
 {
     /**
-     * @param $envelope
-     * @return array
+     * Send through a real SesClient whose HTTP layer is the SDK's MockHandler: it answers
+     * with a queued result and keeps the command, so the test can check what was sent.
+     *
+     * @return array{0: array<string, mixed>, 1: SendResult} The SendRawEmail arguments and the send result
      * @throws InvalidEMailException
      * @throws InvalidMessageFormatException
      * @throws Exception
      */
     public function doMockedRequest(Envelope $envelope): array
     {
+        $handler = new MockHandler();
+        $handler->append(new Result([
+            'MessageId' => 'EXAMPLEf3f73d99b-c63fb06f-d263-41f8-a0fb-d0dc67d56c07-000000',
+        ]));
+        $sesClient = new SesClient([
+            'credentials' => new Credentials('ACCESS_KEY_ID', 'SECRET_KEY'),
+            'region' => 'us-east-1',
+            'version' => '2010-12-01',
+            'handler' => $handler,
+        ]);
+
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
             ->onlyMethods(['getSesClient'])
             ->setConstructorArgs([new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION')])
             ->getMock();
-
-        $mock = new MockSender();
         $object->expects($this->once())
             ->method('getSesClient')
-            ->willReturn($mock);
+            ->willReturn($sesClient);
 
         $result = $object->send($envelope);
 
-        return [$mock, $result];
+        return [$handler->getLastCommand()->toArray(), $result];
     }
 
     public function testGetSesClient(): void
@@ -61,9 +75,9 @@ class AmazonSesTestWrapper extends BaseTestWrapper
      */
     protected function send(Envelope $envelope, string $rawEmail): SendResult
     {
-        [$mock, $result] = $this->doMockedRequest($envelope);
+        [$sent, $result] = $this->doMockedRequest($envelope);
         $mimeMessage = $this->fixVariableFields(file_get_contents(__DIR__ . '/resources/' . $rawEmail . '.eml'));
-        $mock->result['RawMessage']['Data'] = $this->fixVariableFields($mock->result['RawMessage']['Data']);
+        $sent = ['RawMessage' => ['Data' => $this->fixVariableFields($sent['RawMessage']['Data'])]];
 
         $expected = [
             'RawMessage' => [
@@ -71,7 +85,7 @@ class AmazonSesTestWrapper extends BaseTestWrapper
             ]
         ];
 
-        $this->assertEquals($expected, $mock->result);
+        $this->assertEquals($expected, $sent);
 
         return $result;
     }

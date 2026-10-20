@@ -56,7 +56,7 @@ MailWrapper is organized into three main components:
 - **AWS SES** - Amazon Simple Email Service (using API directly)
 - **Mailgun** - Mailgun API
 - **SendMail** - PHP's built-in mail() function
-- **FakeSender** - For testing (does nothing)
+- **FakeSender** - For testing (sends nothing, keeps the envelopes for assertions)
 
 ## Running Tests
 

@@ -38,6 +38,9 @@ $uri = new \ByJG\Util\Uri('tls://username:password@smtp.example.com:587');
 $mailer = \ByJG\Mail\MailerFactory::create($uri);
 ```
 
+Any PSR-7 `UriInterface` is accepted. A URI that is not a `\ByJG\Util\Uri` (for example
+`GuzzleHttp\Psr7\Uri`) is converted to one, since the wrappers are built from `\ByJG\Util\Uri`.
+
 ## Creating Mailers Directly
 
 You can bypass the factory and instantiate wrappers directly:
@@ -47,6 +50,9 @@ $mailer = new \ByJG\Mail\Wrapper\MailgunApiWrapper(
     new \ByJG\Util\Uri('mailgun://YOUR_API_KEY@YOUR_DOMAIN')
 );
 ```
+
+`MailgunApiWrapper` also accepts an optional PSR-18 `Psr\Http\Client\ClientInterface` as its second
+argument (default: `ByJG\WebRequest\HttpClient`), which is useful to inject a mock client in tests.
 
 This approach is useful when:
 - You only use a single mailer type
@@ -155,8 +161,12 @@ Use FakeSender for testing:
 ```php
 // Test configuration
 if ($isTestEnvironment) {
+    \ByJG\Mail\MailerFactory::registerMailer(\ByJG\Mail\Wrapper\FakeSenderWrapper::class);
     $mailer = \ByJG\Mail\MailerFactory::create('fakesender://localhost');
 } else {
     $mailer = \ByJG\Mail\MailerFactory::create($productionConnection);
 }
 ```
+
+`FakeSenderWrapper::getSent()` returns the envelopes it was given, and `clear()` forgets them.
+See [FakeSender](connection-strings.md#fakesender-testing).

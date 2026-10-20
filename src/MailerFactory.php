@@ -41,13 +41,13 @@ class MailerFactory
 
 
     /**
-     * @param Uri|string $connection
+     * @param UriInterface|string $connection Any PSR-7 URI; one that is not a ByJG\Util\Uri is converted.
      * @return MailWrapperInterface
      * @throws ProtocolNotRegisteredException
      */
     public static function create(UriInterface|string $connection): MailWrapperInterface
     {
-        $uri = is_string($connection) ? new Uri($connection) : $connection;
+        $uri = $connection instanceof Uri ? $connection : new Uri((string)$connection);
 
         $scheme = $uri->getScheme();
         if (!isset(self::$config[$scheme])) {

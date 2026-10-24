@@ -5,7 +5,7 @@ tags: [php, email]
 
 # Mail Wrapper
 
-A lightweight wrapper for sending email. The interface is totally decoupled from the sender, providing a single interface for sending mail regardless of the underlying mail service.
+One interface to send email, whatever the service behind it. Change the provider, or add a new one, without changing your code.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%23ea4aaa?logo=githubsponsors&logoColor=white&labelColor=0d1117)](https://github.com/sponsors/byjg)
 [![Build Status](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/byjg/php-mailwrapper/actions/workflows/phpunit.yml)
@@ -14,6 +14,30 @@ A lightweight wrapper for sending email. The interface is totally decoupled from
 [![GitHub source](https://img.shields.io/badge/Github-source-informational?logo=github)](https://github.com/byjg/php-mailwrapper/)
 [![GitHub license](https://img.shields.io/github/license/byjg/php-mailwrapper.svg)](https://opensource.byjg.com/license/)
 [![GitHub release](https://img.shields.io/github/release/byjg/php-mailwrapper.svg)](https://github.com/byjg/php-mailwrapper/releases/)
+
+## Why
+
+SMTP, Amazon SES and Mailgun each have their own SDK, their own message object and their
+own errors. An application written against one of them is tied to it: switching provider,
+or sending nothing in a test, means touching every place that sends mail.
+
+Mail Wrapper defines the contract once. You build an `Envelope` and call `send()` on a
+`MailWrapperInterface`; the provider is chosen by the connection string:
+
+```php
+$mailer = MailerFactory::create('smtp://user:pass@smtp.example.com:587');  // SMTP
+$mailer = MailerFactory::create('ses://key:secret@us-east-1');             // Amazon SES
+$mailer = MailerFactory::create('fakesender://localhost');                 // tests
+
+$mailer->send($envelope);
+```
+
+- **Change the provider without touching the code.** The connection string usually lives
+  in configuration, so it is a deploy change, not a code change.
+- **Test without sending.** `FakeSender` sends nothing and keeps the envelopes for
+  assertions.
+- **Add a provider by implementing one interface.** A wrapper is `send()` and a URI
+  scheme; see [Custom Wrappers](docs/custom-wrappers.md).
 
 ## Available Wrappers
 

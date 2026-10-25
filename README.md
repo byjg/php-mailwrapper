@@ -1,5 +1,6 @@
 ---
 sidebar_key: mailwrapper
+sidebar_category: messaging
 tags: [php, email]
 ---
 

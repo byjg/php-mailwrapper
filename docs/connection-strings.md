@@ -20,6 +20,12 @@ scheme://username:password@host:port
 | host       | The SMTP host or service endpoint                                             |
 | port       | The SMTP port                                                                  |
 
+:::note
+The host is read in lowercase (PSR-7): `SMTP.Example.COM` becomes `smtp.example.com`.
+Hosts, domains and AWS regions are case-insensitive or already lowercase, so this changes
+nothing for them; never put a case-sensitive value (e.g. an API key) in the host part.
+:::
+
 ## Available Schemes
 
 | Scheme     | Description                        | URI Pattern                              | Wrapper Class      |
@@ -85,7 +91,7 @@ $mailer = \ByJG\Mail\MailerFactory::create(
 );
 ```
 
-The region can be any valid AWS region (e.g., `us-east-1`, `eu-west-1`, etc.).
+The region can be any valid AWS region (e.g., `us-east-1`, `eu-west-1`, etc.), written in lowercase.
 
 ### SendMail (PHP mail() function)
 

@@ -41,7 +41,7 @@ class UriTest extends TestCase
         $this->assertEquals('mandrill', $object7->getScheme());
         $this->assertEquals(null, $object7->getUsername());
         $this->assertEquals(null, $object7->getPassword());
-        $this->assertEquals('_akaka_S3ksksksg3ew', $object7->getHost());
+        $this->assertEquals('_akaka_s3ksksksg3ew', $object7->getHost());
         $this->assertEquals(null, $object7->getPort());
 
         $object8 = new Uri('smtp://us#$%er:pa!*&$ss@host.com.br:45');

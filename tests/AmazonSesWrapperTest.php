@@ -40,7 +40,7 @@ class AmazonSesWrapperTest extends BaseTestWrapper
 
         $object = $this->getMockBuilder(AmazonSesWrapper::class)
             ->onlyMethods(['getSesClient'])
-            ->setConstructorArgs([new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION')])
+            ->setConstructorArgs([new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@us-east-1')])
             ->getMock();
         $object->expects($this->once())
             ->method('getSesClient')
@@ -53,7 +53,7 @@ class AmazonSesWrapperTest extends BaseTestWrapper
 
     public function testGetSesClient(): void
     {
-        $sesWrapper = new AmazonSesWrapper(new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@REGION'));
+        $sesWrapper = new AmazonSesWrapper(new Uri('ses://ACCESS_KEY_ID:SECRET_KEY@us-east-1'));
         $sesClient = $sesWrapper->getSesClient();
 
         $credentials = $sesClient->getCredentials()->wait(true);
@@ -64,7 +64,7 @@ class AmazonSesWrapperTest extends BaseTestWrapper
             ),
             $credentials
         );
-        $this->assertEquals('REGION', $sesClient->getRegion());
+        $this->assertEquals('us-east-1', $sesClient->getRegion());
         $this->assertEquals('2010-12-01', $sesClient->getApi()->getApiVersion());
     }
 
